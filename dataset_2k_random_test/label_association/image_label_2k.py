@@ -97,7 +97,7 @@ def process_image_folder(folder_path, output_csv='labels.csv', output_json='labe
 # Exemple d'utilisation
 if __name__ == "__main__":
     # Remplacez par le chemin vers votre dossier d'images
-    folder_path = "./2k_random_test"  # Dossier courant, ou mettez le chemin complet
+    folder_path = "C:/Users/fanny/OneDrive/Bureau/Cours_CS/GeoGuesserIA/GeoGuesserIA/dataset/2k_random_test"  # Dossier courant, ou mettez le chemin complet
     
     print("Extraction des métadonnées depuis les noms de fichiers...\n")
     
