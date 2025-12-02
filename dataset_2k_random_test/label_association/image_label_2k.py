@@ -36,7 +36,7 @@ def extract_metadata_from_filename(filename):
         print(f"Format inattendu pour: {filename}")
         return None
 
-def process_image_folder(folder_path, output_csv='labels.csv', output_json='labels.json'):
+def process_image_folder(folder_path, output_csv='labels_city.csv', output_json='labels_city.json'):
     """
     Parcourt un dossier d'images et extrait les métadonnées
     """
@@ -103,8 +103,8 @@ if __name__ == "__main__":
     
     metadata = process_image_folder(
         folder_path=folder_path,
-        output_csv='labels.csv',
-        output_json='labels.json'
+        output_csv='labels_city.csv',
+        output_json='labels_city.json'
     )
     
     print("\n Terminé !")
