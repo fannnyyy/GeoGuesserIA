@@ -52,7 +52,7 @@ def analyze_dataset_structure(dataset_path):
             
     return metadata, country_counts
 
-def save_metadata_to_csv(metadata, output_file='dataset_metadata_kaggle.csv'):
+def save_metadata_to_csv(metadata, output_file='./label_association/dataset_metadata_kaggle.csv'):
     """
     Sauvegarde les métadonnées en CSV
     """
@@ -69,7 +69,7 @@ def save_metadata_to_csv(metadata, output_file='dataset_metadata_kaggle.csv'):
     
     print(f"\n CSV sauvegardé: {output_file}")
 
-def save_metadata_to_json(metadata, country_counts, output_file='dataset_metadata_kaggle.json'):
+def save_metadata_to_json(metadata, country_counts, output_file='./label_association/dataset_metadata_kaggle.json'):
     """
     Sauvegarde les métadonnées en JSON avec statistiques
     """
