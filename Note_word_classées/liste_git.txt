@@ -1,0 +1,25 @@
+Lien de modèles sur GitHub (ou autre)
+Pour papier de recherche associé voir Word
+
+GitHub ConvNet : projet de geoguessr avec pays : Pour 1er étapes cool
+https://github.com/deboradum/GeoGuessrConvNet
+
+CLIP pieggon Hugging face :
+https://huggingface.co/geolocal/StreetCLIP
+
+DELF :
+https://github.com/tensorflow/models/tree/master/research/delf
+
+ViT:
+https://colab.research.google.com/drive/1P9TPRWsDdqJC6IvOxjG2_3QlgCt59P0w?usp=sharing
+
+https://github.com/LukeDitria/pytorch_tutorials
+
+
+
+
+Pour les détailles :
+SamPatt dataset :
+geoJSON (type frontier de pays – avec texte de descriptions du climat routre etc…)
+Peut-être bien pour peaufiné notre modèle, apporté des précisions ou autre (Transformer based Geo localization in the Wild (Pramanick et al., 2022).pdf)
+https://github.com/SamPatt
