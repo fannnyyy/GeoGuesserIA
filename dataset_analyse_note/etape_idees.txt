@@ -1,0 +1,21 @@
+EDA :
+-	Nb d’image par ville
+-	Distribution géographique
+-	Visualisation des déséquilibre (histogramme)
+
+Traitement :
+-	Vérifier qualité, doublons
+-	Standardisation taille + format
+
+Déséqilibre des classes :
+-	Undersampling (non)
+-	Oversampling (non)
+-	Data augmentation
+-	Pondération des classes
+
+Récupération coordonnée GPS
+-	Via api Flickr : payant (10€ at peu d'image - où est le train dataset ?)
+-   Street View Static API (essai gartuit avec CB 300$ - 7$/1 000 images)
+-   kaggle pour les pays (commencer avec ça ?)
+-   options ?
+
