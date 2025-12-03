@@ -1,0 +1,91 @@
+
+https://console.cloud.google.com/welcome?project=geoguessr-480116
+
+
+Je vais vous guider étape par étape pour activer l'API Street View sur votre projet Google Cloud :Parfait ! Voici le guide étape par étape pour activer l'API et créer votre clé :
+
+## 📋 Guide complet - Activation de Street View Static API
+
+### **Étape 1 : Activer la facturation**
+
+Vous êtes déjà sur votre projet `geoguessr-480116`. Maintenant :
+
+1. Dans le menu de gauche ☰, allez dans **"Facturation" (Billing)**
+2. Cliquez sur **"Lier un compte de facturation"**
+3. Suivez les étapes pour ajouter votre carte bancaire
+   - ✅ Vous recevrez **300$ de crédit gratuit** pour 90 jours
+   - ✅ Vous ne serez pas débité pendant l'essai gratuit
+
+### **Étape 2 : Activer l'API Street View Static**
+
+Deux méthodes possibles :
+
+**Méthode A (Recherche directe) :**
+1. Dans la barre de recherche en haut, tapez : `Street View Static API`
+2. Cliquez sur le résultat "Street View Static API"
+3. Cliquez sur le bouton bleu **"ACTIVER"** (Enable)
+
+**Méthode B (Via le menu) :**
+1. Menu ☰ → **"APIs et services"** → **"Bibliothèque"**
+2. Dans la barre de recherche, tapez : `Street View Static API`
+3. Cliquez sur l'API dans les résultats
+4. Cliquez sur **"ACTIVER"**
+
+### **Étape 3 : Créer une clé API**
+
+1. Menu ☰ → **"APIs et services"** → **"Identifiants"** (Credentials)
+2. En haut, cliquez sur **"+ CRÉER DES IDENTIFIANTS"**
+3. Sélectionnez **"Clé API"**
+4. Votre clé s'affiche ! **Copiez-la immédiatement** (elle ressemble à : `AIzaSyD...`)
+
+### **Étape 4 : Sécuriser votre clé API (IMPORTANT)**
+
+⚠️ **Ne partagez JAMAIS votre clé publiquement !**
+
+Pour restreindre votre clé :
+1. Cliquez sur **"RESTREINDRE LA CLÉ"** dans la popup
+2. Ou allez dans "Identifiants" → Cliquez sur votre clé
+3. Dans **"Restrictions relatives à l'application"** :
+   - Choisissez "Adresses IP" si vous l'utilisez depuis votre ordinateur
+   - Ajoutez votre IP
+4. Dans **"Restrictions relatives aux API"** :
+   - Sélectionnez "Restreindre la clé"
+   - Cochez uniquement **"Street View Static API"**
+5. Cliquez sur **"ENREGISTRER"**
+
+### **Étape 5 : Configurer des limites de quota (Protection budget)**
+
+1. Menu ☰ → **"APIs et services"** → **"Quotas"**
+2. Recherchez "Street View Static API"
+3. Cliquez sur "Requests per day"
+4. Cliquez sur **"MODIFIER LE QUOTA"**
+5. Définissez une limite journalière (ex: 1000 requêtes/jour = ~7$ max/jour)
+
+### **Étape 6 : Tester votre clé API**
+
+Remplacez `VOTRE_CLE` dans cette URL et ouvrez-la dans votre navigateur :
+
+```
+https://maps.googleapis.com/maps/api/streetview?size=640x640&location=48.8584,2.2945&key=VOTRE_CLE
+```
+
+✅ Si vous voyez la Tour Eiffel → **Tout fonctionne !**
+❌ Si vous voyez une erreur → Vérifiez que l'API est bien activée
+
+### **Étape 7 : Utilisez votre clé dans le script**
+
+Remplacez cette ligne dans le script Python :
+```python
+API_KEY = "VOTRE_CLE_API_ICI"  # Collez votre vraie clé ici
+```
+
+## 🎯 Prêt à démarrer !
+
+Une fois votre clé configurée, vous pouvez lancer :
+```bash
+python script.py
+```
+
+Le script téléchargera automatiquement les images tout en respectant votre budget de 300$ !
+
+**Des questions sur une étape spécifique ?** 🚀

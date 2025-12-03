@@ -1,0 +1,339 @@
+Parfait ! Je vais vous créer un script Python complet avec un système de suivi et de limite de budget.Parfait ! Je vous ai créé un script complet avec toutes les protections nécessaires. Voici ce qu'il fait :
+
+## 🛡️ Protections du budget
+
+✅ **Suivi en temps réel** - Calcule et affiche le budget restant après chaque image
+✅ **Blocage automatique** - S'arrête avant de dépasser votre limite
+✅ **Historique persistant** - Sauvegarde dans `budget_tracker.json` (même si vous redémarrez)
+✅ **Vérification avant téléchargement** - Vérifie que Street View existe à ces coordonnées (évite les coûts inutiles)
+
+## 📁 Structure créée
+
+```
+dataset/
+├── images/              # Toutes vos images téléchargées
+├── metadata/            # Métadonnées supplémentaires
+├── coordinates.csv      # Fichier CSV avec image_id, lat, lon, pays, etc.
+└── budget_tracker.json  # Suivi du budget et historique
+```
+
+## 🚀 Pour commencer
+
+1. **Installez les dépendances** :
+```bash
+pip install requests
+```
+
+2. **Obtenez votre clé API** :
+   - Allez sur [Google Cloud Console](https://console.cloud.google.com)
+   - Activez "Street View Static API"
+   - Créez une clé API
+   - Remplacez `VOTRE_CLE_API_ICI` dans le script
+
+3. **Lancez le script** :
+```bash
+python script.py
+```
+
+## 💡 Fonctionnalités utiles
+
+- **Régions disponibles** : `world`, `europe`, `usa`, `asia`, `oceania`, `africa`
+- **Paramètres personnalisables** : taille, angle, champ de vision
+- **Délai entre requêtes** : Évite de surcharger l'API
+- **Retry intelligent** : Si une coordonnée n'a pas de Street View, essaie ailleurs
+
+Voulez-vous que j'ajoute des fonctionnalités supplémentaires (par exemple : cibler des villes spécifiques, télécharger plusieurs angles du même endroit, ou filtrer par pays) ?
+
+
+
+
+import requests
+import json
+import os
+import csv
+import time
+from datetime import datetime
+import random
+
+class StreetViewDatasetCollector:
+    def __init__(self, api_key, max_budget=300.0, cost_per_image=0.007):
+        """
+        Initialise le collecteur de dataset Street View
+        
+        Args:
+            api_key: Votre clé API Google Cloud
+            max_budget: Budget maximum en dollars (défaut: 300$)
+            cost_per_image: Coût par image en dollars (défaut: 0.007$)
+        """
+        self.api_key = api_key
+        self.max_budget = max_budget
+        self.cost_per_image = cost_per_image
+        self.base_url = "https://maps.googleapis.com/maps/api/streetview"
+        
+        # Créer les dossiers nécessaires
+        self.images_dir = "dataset/images"
+        self.metadata_dir = "dataset/metadata"
+        os.makedirs(self.images_dir, exist_ok=True)
+        os.makedirs(self.metadata_dir, exist_ok=True)
+        
+        # Fichier pour suivre le budget
+        self.budget_file = "dataset/budget_tracker.json"
+        self.load_budget_tracker()
+        
+        # Fichier CSV pour les coordonnées
+        self.csv_file = "dataset/coordinates.csv"
+        self.init_csv()
+    
+    def load_budget_tracker(self):
+        """Charge l'historique de consommation du budget"""
+        if os.path.exists(self.budget_file):
+            with open(self.budget_file, 'r') as f:
+                self.tracker = json.load(f)
+        else:
+            self.tracker = {
+                "total_spent": 0.0,
+                "images_downloaded": 0,
+                "last_updated": datetime.now().isoformat(),
+                "history": []
+            }
+            self.save_budget_tracker()
+    
+    def save_budget_tracker(self):
+        """Sauvegarde l'état du budget"""
+        self.tracker["last_updated"] = datetime.now().isoformat()
+        with open(self.budget_file, 'w') as f:
+            json.dump(self.tracker, f, indent=2)
+    
+    def init_csv(self):
+        """Initialise le fichier CSV pour les coordonnées"""
+        if not os.path.exists(self.csv_file):
+            with open(self.csv_file, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(['image_id', 'filename', 'latitude', 'longitude', 
+                               'country', 'timestamp', 'heading', 'pitch', 'fov'])
+    
+    def check_budget(self, num_images=1):
+        """Vérifie si le budget permet de télécharger num_images"""
+        projected_cost = self.tracker["total_spent"] + (num_images * self.cost_per_image)
+        remaining = self.max_budget - self.tracker["total_spent"]
+        
+        if projected_cost > self.max_budget:
+            return False, remaining
+        return True, remaining
+    
+    def get_status(self):
+        """Affiche le statut actuel du budget"""
+        remaining = self.max_budget - self.tracker["total_spent"]
+        images_remaining = int(remaining / self.cost_per_image)
+        
+        print(f"\n{'='*60}")
+        print(f"STATUT DU BUDGET")
+        print(f"{'='*60}")
+        print(f"Budget maximum:        {self.max_budget:.2f} $")
+        print(f"Dépensé:              {self.tracker['total_spent']:.2f} $")
+        print(f"Restant:              {remaining:.2f} $")
+        print(f"Images téléchargées:  {self.tracker['images_downloaded']}")
+        print(f"Images restantes:     {images_remaining}")
+        print(f"Pourcentage utilisé:  {(self.tracker['total_spent']/self.max_budget)*100:.1f}%")
+        print(f"{'='*60}\n")
+    
+    def get_random_coordinates(self, region="world"):
+        """
+        Génère des coordonnées GPS aléatoires
+        
+        Args:
+            region: "world", "europe", "usa", "asia", etc.
+        """
+        regions = {
+            "world": {"lat": (-60, 70), "lon": (-180, 180)},
+            "europe": {"lat": (35, 71), "lon": (-10, 40)},
+            "usa": {"lat": (25, 49), "lon": (-125, -66)},
+            "asia": {"lat": (-10, 55), "lon": (60, 150)},
+            "oceania": {"lat": (-50, -10), "lon": (110, 180)},
+            "africa": {"lat": (-35, 37), "lon": (-20, 52)}
+        }
+        
+        bounds = regions.get(region, regions["world"])
+        lat = random.uniform(*bounds["lat"])
+        lon = random.uniform(*bounds["lon"])
+        
+        return round(lat, 6), round(lon, 6)
+    
+    def check_streetview_availability(self, lat, lon):
+        """Vérifie si Street View est disponible à ces coordonnées"""
+        metadata_url = f"{self.base_url}/metadata"
+        params = {
+            "location": f"{lat},{lon}",
+            "key": self.api_key,
+            "source": "outdoor"
+        }
+        
+        try:
+            response = requests.get(metadata_url, params=params, timeout=10)
+            data = response.json()
+            
+            if data.get("status") == "OK":
+                return True, data
+            return False, None
+        except Exception as e:
+            print(f"Erreur lors de la vérification: {e}")
+            return False, None
+    
+    def download_image(self, lat, lon, image_id, size="640x640", heading=None, 
+                      pitch=0, fov=90):
+        """
+        Télécharge une image Street View
+        
+        Args:
+            lat, lon: Coordonnées GPS
+            image_id: Identifiant unique de l'image
+            size: Taille de l'image (max: 640x640)
+            heading: Direction de la caméra (0-360, None = aléatoire)
+            pitch: Angle vertical (-90 à 90)
+            fov: Champ de vision (10-120)
+        """
+        # Vérifier le budget
+        can_download, remaining = self.check_budget(1)
+        if not can_download:
+            print(f"⚠️  BUDGET ÉPUISÉ ! Restant: {remaining:.2f}$")
+            return False
+        
+        # Vérifier la disponibilité
+        available, metadata = self.check_streetview_availability(lat, lon)
+        if not available:
+            print(f"⚠️  Pas de Street View disponible à ({lat}, {lon})")
+            return False
+        
+        # Heading aléatoire si non spécifié
+        if heading is None:
+            heading = random.randint(0, 359)
+        
+        # Télécharger l'image
+        params = {
+            "location": f"{lat},{lon}",
+            "size": size,
+            "heading": heading,
+            "pitch": pitch,
+            "fov": fov,
+            "key": self.api_key,
+            "source": "outdoor"
+        }
+        
+        try:
+            response = requests.get(self.base_url, params=params, timeout=30)
+            
+            if response.status_code == 200:
+                # Sauvegarder l'image
+                filename = f"streetview_{image_id}.jpg"
+                filepath = os.path.join(self.images_dir, filename)
+                
+                with open(filepath, 'wb') as f:
+                    f.write(response.content)
+                
+                # Mettre à jour le budget
+                self.tracker["total_spent"] += self.cost_per_image
+                self.tracker["images_downloaded"] += 1
+                self.tracker["history"].append({
+                    "image_id": image_id,
+                    "timestamp": datetime.now().isoformat(),
+                    "cost": self.cost_per_image,
+                    "lat": lat,
+                    "lon": lon
+                })
+                self.save_budget_tracker()
+                
+                # Sauvegarder les métadonnées dans le CSV
+                with open(self.csv_file, 'a', newline='', encoding='utf-8') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([
+                        image_id, filename, lat, lon,
+                        metadata.get("location", {}).get("country", "Unknown"),
+                        datetime.now().isoformat(),
+                        heading, pitch, fov
+                    ])
+                
+                print(f"✅ Image {image_id} téléchargée | Budget restant: {self.max_budget - self.tracker['total_spent']:.2f}$")
+                return True
+            else:
+                print(f"❌ Erreur HTTP {response.status_code}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Erreur lors du téléchargement: {e}")
+            return False
+    
+    def collect_dataset(self, num_images, region="world", delay=1.0):
+        """
+        Collecte un dataset d'images
+        
+        Args:
+            num_images: Nombre d'images à télécharger
+            region: Région géographique
+            delay: Délai entre chaque requête (secondes)
+        """
+        print(f"\n🚀 Début de la collecte de {num_images} images depuis {region}")
+        self.get_status()
+        
+        # Vérifier si le budget est suffisant
+        can_download, remaining = self.check_budget(num_images)
+        if not can_download:
+            max_possible = int(remaining / self.cost_per_image)
+            print(f"⚠️  Budget insuffisant pour {num_images} images.")
+            print(f"Maximum possible: {max_possible} images")
+            
+            if max_possible > 0:
+                response = input(f"Télécharger {max_possible} images ? (o/n): ")
+                if response.lower() != 'o':
+                    return
+                num_images = max_possible
+            else:
+                print("❌ Budget épuisé !")
+                return
+        
+        successful = 0
+        attempts = 0
+        max_attempts = num_images * 3  # Maximum 3 essais par image souhaitée
+        
+        while successful < num_images and attempts < max_attempts:
+            attempts += 1
+            
+            # Générer des coordonnées aléatoires
+            lat, lon = self.get_random_coordinates(region)
+            
+            # Télécharger l'image
+            image_id = f"{self.tracker['images_downloaded'] + 1:06d}"
+            
+            if self.download_image(lat, lon, image_id):
+                successful += 1
+                time.sleep(delay)  # Respecter les limites de taux
+            else:
+                time.sleep(0.5)  # Délai plus court en cas d'échec
+        
+        print(f"\n✅ Collecte terminée : {successful}/{num_images} images téléchargées")
+        self.get_status()
+
+
+# ===== EXEMPLE D'UTILISATION =====
+if __name__ == "__main__":
+    # CONFIGURATION
+    API_KEY = "VOTRE_CLE_API_ICI"  # ⚠️ Remplacez par votre vraie clé API
+    MAX_BUDGET = 300.0  # Budget maximum en dollars
+    
+    # Créer le collecteur
+    collector = StreetViewDatasetCollector(
+        api_key=API_KEY,
+        max_budget=MAX_BUDGET,
+        cost_per_image=0.007
+    )
+    
+    # Afficher le statut
+    collector.get_status()
+    
+    # Collecter des images
+    # Exemples:
+    collector.collect_dataset(num_images=10, region="world", delay=1.0)
+    # collector.collect_dataset(num_images=50, region="europe", delay=1.0)
+    # collector.collect_dataset(num_images=100, region="usa", delay=1.0)
+    
+    # Afficher le statut final
+    collector.get_status()
