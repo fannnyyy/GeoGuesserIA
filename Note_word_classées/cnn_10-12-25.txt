@@ -1,0 +1,3 @@
+Test de cnn :
+- 2 json pour train et test
+- ResNet18 fine tuné (attention image taille 224x224 obligatoire)

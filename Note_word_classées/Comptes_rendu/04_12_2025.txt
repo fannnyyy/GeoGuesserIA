@@ -1,0 +1,52 @@
+Voici le compte rendu de la réunion du 04/12/2025.
+
+Datasets :
+
+1 : lien de Headmind
+
+slmt ensemble de test
+2000 images (pays)
+payer pour avoir la clé API -> obtenir la localisation : pays
+dataset initiale pas exploitable directement car très peu d’images accessibles gratuitement
+potentiellement utile uniquement pour valider un modèle entraîné ailleurs
+2 : Kaggle
+
+50 000 images
+les USA sont bcp plus représentés -> doit-on tourner les images des autres pays pour augmenter le dataset avec d'autres pays ?
+USA sur-représentées dans le dataset mais possible de diviser les États-Unis par États pour rééquilibrer artificiellement la distribution
+labels : json séparé
+aspect temporel des images : à considérer (année de prise de vue → peut impacter fortement l’apparence, météo, architectures, travaux…)
+modèle Kaggle utilisable pour un premier entraînement propre, mais attention au déséquilibre géographique
+3 : google street view… ?
+
+possible comme source brute, mais problématique : API payante, limites de volume, incertitude sur les droits d’usage
+nécessite une stratégie d’échantillonnage par pays / régions si utilisé
+pourrait servir à enrichir certains pays sous-représentés
+ 
+
+solutions pour les dataset :
+
+paiement : voir avec l'école plutôt qu'avec headmind
+pour les USA : séparer les états pour augmenter artificiellement les classes
+envisager une combinaison de datasets pour lisser les biais
+pas oublier l’aspect temporel des images aussi à prédire
+ 
+
+Détail des tests avec Kaggle :
+
+pour les labels : json séparé
+hugging face : street clip -> prédit les villes
+modèle qui identifie les villes à tester dans des endroits pas urbain → car on pourrait le combiner avec un autre modèle qui gère les endroits ruraux
+métriques : R² et accuracy
+vérifier robustesse : tester modèle ville sur des images rurales / pas de ville
+ 
+
+A FAIRE :
+
+trouver application spécifique à notre prédiction de ville (pour les secours/pompiers par exemple)
+temporalité des images à inclure dans la prédiction
+tester modèle ville sur des images rurales/pas de ville (robustesse)
+voir avancées sur les datasets car problème à régler (Headmind limité, Kaggle déséquilibré, Google payant)
+trouver une tâche spécifique pour comparer les modèles sur la même chose (pipeline d’évaluation)
+trouver quelque chose où ça serait intéressant de travailler pour avancer (un use case métier clair)
+ 
