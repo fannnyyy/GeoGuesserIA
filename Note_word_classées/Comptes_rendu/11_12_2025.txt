@@ -1,0 +1,20 @@
+compte rendu point hebdo Geoguesser 11/12 :
+
+- Cloner le git sur le DCE
+
+- 2 json séparés : un pour le train et un pour le test
+
+- Dataset : osv5m (kaggle) : localisation pays (usa), état, ville -> différent maillage donc intéressant
+ 
+- CNN à la main à essayer ? -> ok on est libre
+
+- Contexte métier : aspect temporel / restreindre la localisation à une région et voir si on a des meilleures performances que les modèles existants / améliorer les performances en combinant des modèles ou fine tunant sur zones rurales/zones spécifiques 
+
+ Récupérer nous-même des photos ?
+ Crédit de 50€ de centralesupelec pour un dataset ?
+
+- Tester ViT
+
+D’ici janvier (point de mi-parcours) : avoir contexte métier + présenter état de l’art + présenter 1 ou 2 modèles à insérer dans le contexte métier 
+
+Contexte métier : environnement -> temporel et spatial pour voir les évolutions (champ puis autoroute / falaises érodées etc.) 

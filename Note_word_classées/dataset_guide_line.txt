@@ -1,3 +1,11 @@
+dataset tester :
+kaggle : https://www.kaggle.com/datasets/ubitquitin/geolocation-geoguessr-images-50k?resource=download
+Kaggle spécial US : https://www.kaggle.com/datasets/josht000/osv-mini-129k
+huggingface : https://huggingface.co/datasets/osv5m/osv5m
+Img2gps (payant) : https://graphics.cs.cmu.edu/projects/im2gps/
+
+API_street_view_static : payant
+
 EDA :
 -	Nb d’image par ville
 -	Distribution géographique

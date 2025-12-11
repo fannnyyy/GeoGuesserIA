@@ -1,0 +1,49 @@
+Pour utiliser les GPU de l'ecole, seulement à nous de remplir le formulaire donc on va le faire pour tester au plus vite.
+
+ 
+
+On a trouvé un fichier pour phase de test des gpu avant de tester avec nos codes.
+
+ 
+
+Etat de l'art :
+
+- beaucoup de gens utilisent des cnn ou une combinaison cnn et lstm.
+
+- possible de combiner un modèle pour reconnaitre les saisons et un autre pour reconnaitre les éléments et le lieu.
+
+- papier de recherche sur delf : exemple de GitHub avec delf
+
+- utilisation de visual transformers qui ont moins de biais que les cnn
+
+- surement besoin de combiner des modèles
+
+ 
+
+par rapport au dataset:
+
+- il y en a qui utilisent en plus des images de street view mais sûrement payant.
+
+ 
+
+- quelqu'un utilisait une image avec différents points de vus (360,180 et 90 degrés).
+
+ 
+
+Forcément des limites au dataset qu'on va utiliser. Il faudra sûrmeent le compléter et en trouver d'autres mais en attendant on test sur le premier.
+
+ 
+
+ 
+
+On doit améliorer le format de l'état de l'art et faire un ordre de priorité/difficulté de test des modèles.
+
+ 
+
+Il faudrait essayer de rapidement tester un modèle sur le dataset classique pour avoir une base.
+
+ 
+
+Il faut qu'on pense à mettre le projet dans le cadre professionnel (trouver un utilité concrète au projet comme l'utilisation pour que des secours trouvent rapidement un lieu à partir d'image).
+
+ 

@@ -1,0 +1,42 @@
+Arthur hochedez a fait son stage y a 1 an et est consultant en cdi. a fiat des sujets de nlp, timeseries et recommandation.
+florent consultant aussi, travail dans la consommation d energie et la qualité de l experience client.
+
+Après peut etre passer de la region et pays aux coordonnées donc de classification à la regression pour la geolocalisation.
+
+Si on avance bien , peut etre ajouter une composante de détection temporelle.
+
+Bien commencer par analyse de l'existant. Possibilité d'extraire des indices visuels, comme avec Delph, pourquoi pas tester (possible de proposer).
+
+Objectif des points hebdomadaires: suivi du projet, conseiller, challenger quand on propose des algo et métriques. Plus de l'accompagnement.
+
+14H TOUS LES JEUDIS SUR TEAMS.
+
+1ères tâches, beaucoup de recherche pendant 1 mois. puis prototypage et entrainement comme feuille de route.
+
+autre première tâche, s'assurer qu'on a accès à un gpu. Tester le plus tôt possible qu'on y a accès.
+
+Au départ on prendra une base de donnée déjà existante:
+voir la page word du projet car dedans il y a un lien vers des données.
+Pareil, lien vers la bibliographie qui peut servir.
+
+Leur donner accès à notre GitHub et au code complet : aide pour débugage et retours sur façon de coder.
+
+Présentation à faire à la fin du projet.
+
+Inscrire ce projet dans un contexte métier : on développe une solution donc voir à quel métier ça correpsond, voir les secteurs d'activités et leurs contraintes inconvénients. Permet d'avoir un fil rouge pour les présentations.
+Déjà y réfléchir avant de commencer les développement.
+
+L'objectif c'est vraiment de construire un nouveau modèle, pas de réutiliser directement l'existant mais on utilisera les autres pour comparer les perfs.
+
+
+Tâches à réaliser :
+
+* S’assurer de l’accès à un GPU et le tester le plus tôt possible.
+* Analyser l’existant (bases, données, modèles, métriques).
+* Consulter la page Word du projet pour accéder :
+
+  * au lien vers les données existantes,
+  * au lien vers la bibliographie utile.
+
+* Donner accès au GitHub et au code complet pour faciliter le débogage et les retours sur le code.
+* Effectuer une phase de recherche approfondie pendant environ un mois.
