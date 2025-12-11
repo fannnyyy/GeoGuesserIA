@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn.py", line 3, in <module>
+    from sklearn.model_selection import train_test_split
+ModuleNotFoundError: No module named 'sklearn'
