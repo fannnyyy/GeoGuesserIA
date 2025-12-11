@@ -1,0 +1,24 @@
+https://dce.pages.centralesupelec.fr/05_examples/#accessing-a-node-in-interactive-mode-with-visual-studio-code
+
+Installation :
+- extensions : remote-ssh microsoft
+- connect ssh host : badoul_fan@chome.metz.centralesupelec.fr
+- mot de passe dce
+
+clone git dans dossier badoul_fan/chome
+
+création virtual env conda avec requirements 
+/!\ Python 3.9.13 uniquement (requirements adapté)
+
+création fichier train_cnn_job.sh
+
+lancer ce fichier train_cnn_job.sh avec : 
+sbatch ./job/train_cnn_job.sh
+
+suivre le running : 
+sacct -j 114670 --format=JobID,JobName,State,ExitCode,Elapsed
+
+position dans la liste :
+squeue -u badoul_fan
+
+une fois que finit tous est dans le dossier logslurms

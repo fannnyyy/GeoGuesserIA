@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn.py", line 33, in <module>
+    with open(json_path, "r") as f:
+         ^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:/Users/fanny/OneDrive/Bureau/Cours_CS/GeoGuesserIA/GeoGuesserIA/dataset_kaggle/label_association/dataset_metadata_kaggle.json'
