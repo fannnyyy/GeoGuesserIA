@@ -6,4 +6,6 @@ Partage Le Mans
 compressed_dataset
 2k_random_test
 dataset
+dataset_err
 venv/
+dataset/compressed_dataset

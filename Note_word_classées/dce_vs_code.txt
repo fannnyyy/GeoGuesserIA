@@ -5,6 +5,13 @@ Installation :
 - connect ssh host : badoul_fan@chome.metz.centralesupelec.fr
 - mot de passe dce
 
+Dataset :
+commande pour importer dataset (qui se situe sur PC) vers le DCE : 
+- commande à exécuter dans powershell :
+- scp -r (chemin/vers/dataset) hanoir_mal@dce.metz.centralesupelec.fr:~/datasets
+
+ça se mettra dans le répertoire home/dataset
+
 clone git dans dossier badoul_fan/chome
 
 se connecter a git avec cle ssh
