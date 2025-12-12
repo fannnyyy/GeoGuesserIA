@@ -7,6 +7,12 @@ Installation :
 
 clone git dans dossier badoul_fan/chome
 
+se connecter a git avec cle ssh
+git config --global user.name "FirstName LastName"
+git config --global user.email "
+
+cle ssh add ~/.ssh/id_rsa
+
 création virtual env conda avec requirements 
 /!\ Python 3.9.13 uniquement (requirements adapté)
 

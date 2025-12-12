@@ -29,7 +29,7 @@ from sklearn.model_selection import train_test_split
 
 # === ÉTAPE 1 : Préparer les données et créer les JSON ===
 
-json_path = "C:/Users/fanny/OneDrive/Bureau/Cours_CS/GeoGuesserIA/GeoGuesserIA/dataset_kaggle/label_association/dataset_metadata_kaggle.json"
+json_path = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_kaggle/label_association/dataset_metadata_kaggle.json"
 with open(json_path, "r") as f:
     metadata = json.load(f)
 
@@ -108,17 +108,17 @@ transform = transforms.Compose([
 
 # === ÉTAPE 4 : Créer les datasets ===
 
-root = "C:/Users/fanny/OneDrive/Bureau/Cours_CS/GeoGuesserIA/GeoGuesserIA/dataset/compressed_dataset/"
+root = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset/compressed_dataset/"
 
 train_dataset = GeoDataset(
     image_dir=root,  # ← Dossier d'origine des images
-    json_path="C:/Users/fanny/OneDrive/Bureau/Cours_CS/GeoGuesserIA/GeoGuesserIA/model/cnn/train_metadata.json",  # ← Nouveau JSON
+    json_path="/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/train_metadata.json",  # ← Nouveau JSON
     transform=transform
 )
 
 test_dataset = GeoDataset(
     image_dir=root,  # ← Dossier d'origine des images
-    json_path="C:/Users/fanny/OneDrive/Bureau/Cours_CS/GeoGuesserIA/GeoGuesserIA/model/cnn/test_metadata.json",  # ← Nouveau JSON
+    json_path="/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/test_metadata.json",  # ← Nouveau JSON
     transform=transform
 )
 
