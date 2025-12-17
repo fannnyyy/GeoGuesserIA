@@ -1,0 +1,3 @@
+Train : 39997 images
+Test : 10000 images
+Using device: cuda

@@ -10,6 +10,9 @@ commande pour importer dataset (qui se situe sur PC) vers le DCE :
 - commande à exécuter dans powershell :
 - scp -r (chemin/vers/dataset) hanoir_mal@dce.metz.centralesupelec.fr:~/datasets
 
+reprendre telechargement :
+- rsync -avz --progress "C:\Users\fanny\OneDrive\Bureau\Cours_CS\GeoGuesserIA\GeoGuesserIA\dataset\compressed_dataset" badoul_fan@193.48.224.124:~/GeoGuesserIA/dataset/
+
 ça se mettra dans le répertoire home/dataset
 
 clone git dans dossier badoul_fan/chome
@@ -19,6 +22,13 @@ git config --global user.name "FirstName LastName"
 git config --global user.email "
 
 cle ssh add ~/.ssh/id_rsa
+
+creer conda env :
+- module load anaconda3/2022.10/gcc-13.1.0
+- eval "$(conda shell.bash hook)"
+- conda create -n geoguesseriassh python=3.9 -y
+- conda activate geoguesseriassh
+- pip install torch torchvision scikit-learn pillow numpy pandas matplotlib seaborn
 
 création virtual env conda avec requirements 
 /!\ Python 3.9.13 uniquement (requirements adapté)
@@ -35,3 +45,4 @@ position dans la liste :
 squeue -u badoul_fan
 
 une fois que finit tous est dans le dossier logslurms
+
