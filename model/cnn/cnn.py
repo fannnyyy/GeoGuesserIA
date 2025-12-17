@@ -33,9 +33,17 @@ json_path = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_kaggle/labe
 with open(json_path, "r") as f:
     metadata = json.load(f)
 
+for item in metadata["images"]:
+    item["path"] = item["path"].replace("\\", "/")
+
 images_list = metadata["images"]
 image_paths = [item["path"] for item in images_list]
 labels = [item["country"] for item in images_list]
+
+
+with open(json_path, "w") as f:
+    json.dump(metadata, f, indent=2)
+
 
 # Split stratifié
 train_paths, test_paths = train_test_split(
