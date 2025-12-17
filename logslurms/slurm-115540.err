@@ -1,0 +1,38 @@
+Lmod a détecté l'erreur suivante : Ce ou ces module(s) existent, mais ne
+peuvent pas être chargés tel que demandé: "py-scikit-learn/1.2.2"
+   Utilisez: "module spider py-scikit-learn/1.2.2" pour voir la façon de les
+charger.
+
+
+
+Lmod a détecté l'erreur suivante : Ce ou ces module(s) existent, mais ne
+peuvent pas être chargés tel que demandé: "py-torchvision/0.15.1"
+   Utilisez: "module spider py-torchvision/0.15.1" pour voir la façon de les
+charger.
+
+
+
+Lmod a détecté l'erreur suivante : Ce ou ces module(s) existent, mais ne
+peuvent pas être chargés tel que demandé: "py-numpy/1.24.3"
+   Utilisez: "module spider py-numpy/1.24.3" pour voir la façon de les
+charger.
+
+
+
+Lmod a détecté l'erreur suivante : Ce ou ces module(s) existent, mais ne
+peuvent pas être chargés tel que demandé: "py-matplotlib/3.7.1"
+   Utilisez: "module spider py-matplotlib/3.7.1" pour voir la façon de les
+charger.
+
+
+
+Lmod a détecté l'erreur suivante : Ce ou ces module(s) existent, mais ne
+peuvent pas être chargés tel que demandé: "cuda/11.7.1"
+   Utilisez: "module spider cuda/11.7.1" pour voir la façon de les charger.
+
+
+
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn.py", line 9, in <module>
+    from torchvision import transforms, datasets
+ModuleNotFoundError: No module named 'torchvision'

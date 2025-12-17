@@ -1,0 +1,47 @@
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet18_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet18_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torch/cuda/__init__.py:283: UserWarning: 
+    Found GPU0 NVIDIA GeForce GTX 1080 which is of cuda capability 6.1.
+    Minimum and Maximum cuda capability supported by this version of PyTorch is
+    (7.0) - (12.0)
+    
+  warnings.warn(
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torch/cuda/__init__.py:304: UserWarning: 
+    Please install PyTorch with a following CUDA
+    configurations:  12.6 following instructions at
+    https://pytorch.org/get-started/locally/
+    
+  warnings.warn(matched_cuda_warn.format(matched_arches))
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torch/cuda/__init__.py:326: UserWarning: 
+NVIDIA GeForce GTX 1080 with CUDA capability sm_61 is not compatible with the current PyTorch installation.
+The current PyTorch install supports CUDA capabilities sm_70 sm_75 sm_80 sm_86 sm_90 sm_100 sm_120.
+If you want to use the NVIDIA GeForce GTX 1080 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
+
+  warnings.warn(
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn.py", line 193, in <module>
+    train_loss, train_acc = train(model, train_loader, optimizer, criterion, device)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn.py", line 152, in train
+    for images, labels in train_loader:
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 732, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 788, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 52, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn.py", line 87, in __getitem__
+    image = Image.open(img_path).convert("RGB")
+            ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.11/site-packages/PIL/Image.py", line 3493, in open
+    fp = builtins.open(filename, "rb")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset/compressed_dataset/Brazil\\canvas_1630066493.jpg'
