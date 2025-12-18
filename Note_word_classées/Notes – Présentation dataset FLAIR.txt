@@ -1,0 +1,33 @@
+Notes – Présentation dataset FLAIR One pour GeoGuesser
+
+	Dataset FLAIR One (IGN) :
+
+~77 000 patches (.tiff) donc 38 500 images, 512×512 px (~1 ha par patch)
+
+5 canaux : 
+•	RGB, NIR, élévation (DSM-DTM)
+•	Masques sémantiques (MSK) : 19 classes originales → réduit à 13 classes principales pour simplifier
+
+Exemple du format : 
+IMG_000845.tif → patch image multi-canaux (RGB, NIR, élévation)
+MSK_000845.tif → patch masque sémantique correspondant
+
+
+	Pour GeoGuesser :
+
+Pas de segmentation land-cover à reproduire comme FLAIR
+-> ce n’est pas le but de prévoir les labels sémantiques 
+
+Chaque patch contient informations spatiales et temporelles → ce sont nos labels à prédire
+
+
+	Points à discuter / questions :
+
+1.	Inputs pour le modèle :
+	RGB seul ou RGB + NIR + élévation + masques ?
+2.	Utilité des labels sémantiques :
+	Comme features pour aider la localisation ?
+	Ou juste comme tâche intermédiaire avant de prédire la zone et l’année ?
+3.	Pipeline possible :
+	Image → prédiction des labels sémantiques → vérification → prédiction localisation
+	Est-ce pertinent ou trop complexe ?
