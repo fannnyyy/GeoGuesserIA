@@ -1,7 +1,7 @@
 #!/bin/bash 
-#SBATCH --job-name=geoguessr_cnn
-#SBATCH --partition=gpu_prod_night
-#SBATCH --time=10:00:00
+#SBATCH --job-name=geoguessr
+#SBATCH --partition=gpu_tp
+#SBATCH --time=2:00:00
 #SBATCH --output=/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/logslurms/slurm-%j.out
 #SBATCH --error=/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/logslurms/slurm-%j.err
 
