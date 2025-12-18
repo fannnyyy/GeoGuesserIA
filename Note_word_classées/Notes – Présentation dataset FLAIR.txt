@@ -1,5 +1,9 @@
 Notes – Présentation dataset FLAIR One pour GeoGuesser
 
+https://ignf.github.io/FLAIR/FLAIR1/flair_1.html
+
+https://arxiv.org/pdf/2211.12979 
+
 	Dataset FLAIR One (IGN) :
 
 ~77 000 patches (.tiff) donc 38 500 images, 512×512 px (~1 ha par patch)
