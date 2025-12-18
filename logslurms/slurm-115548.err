@@ -1,0 +1,12 @@
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet18_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet18_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn.py", line 248, in <module>
+    print(classification_report(all_labels, all_preds, target_names=unique_labels))
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/utils/_param_validation.py", line 216, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/metrics/_classification.py", line 2693, in classification_report
+    raise ValueError(
+ValueError: Number of classes, 117, does not match size of target_names, 124. Try specifying the labels parameter

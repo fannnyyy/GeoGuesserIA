@@ -1,0 +1,34 @@
+Train : 39997 images
+Test : 10000 images
+Using device: cuda
+Epoch 1/10
+Train loss: 2.7356 | Train acc: 0.3380
+Val   loss: 7.5573 | Val   acc: 0.0049
+Epoch 2/10
+Train loss: 2.1879 | Train acc: 0.4383
+Val   loss: 9.2393 | Val   acc: 0.0067
+Epoch 3/10
+Train loss: 1.8865 | Train acc: 0.5002
+Val   loss: 10.0062 | Val   acc: 0.0079
+Epoch 4/10
+Train loss: 1.6433 | Train acc: 0.5498
+Val   loss: 10.6573 | Val   acc: 0.0073
+Epoch 5/10
+Train loss: 1.3993 | Train acc: 0.6049
+Val   loss: 11.9459 | Val   acc: 0.0045
+Epoch 6/10
+Train loss: 1.1452 | Train acc: 0.6629
+Val   loss: 13.2390 | Val   acc: 0.0040
+Epoch 7/10
+Train loss: 0.8694 | Train acc: 0.7381
+Val   loss: 15.9978 | Val   acc: 0.0069
+Epoch 8/10
+Train loss: 0.6546 | Train acc: 0.7946
+Val   loss: 17.7160 | Val   acc: 0.0062
+Epoch 9/10
+Train loss: 0.4771 | Train acc: 0.8502
+Val   loss: 20.4694 | Val   acc: 0.0062
+Epoch 10/10
+Train loss: 0.3783 | Train acc: 0.8785
+Val   loss: 22.5727 | Val   acc: 0.0061
+Accuracy: 0.0061

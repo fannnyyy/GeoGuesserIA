@@ -1,0 +1,157 @@
+Train : 39997 images
+Test : 10000 images
+Nombre total de classes : 124
+Using device: cuda
+Epoch 1/10
+Train loss: 2.7437 | Train acc: 0.3397
+Val   loss: 2.4379 | Val   acc: 0.3823
+Epoch 2/10
+Train loss: 2.1831 | Train acc: 0.4394
+Val   loss: 2.1556 | Val   acc: 0.4508
+Epoch 3/10
+Train loss: 1.8895 | Train acc: 0.4994
+Val   loss: 1.9533 | Val   acc: 0.4921
+Epoch 4/10
+Train loss: 1.6549 | Train acc: 0.5488
+Val   loss: 1.9505 | Val   acc: 0.4910
+Epoch 5/10
+Train loss: 1.4100 | Train acc: 0.6038
+Val   loss: 1.8292 | Val   acc: 0.5214
+Epoch 6/10
+Train loss: 1.1478 | Train acc: 0.6692
+Val   loss: 1.9599 | Val   acc: 0.5217
+Epoch 7/10
+Train loss: 0.8927 | Train acc: 0.7300
+Val   loss: 2.1616 | Val   acc: 0.4903
+Epoch 8/10
+Train loss: 0.6599 | Train acc: 0.7972
+Val   loss: 2.3937 | Val   acc: 0.4925
+Epoch 9/10
+Train loss: 0.4813 | Train acc: 0.8474
+Val   loss: 2.5083 | Val   acc: 0.5142
+Epoch 10/10
+Train loss: 0.3582 | Train acc: 0.8862
+Val   loss: 2.8860 | Val   acc: 0.5029
+
+Final Accuracy: 0.5029
+
+Nombre de classes dans le test set: 106 sur 124
+
+==================================================
+Classification Report
+==================================================
+                          precision    recall  f1-score   support
+
+                   Aland       0.00      0.00      0.00         3
+                 Albania       0.00      0.00      0.00         3
+          American Samoa       0.00      0.00      0.00         2
+                 Andorra       0.00      0.00      0.00         3
+               Argentina       0.52      0.38      0.44       136
+               Australia       0.59      0.62      0.61       345
+                 Austria       0.50      0.22      0.31        76
+              Bangladesh       0.54      0.27      0.36        26
+                 Belgium       0.05      0.14      0.07        51
+                  Bhutan       0.00      0.00      0.00         6
+                 Bolivia       0.08      0.04      0.05        26
+                Botswana       0.63      0.48      0.55        25
+                  Brazil       0.60      0.49      0.53       470
+                Bulgaria       0.41      0.24      0.31        45
+                Cambodia       0.18      0.08      0.11        24
+                  Canada       0.34      0.29      0.32       302
+                   Chile       0.24      0.24      0.24        68
+                   China       0.00      0.00      0.00         2
+                Colombia       0.13      0.12      0.12        49
+              Costa Rica       0.10      0.50      0.17         2
+                 Croatia       0.18      0.18      0.18        17
+                 Curacao       0.00      0.00      0.00         1
+                 Czechia       0.06      0.08      0.07        59
+                 Denmark       0.09      0.16      0.11        37
+      Dominican Republic       0.00      0.00      0.00         5
+                 Ecuador       0.00      0.00      0.00        14
+                   Egypt       0.67      1.00      0.80         2
+                 Estonia       0.09      0.04      0.06        25
+                Eswatini       0.00      0.00      0.00        13
+                 Finland       0.74      0.42      0.54       213
+                  France       0.45      0.44      0.44       687
+                 Germany       0.66      0.71      0.68       134
+                   Ghana       0.44      0.19      0.27        21
+                  Greece       0.31      0.17      0.22        63
+               Greenland       0.00      0.00      0.00         1
+                    Guam       0.00      0.00      0.00         1
+               Guatemala       0.00      0.00      0.00        21
+               Hong Kong       0.15      0.12      0.13        17
+                 Hungary       0.30      0.19      0.23        32
+                 Iceland       0.09      0.21      0.12        14
+                   India       0.24      0.21      0.22        29
+               Indonesia       0.30      0.11      0.16        55
+                    Iraq       0.00      0.00      0.00         2
+                 Ireland       0.20      0.25      0.22        53
+             Isle of Man       0.00      0.00      0.00         3
+                  Israel       0.31      0.37      0.34        62
+                   Italy       0.18      0.22      0.19       158
+                   Japan       0.64      0.84      0.73       802
+                  Jersey       0.00      0.00      0.00         2
+                  Jordan       0.00      0.00      0.00        19
+                   Kenya       0.29      0.24      0.26        25
+              Kyrgyzstan       0.36      0.33      0.34        15
+                    Laos       0.60      0.20      0.30        15
+                  Latvia       0.00      0.00      0.00        26
+                 Lebanon       0.00      0.00      0.00         4
+                 Lesotho       0.27      0.30      0.29        10
+               Lithuania       0.20      0.11      0.15        35
+              Luxembourg       0.00      0.00      0.00         4
+                   Macao       0.00      0.00      0.00         1
+              Madagascar       0.00      0.00      0.00         5
+                Malaysia       0.16      0.25      0.19        73
+                   Malta       0.00      0.00      0.00         5
+                  Mexico       0.32      0.16      0.21       179
+                Mongolia       0.17      0.04      0.06        27
+              Montenegro       0.00      0.00      0.00         8
+             Netherlands       0.18      0.18      0.18       113
+             New Zealand       0.34      0.41      0.37        93
+                 Nigeria       0.27      0.17      0.21        24
+         North Macedonia       0.00      0.00      0.00         5
+Northern Mariana Islands       0.00      0.00      0.00         2
+                  Norway       0.42      0.41      0.41       121
+                Pakistan       0.00      0.00      0.00         5
+               Palestine       0.12      0.12      0.12         8
+                Paraguay       0.00      0.00      0.00         1
+                    Peru       0.56      0.09      0.16        53
+             Philippines       0.11      0.19      0.14        37
+                  Poland       0.34      0.21      0.26       177
+                Portugal       0.06      0.04      0.05        51
+             Puerto Rico       0.00      0.00      0.00         7
+                 Reunion       0.50      0.14      0.22         7
+                 Romania       0.34      0.15      0.21        72
+                  Russia       0.53      0.39      0.45       357
+              San Marino       0.00      0.00      0.00         2
+                 Senegal       0.83      0.62      0.71         8
+                  Serbia       0.00      0.00      0.00        12
+               Singapore       0.80      0.49      0.61       167
+                Slovakia       0.07      0.04      0.05        24
+                Slovenia       0.25      0.09      0.13        11
+            South Africa       0.63      0.65      0.64       244
+             South Korea       0.28      0.31      0.30        54
+                   Spain       0.25      0.21      0.23       229
+               Sri Lanka       0.00      0.00      0.00        19
+                  Sweden       0.26      0.33      0.29       151
+             Switzerland       0.24      0.31      0.27        32
+                  Taiwan       0.46      0.16      0.24        98
+                Thailand       0.55      0.29      0.38       181
+                 Tunisia       0.50      0.22      0.31        18
+                  Turkey       0.15      0.08      0.10        51
+       US Virgin Islands       0.00      0.00      0.00         1
+                  Uganda       0.50      0.18      0.27        11
+                 Ukraine       0.00      0.00      0.00        16
+    United Arab Emirates       0.22      0.18      0.20        11
+          United Kingdom       0.51      0.56      0.53       509
+           United States       0.66      0.84      0.73      2345
+                 Uruguay       0.00      0.00      0.00        13
+                 Vietnam       0.00      0.00      0.00         2
+
+               micro avg       0.50      0.50      0.50     10000
+               macro avg       0.23      0.19      0.19     10000
+            weighted avg       0.49      0.50      0.48     10000
+
+
+Modèle sauvegardé dans 'geoguesser_model.pth'
