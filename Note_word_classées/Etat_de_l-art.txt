@@ -1,0 +1,127 @@
+_____________________________________________________________________________________________________________
+1. APPROCHES BASÉES SUR CNN (CONVOLUTIONAL NEURAL NETWORKS)
+_____________________________________________________________________________________________________________
+
+1.1 Modèle CNN pour GeoGuessr
+Source: https://github.com/Stelath/geoguessr-ai
+
+Implémentation de réseaux de neurones convolutifs dédiés à la prédiction de 
+localisation géographique à partir d'images de Street View.
+
+--------------------------------------------------------------------------------
+
+1.2 Géolocalisation via images panoramiques 360°
+Source: https://nirvan66.github.io/geoguessr.html
+Documentation: https://github.com/Nirvan66/geoguessrLSTM/blob/master/documentation/CSCI5922_ProjectReport.pdf
+
+Utilisation d'images Street View à 360 degrés pour améliorer la précision de 
+la géolocalisation en exploitant l'information contextuelle panoramique.
+
+--------------------------------------------------------------------------------
+
+1.3 Exploration CNN pour prédiction de localisation
+Source: https://medium.com/@salehalwer/geoguessr-inspired-exploration-of-cnns-predicting-street-view-image-locations-e7aaa2dc19f5
+
+Analyse comparative des architectures CNN pour la prédiction de localisation 
+à partir d'images de rue.
+
+_____________________________________________________________________________________________________________
+2. MODÈLES HYBRIDES ET TRANSFERT D'APPRENTISSAGE
+_____________________________________________________________________________________________________________
+
+2.1 PIGEON & PIGEOTTO (Stanford University)
+Source: https://www.actuia.com/actualite/pigeon-et-pigeotto-les-modeles-de-geolocalisation-dimages-de-luniversite-de-stanford/
+Article scientifique: https://arxiv.org/pdf/2307.05845
+
+PIGEON
+    - Architecture: Pré-entraîné avec CLIP (Contrastive Language-Image 
+      Pre-Training) d'OpenAI
+    - Dataset: 400 000 images d'entraînement issues de GeoGuessr
+    - Performances: 
+        * Précision globale de 92%
+        * Localisation à 25 kilomètres près dans 40,4% des cas
+
+PIGEOTTO
+    - Dataset diversifié: Plus de 4 millions de photos provenant de Flickr 
+      et Wikipedia
+    - Particularité: Exclut les données Street View pour une généralisation 
+      accrue
+_____________________________________________________________________________________________________________
+3. VISION TRANSFORMERS (ViT)
+_____________________________________________________________________________________________________________
+
+3.1 Principes fondamentaux
+Vidéo explicative: https://www.youtube.com/watch?v=j3VNqtJUoz0
+Article de référence: https://arxiv.org/pdf/2010.11929
+GitHub: https://github.com/LukeDitria/pytorch_tutorials
+Notebook: https://colab.research.google.com/drive/1P9TPRWsDdqJC6IvOxjG2_3QlgCt59P0w?usp=sharing
+
+Mécanisme ViT:
+    - Division de l'image en patches
+    - Conversion des patches en embeddings
+    - Traitement par mécanisme d'attention
+
+--------------------------------------------------------------------------------
+
+3.2 Comparaison CNN vs Vision Transformers
+Sources: 
+    - https://arxiv.org/abs/2108.08810
+    - https://towardsdatascience.com/do-vision-transformers-see-like-convolutional-neural-networks-paper-explained-91b4bd5185c8/
+
+Caractéristique          | CNN                              | ViT
+-------------------------|----------------------------------|---------------------------
+Biais inductif          | Fort (invariance translation)    | Faible
+Besoin en données       | Modéré                           | Élevé (data-hungry)
+Structure               | Hiérarchique (champ réceptif)    | Globale (attention)
+
+_____________________________________________________________________________________________________________
+4. DESCRIPTEURS LOCAUX ET RECONNAISSANCE VISUELLE
+_____________________________________________________________________________________________________________
+
+4.1 DELF (DEep Local Features)
+Source: https://arxiv.org/pdf/1612.06321
+
+Extraction de caractéristiques locales profondes pour la reconnaissance et 
+la localisation d'images.
+
+--------------------------------------------------------------------------------
+
+4.2 Scale-Invariant Feature Transform (SIFT)
+Source: https://link.springer.com/article/10.1023/B:VISI.0000029664.99615.94#preview
+
+Approche classique de détection de points d'intérêt invariants à l'échelle.
+_____________________________________________________________________________________________________________
+5. APPROCHES RÉCENTES ET SPÉCIALISÉES
+_____________________________________________________________________________________________________________
+
+5.1 Géolocalisation sémantique
+Source: https://arxiv.org/pdf/1804.02391
+
+Intégration d'informations sémantiques pour améliorer la précision de 
+géolocalisation.
+
+--------------------------------------------------------------------------------
+
+5.2 Deep Learning pour la localisation
+Source: https://link.springer.com/chapter/10.1007/978-3-319-46466-4_15#Sec1
+
+Revue des méthodes d'apprentissage profond appliquées à la géolocalisation 
+d'images.
+
+_____________________________________________________________________________________________________________
+6. APPLICATIONS DE TÉLÉDÉTECTION ET STREET VIEW
+_____________________________________________________________________________________________________________
+
+6.1 Suivi d'objets et géolocalisation depuis images de rue
+Source: https://www.mdpi.com/2072-4292/14/11/2575
+
+Méthodes de suivi d'objets et techniques de géolocalisation à partir d'images 
+Street View.
+
+--------------------------------------------------------------------------------
+
+6.2 Découverte automatique et géotagging d'objets
+Source: https://www.mdpi.com/2072-4292/10/5/661
+
+Détection et annotation géographique automatique d'objets à partir d'imagerie 
+Street View.
