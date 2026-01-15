@@ -1,0 +1,16 @@
+infos de HeadMind : 
+
+1. trouver comment comparer des modèles différents (coordonnées GPS / pays):
+
+- avec coordonnées GPS : retrouver le pays -> puis comparer au dataset de pays
+
+MAIS ne fonctionne pas dans l'autre sens :((
+
+
+2. comparer le CNN à au moins un modèle de coordonnées GPS 
+
+3. contacter les auteurs des papiers de recherche pour avoir accès au dataset ? 
+-> oui sur papiers récents, pas forcément gros papiers 
+PB : trouver adresse mail 
+
+MAIS ne pas perdre de temps car on a 2 pistes de dataset !
