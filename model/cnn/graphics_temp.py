@@ -43,3 +43,34 @@ ax2.legend()
 plt.tight_layout()
 plt.savefig('class_performance_analysis.png', dpi=300, bbox_inches='tight')
 plt.show()
+
+fig, ax = plt.subplots(figsize=(8, 6))
+
+metrics_data = [
+    ('Train Acc', 88.6, 'Train performance'),
+    ('Val Acc (best)', 52.2, 'Optimal point'),
+    ('Macro F1', 19.0, 'Real performance'),
+]
+
+y_pos = range(len(metrics_data))
+names = [m[0] for m in metrics_data]
+values = [m[1] for m in metrics_data]
+colors = ['lightgreen', 'orange', 'red']
+
+bars = ax.barh(y_pos, values, color=colors, edgecolor='black', linewidth=2)
+
+# Ajouter les valeurs
+for i, (bar, val) in enumerate(zip(bars, values)):
+    ax.text(val + 2, i, f'{val:.1f}%', va='center', fontweight='bold', fontsize=12)
+    
+ax.set_yticks(y_pos)
+ax.set_yticklabels(names, fontsize=12)
+ax.set_xlabel('Percentage (%)', fontsize=12)
+ax.set_title('Model Performance Summary', fontsize=14, fontweight='bold')
+ax.set_xlim(0, 100)
+ax.axvline(x=50, color='green', linestyle='--', linewidth=2, alpha=0.5, label='Target')
+ax.grid(axis='x', alpha=0.3)
+ax.legend()
+
+plt.tight_layout()
+plt.savefig('summary_improved.png', dpi=300, bbox_inches='tight')
