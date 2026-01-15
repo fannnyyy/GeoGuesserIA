@@ -1,0 +1,4 @@
+/var/spool/slurm/slurmd/job137273/slurm_script: line 11: conda: command not found
+Fetching 108 files:   0%|          | 0/108 [00:00<?, ?it/s]Fetching 108 files:  66%|██████▌   | 71/108 [00:00<00:00, 697.57it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 108 files:  66%|██████▌   | 71/108 [00:19<00:00, 697.57it/s]Fetching 108 files:  90%|████████▉ | 97/108 [02:44<00:23,  2.18s/it] Fetching 108 files:  93%|█████████▎| 100/108 [02:45<00:16,  2.08s/it]Fetching 108 files: 100%|██████████| 108/108 [02:45<00:00,  1.54s/it]
+slurmstepd: error: *** JOB 137273 ON kyle32 CANCELLED AT 2026-01-14T17:20:44 DUE TO TIME LIMIT ***

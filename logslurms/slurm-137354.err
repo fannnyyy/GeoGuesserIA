@@ -1,0 +1,21 @@
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+Fetching 108 files:   0%|          | 0/108 [00:00<?, ?it/s]Fetching 108 files:   1%|          | 1/108 [00:00<01:03,  1.68it/s]Fetching 108 files:   3%|▎         | 3/108 [02:04<1:20:50, 46.20s/it]Fetching 108 files:   4%|▎         | 4/108 [44:07<26:05:15, 903.04s/it]Fetching 108 files: 100%|██████████| 108/108 [44:07<00:00, 24.51s/it]  
+slurmstepd: error: *** JOB 137354 ON tx10 CANCELLED AT 2026-01-15T07:47:16 DUE TO TIME LIMIT ***
