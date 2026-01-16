@@ -1,0 +1,45 @@
+
+Split: TRAIN
+  Fichiers ZIP: 6
+  Images extraites: 4620190
+  ZIPs trouvés: 06.zip, 07.zip, 59.zip, 69.zip, 79.zip, 84.zip
+
+Split: TEST
+  Fichiers ZIP: 0
+  Images extraites: 210122
+
+Extraction de 6 ZIPs pour train...
+Aucun ZIP à extraire pour test
+
+Total de ZIPs extraits: 6
+
+Re-scan après extraction...
+
+Split: TRAIN
+  Fichiers ZIP: 0
+  Images extraites: 4894684
+
+Split: TEST
+  Fichiers ZIP: 0
+  Images extraites: 210122
+
+Traitement de train.csv...
+  Total lignes: 4,894,684
+  Lignes gardées: 4,894,684 / 4,894,684 (100.0%)
+
+Traitement de test.csv...
+  Total lignes: 210,122
+  Lignes gardées: 210,122 / 210,122 (100.0%)
+Sauvegardé: /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/train_filtered.csv
+   4,894,684 entrées
+Sauvegardé: /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/test_filtered.csv
+   210,122 entrées
+
+Images disponibles:
+  Train: 4,894,684
+  Test: 210,122
+  TOTAL: 5,104,806
+
+CSV filtrés créés:
+  train: 4,894,684 entrées → data/metadata_filtered/train_filtered.csv
+  test: 210,122 entrées → data/metadata_filtered/test_filtered.csv

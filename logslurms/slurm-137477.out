@@ -1,0 +1,12 @@
+
+Split: TRAIN
+  Fichiers ZIP: 22
+  Images extraites: 3817877
+  ZIPs trouvés: 03.zip, 06.zip, 07.zip, 13.zip, 16.zip, 18.zip, 27.zip, 33.zip, 34.zip, 48.zip
+              ... et 12 autres
+
+Split: TEST
+  Fichiers ZIP: 0
+  Images extraites: 210122
+
+Extraction de 22 ZIPs pour train...
