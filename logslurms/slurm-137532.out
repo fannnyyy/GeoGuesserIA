@@ -1,0 +1,23 @@
+Train: 4,894,684 images
+Test: 210,122 images
+Total: 5,104,806 images
+  Latitude min: -54.8872
+  Latitude max: 78.6559
+  Longitude min: -176.8113
+  Longitude max: 178.7224
+
+Top 10 pays avec le plus d'images:
+  US: 1,242,539 images (24.3%)
+  DE: 273,486 images (5.4%)
+  FR: 244,121 images (4.8%)
+  RU: 237,335 images (4.6%)
+  JP: 211,333 images (4.1%)
+  AU: 173,190 images (3.4%)
+  BR: 151,024 images (3.0%)
+  GB: 139,139 images (2.7%)
+  SE: 133,921 images (2.6%)
+  IT: 116,592 images (2.3%)
+Répartition Train/Test:
+  Train: 4,894,684 images
+  Test: 210,122 images
+  Ratio: 23.29:1
