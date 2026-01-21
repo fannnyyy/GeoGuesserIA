@@ -49,6 +49,8 @@ une fois que finit tous est dans le dossier logslurms
 Copie dataset :
 - rendre public au autre utilisateur le dossier :
 chmod -R 755 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
+chmod 755 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA{,/dataset_OSV5M{,/datasets{,/osv5m{,/images}}}}
+chmod 755 /usr/users/geoguessr_ia/badoul_fan
 
 - vérifier que les droits sont accordés :
 ls -ld /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
@@ -56,3 +58,32 @@ ls -ld /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/os
 - dire à l'autre de copier notre dossier :
 rsync -avh --progress /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test/ /usr/users/geoguessr_ia/hanoir_mal/datasets/fanny/
 
+- remettre les anviens droits TOUS LES FAIRE :
+chmod -R 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
+
+chmod 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images
+chmod 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m
+chmod 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets
+chmod 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M
+chmod 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA
+
+chmod 700 /usr/users/geoguessr_ia/badoul_fan
+
+INFO : 
+700 = rwx------
+- Moi : lecture + écriture + accès 
+- Groupe : rien 
+- Autres : rien 
+- Usage : Très privé, personne d'autre ne peut voir
+
+750 = rwxr-x---
+- Moi : lecture + écriture + accès 
+- Groupe (geoguessr_ia) : lecture + accès 
+- Autres : rien 
+- Usage : Partagé avec votre équipe/groupe uniquement
+
+755 = rwxr-xr-x
+- Moi : lecture + écriture + accès 
+- Groupe : lecture + accès 
+- Autres : lecture + accès 
+- Usage : Accessible à tous (lecture seule pour les autres)
