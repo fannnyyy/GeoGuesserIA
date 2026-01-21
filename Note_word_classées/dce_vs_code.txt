@@ -46,3 +46,13 @@ squeue -u badoul_fan
 
 une fois que finit tous est dans le dossier logslurms
 
+Copie dataset :
+- rendre public au autre utilisateur le dossier :
+chmod -R 755 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
+
+- vérifier que les droits sont accordés :
+ls -ld /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
+
+- dire à l'autre de copier notre dossier :
+rsync -avh --progress /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test/ /usr/users/geoguessr_ia/hanoir_mal/datasets/fanny/
+
