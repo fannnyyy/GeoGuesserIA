@@ -1,0 +1,39 @@
+Nous avons testé un modèle de CNN basique fait "à la main" avec PyTorch. 
+- Le réseau est composé de :
+    - plusieurs couches convolutionnelles pour extraire des caractéristiques visuelles,
+    - des couches fully connected (FC) qui combinent ces caractéristiques pour prédire une position géographique.
+    - Les coordonnées sont encodées sous forme de sinus et cosinus de la latitude et de la longitude afin d’éviter les problèmes de signe et de discontinuité.
+- La fonction de perte utilisée est la distance de Haversine, qui mesure directement l’erreur de localisation en kilomètres.
+
+Problèmes observés :
+- Avec environ 5 000 images, le modèle :
+    - apprend sur le jeu d’entraînement,
+    - mais généralise très mal sur le jeu de test (overfitting).
+- Causes :
+    - un CNN entraîné from scratch,
+    - avec peu de données réparties à l'échelle mondiale.
+
+Solutions :
+- Pour limiter l’overfitting et stabiliser l’entraînement, j’ai effectué plusieurs modifications :
+- Augmentation du nombre d’images :
+    - passage de 5 000 à 20 000 images.
+    - Modification de l’architecture du réseau :
+    - ajout d’un quatrième bloc convolutionnel,
+    - ajout de Batch Normalization après les convolutions,
+- Réduction de la taille de la couche fully connected afin de limiter le nombre de paramètres (512 à 256).
+- Ajout d’un Dropout avec une probabilité faible sur la couche fully connected (p=0,3).
+
+Résultats obtenus : réduction de l'overfitting mais le modèle n'apprend plus assez.
+
+Pour ce réseau nous avons une question : Faut-il continuer à complexifier ce modèle ou est-il plus pertinent de le conserver comme baseline et passer à un modèle pré-entraîné (par ex. ResNet18) ?
+
+Ensuite nous sommes en train de faire un CNN totalement from scratch avec NumPy et non PyTorch. C'est pour avoir une idée vraiment claire des CNN. Celui-ci est constitué de couches de convolution, de MaxPooling et d'une couche fully connected symbolisée par un SoftMax.
+
+Concernant notre dataset YC100M, nous l'avons un peu mis de côté car il ne contenait pas assez d'images de rue (il avait beaucoup d'images de gens...). Nous le gardons quand même car il possède de belles images de monuments connus que nous pourrons utiliser par la suite pour enrichir l'autre dataset osv5m.
+Nous nous sommes donc transmis 30 % du dataset osv5m par le DCE et nous allons utiliser cette partie pour entraîner nos modèles.
+
+Prochaines étapes :
+- ResNet 18-50 fine-tuné
+- Finir le CNN NumPy
+- Réentraînement du CNN de Diane avec le dataset osv5m plutôt que YC100M
+- Tester la librairie Optuna
