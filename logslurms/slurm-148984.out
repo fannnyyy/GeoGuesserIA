@@ -1,0 +1,18 @@
+Colonnes du CSV: ['id', 'latitude', 'longitude', 'thumb_original_url', 'country', 'sequence', 'captured_at', 'lon_bin', 'lat_bin', 'cell', 'land_cover', 'road_index', 'drive_side', 'climate', 'soil', 'dist_sea', 'region', 'sub-region', 'city', 'unique_city', 'unique_sub-region', 'unique_region', 'unique_country', 'quadtree_10_1000', 'creator_username', 'creator_id']
+
+Premières lignes:
+                 id   latitude  ...  creator_username    creator_id
+0   547473234108938 -16.336027  ...            eric_s  1.078376e+14
+1   826109781317024  50.855687  ...           vik1607  1.110825e+14
+2  1006398440000844  37.956651  ...         gpsmapper  1.006127e+14
+3  2943891539215481  12.373333  ...        diallo1960  1.009980e+14
+4   122945119799579   7.510295  ...            soesoe  1.071101e+14
+
+[5 rows x 26 columns]
+
+Exemple de données:
+{'id': 547473234108938, 'latitude': -16.336027243355556, 'longitude': 45.62827989830829, 'thumb_original_url': 'https://scontent-cdg4-3.xx.fbcdn.net/m1/v/t6/An8hJtu2UkrzovZ8TG-GFbQLQLq07EASIXdy4_lpCIgyi54zldxuHTbZLJvN-nlNSwhZXWzyy5SVYQr-GcWb-xGWg7OklgzRXvNy9K_XlLdwFapmWK-IgpMidU9uAn-vZMl_2X8K1jXV9YosHHjGvw?ccb=10-5&oh=00_AfDv-Zs5ZQ8HJUjwa5BTdrk0zurnB0hF0SUyXePgs794aQ&oe=650F65FA&_nc_sid=201bca', 'country': 'MG', 'sequence': 'Z2sJMyDVAtHBu7UFGvnYXg', 'captured_at': 1660909818797, 'lon_bin': 61, 'lat_bin': 28, 'cell': '(61, 28)', 'land_cover': 5, 'road_index': 2.167167187, 'drive_side': 0, 'climate': 3, 'soil': 3, 'dist_sea': 0.2950105829558236, 'region': 'Boeny', 'sub-region': nan, 'city': 'Sitampiky', 'unique_city': 'Sitampiky_NaN_Boeny_MG', 'unique_sub-region': nan, 'unique_region': 'Boeny_MG', 'unique_country': 'MG', 'quadtree_10_1000': 1509, 'creator_username': 'eric_s', 'creator_id': 107837578118568.0}
+unique_labels :  AE
+Exemple label_to_idx :  [('AE', 0), ('AF', 1), ('AG', 2)]
+Exemple idx_to_label :  [(0, 'AE'), (1, 'AF'), (2, 'AG')]
+num_classes :  219

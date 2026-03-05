@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 147, in <module>
+    for item in metadata["images"]:
+NameError: name 'metadata' is not defined

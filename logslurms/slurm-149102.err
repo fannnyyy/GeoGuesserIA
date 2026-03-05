@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 271, in <module>
+    l, acc = train(im,label)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 244, in train
+    gradient = pool.backprop(gradient)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 72, in backprop
+    d_l_d_input[i*2+i2, j*2+j2, f2] = d_l_d_out[i,j,f2]
+TypeError: 'NoneType' object is not subscriptable

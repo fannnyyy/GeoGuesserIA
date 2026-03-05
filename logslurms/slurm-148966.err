@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 162, in <module>
+    train_items, test_items = train_test_split(
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/utils/_param_validation.py", line 216, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/model_selection/_split.py", line 2872, in train_test_split
+    train, test = next(cv.split(X=arrays[0], y=stratify))
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/model_selection/_split.py", line 1909, in split
+    for train, test in self._iter_indices(X, y, groups):
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/model_selection/_split.py", line 2318, in _iter_indices
+    raise ValueError(
+ValueError: The least populated class in y has only 1 member, which is too few. The minimum number of groups for any class cannot be less than 2.
