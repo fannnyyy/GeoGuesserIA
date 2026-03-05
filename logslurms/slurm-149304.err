@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 275, in <module>
+    l, acc = train(im,label)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 250, in train
+    gradient = conv16.backprop(gradient, lr)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 34, in backprop
+    d_l_d_filters[f] += d_l_d_out[i,j,f] * im_region
+IndexError: index 12 is out of bounds for axis 1 with size 12

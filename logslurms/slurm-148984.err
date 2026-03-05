@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 213, in <module>
+    train_images, train_labels = load_dataset(train_items, root_dir, label_to_idx)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 199, in load_dataset
+    img_path = os.path.join(root_dir, item["path"])
+KeyError: 'path'

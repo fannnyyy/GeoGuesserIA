@@ -1,0 +1,4 @@
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 181
+    print(f"Erreur avec {img_path}: {"e"}")
+                                      ^
+SyntaxError: f-string: expecting '}'

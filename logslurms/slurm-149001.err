@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 271, in <module>
+    l, acc = train(im,label)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 238, in train
+    gradient = softmax.backprop(gradient,lr)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 117, in backprop
+    d_l_d_w = d_t_d_w[np.newaxis].T @ d_l_d_t[np.newaxis]
+NameError: name 'd_l_d_t' is not defined

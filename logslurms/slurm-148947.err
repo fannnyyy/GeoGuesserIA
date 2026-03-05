@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 142, in <module>
+    with open(json_path, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_osv5m/datasets/osv5m/metadata_filtered/test_filtered.json'

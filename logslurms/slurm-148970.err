@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_from_scratch_numpy.py", line 171, in <module>
+    train_items, test_items = train_test_split(
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/utils/_param_validation.py", line 216, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/model_selection/_split.py", line 2872, in train_test_split
+    train, test = next(cv.split(X=arrays[0], y=stratify))
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/model_selection/_split.py", line 1908, in split
+    X, y, groups = indexable(X, y, groups)
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/utils/validation.py", line 532, in indexable
+    check_consistent_length(*result)
+  File "/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/sklearn/utils/validation.py", line 475, in check_consistent_length
+    raise ValueError(
+ValueError: Found input variables with inconsistent numbers of samples: [969, 1000]
