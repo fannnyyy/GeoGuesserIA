@@ -8,87 +8,6 @@ DATA_DIR = Path("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/d
 IMAGES_DIR = DATA_DIR / "images"
 METADATA_DIR = DATA_DIR / "metadata"
 
-
-def find_downloaded_files(base_dir):
-    """Trouve tous les fichiers téléchargés (zip et images extraites)"""
-    stats = {
-        'train': {'zips': [], 'images': set()},
-        'test': {'zips': [], 'images': set()}
-    }
-    
-    for split in ['train', 'test']:
-        split_dir = base_dir / split
-        if not split_dir.exists():
-            print(f"Dossier {split} n'existe pas")
-            continue
-        
-        # Chercher les zips
-        zips = list(split_dir.glob("*.zip"))
-        stats[split]['zips'] = [z.name for z in zips]
-        
-        # Chercher les images extraites (dans des sous-dossiers)
-        for subdir in split_dir.iterdir():
-            if subdir.is_dir():
-                images = list(subdir.glob("*.jpg")) + list(subdir.glob("*.png"))
-                for img in images:
-                    # Extraire l'ID de l'image (nom du fichier sans extension)
-                    img_id = img.stem
-                    stats[split]['images'].add(img_id)
-        
-        print(f"\nSplit: {split.upper()}")
-        print(f"  Fichiers ZIP: {len(stats[split]['zips'])}")
-        print(f"  Images extraites: {len(stats[split]['images'])}")
-        if stats[split]['zips']:
-            print(f"  ZIPs trouvés: {', '.join(sorted(stats[split]['zips'])[:10])}")
-            if len(stats[split]['zips']) > 10:
-                print(f"              ... et {len(stats[split]['zips']) - 10} autres")
-    
-    return stats
-
-#stats = find_downloaded_files(IMAGES_DIR)
-
-
-def extract_remaining_zips(base_dir, stats):
-    """Extrait les ZIPs qui n'ont pas encore été extraits"""
-    total_extracted = 0
-    
-    for split in ['train', 'test']:
-        split_dir = base_dir / split
-        if not split_dir.exists():
-            continue
-        
-        zips = list(split_dir.glob("*.zip"))
-        if not zips:
-            print(f"Aucun ZIP à extraire pour {split}")
-            continue
-        
-        print(f"\nExtraction de {len(zips)} ZIPs pour {split}...")
-        
-        for zip_file in tqdm(zips, desc=f"Extraction {split}"):
-            try:
-                with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-                    # Extraire dans le même dossier
-                    zip_ref.extractall(split_dir)
-                
-                # Supprimer le ZIP après extraction réussie
-                zip_file.unlink()
-                total_extracted += 1
-                
-            except Exception as e:
-                print(f"Erreur avec {zip_file.name}: {e}")
-    
-    print(f"\nTotal de ZIPs extraits: {total_extracted}")
-    return total_extracted
-
-# Extraire les ZIPs
-#extracted = extract_remaining_zips(IMAGES_DIR, stats)
-
-# Re-scanner après extraction
-#if extracted > 0:
-#    print("\nRe-scan après extraction...")
-#    stats = find_downloaded_files(IMAGES_DIR)
-
-
 def filter_csv(csv_path, available_image_ids, split_name):
     """Filtre un CSV pour ne garder que les images disponibles"""
     
@@ -132,6 +51,23 @@ def filter_csv(csv_path, available_image_ids, split_name):
     print(f"  Lignes gardées: {after_count:,} / {before_count:,} ({kept_percent:.1f}%)")
     
     return df_filtered
+
+# Scanner les images disponibles pour construire stats
+IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
+
+stats = {}
+for split in ['train', 'test']:
+    split_dir = IMAGES_DIR / split
+    if split_dir.exists():
+        image_ids = {
+            f.stem
+            for f in split_dir.rglob('*')
+            if f.suffix.lower() in IMAGE_EXTENSIONS
+        }
+    else:
+        image_ids = set()
+    stats[split] = {'images': image_ids}
+    print(f"{split}: {len(image_ids):,} images trouvées")
 
 # Filtrer les CSV
 filtered_dfs = {}
