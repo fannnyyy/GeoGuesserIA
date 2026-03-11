@@ -157,7 +157,7 @@ idx_to_label = {idx: label for label, idx in label_to_idx.items()}
 num_classes = len(unique_labels)
 
 print("unique_labels : ", unique_labels[0])
-print("Exemple label_to_idx : ", list(label_to_idx.items())[:3])  # Affiche 3 premiers
+print("Exemple label_to_idx : ", list(label_to_idx.items())[:3])
 print("Exemple idx_to_label : ", list(idx_to_label.items())[:3])
 print("num_classes : ", num_classes)
 
