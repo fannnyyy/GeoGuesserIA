@@ -12,7 +12,7 @@ import torch
 import torchvision.models as tv_models
 import torchvision.transforms as tv_transforms
 
-PATH = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/geoguesser_model.pth"
+PATH = "../model/cnn/geoguesser_model.pth"
 
 
 @st.cache_resource(show_spinner=False)
@@ -122,9 +122,9 @@ def main():
         """
     elif choice== 2 :
         st.subheader("Sample Data")
-        sample1 = Image.open('/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/tokyo_street.jpg')
+        sample1 = Image.open('../visualisation/tokyo_street.jpg')
         st.image(sample1,caption='Parasitized Cells', width='stretch')
-        sample2 = Image.open('/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/tokyo_tower.jpg')
+        sample2 = Image.open('../visualisation/tokyo_tower.jpg')
         st.image(sample2,caption='Uninfected Cells', width='stretch')
         st.markdown("#### Training and Testing Sets")
         """
