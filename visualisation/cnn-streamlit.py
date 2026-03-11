@@ -12,8 +12,9 @@ import torch
 import torchvision.models as tv_models
 import torchvision.transforms as tv_transforms
 
-PATH = "../model/cnn/geoguesser_model.pth"
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PATH = os.path.join(BASE_DIR,"model","cnn","geoguesser_model.pth")
 
 @st.cache_resource(show_spinner=False)
 def load_cnn1():
@@ -122,9 +123,11 @@ def main():
         """
     elif choice== 2 :
         st.subheader("Sample Data")
-        sample1 = Image.open('../visualisation/tokyo_street.jpg')
+        image1_path = os.path.join(BASE_DIR,'visualisation','tokyo_street.jpg')
+        sample1 = Image.open(image1_path)
         st.image(sample1,caption='Parasitized Cells', width='stretch')
-        sample2 = Image.open('../visualisation/tokyo_tower.jpg')
+        image2_path = os.path.join(BASE_DIR,'visualisation','tokyo_tower.jpg')
+        sample2 = Image.open(image2_path)
         st.image(sample2,caption='Uninfected Cells', width='stretch')
         st.markdown("#### Training and Testing Sets")
         """
