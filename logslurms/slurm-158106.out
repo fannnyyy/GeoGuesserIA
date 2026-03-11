@@ -1,0 +1,23 @@
+train: 3,394,684 images trouvées
+test: 210,122 images trouvées
+
+Traitement de train.csv...
+  Total lignes: 4,894,684
+  Lignes gardées: 3,394,684 / 4,894,684 (69.4%)
+
+Traitement de test.csv...
+  Total lignes: 210,122
+  Lignes gardées: 210,122 / 210,122 (100.0%)
+Sauvegardé: /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/train_filtered.csv
+   3,394,684 entrées
+Sauvegardé: /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/test_filtered.csv
+   210,122 entrées
+
+Images disponibles:
+  Train: 3,394,684
+  Test: 210,122
+  TOTAL: 3,604,806
+
+CSV filtrés créés:
+  train: 3,394,684 entrées → data/metadata_filtered/train_filtered.csv
+  test: 210,122 entrées → data/metadata_filtered/test_filtered.csv
