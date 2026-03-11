@@ -19,7 +19,7 @@ def find_downloaded_files(base_dir):
     for split in ['train', 'test']:
         split_dir = base_dir / split
         if not split_dir.exists():
-            print(f"⚠️  Dossier {split} n'existe pas")
+            print(f"Dossier {split} n'existe pas")
             continue
         
         # Chercher les zips
@@ -45,7 +45,7 @@ def find_downloaded_files(base_dir):
     
     return stats
 
-stats = find_downloaded_files(IMAGES_DIR)
+#stats = find_downloaded_files(IMAGES_DIR)
 
 
 def extract_remaining_zips(base_dir, stats):
@@ -81,12 +81,12 @@ def extract_remaining_zips(base_dir, stats):
     return total_extracted
 
 # Extraire les ZIPs
-extracted = extract_remaining_zips(IMAGES_DIR, stats)
+#extracted = extract_remaining_zips(IMAGES_DIR, stats)
 
 # Re-scanner après extraction
-if extracted > 0:
-    print("\nRe-scan après extraction...")
-    stats = find_downloaded_files(IMAGES_DIR)
+#if extracted > 0:
+#    print("\nRe-scan après extraction...")
+#    stats = find_downloaded_files(IMAGES_DIR)
 
 
 def filter_csv(csv_path, available_image_ids, split_name):
