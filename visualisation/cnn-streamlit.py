@@ -123,10 +123,10 @@ def main():
         """
     elif choice== 2 :
         st.subheader("Sample Data")
-        image1_path = os.path.join(BASE_DIR,'visualisation','tokyo_street.jpg')
+        image1_path = os.path.join(BASE_DIR,'tokyo_street.jpg')
         sample1 = Image.open(image1_path)
         st.image(sample1,caption='Parasitized Cells', width='stretch')
-        image2_path = os.path.join(BASE_DIR,'visualisation','tokyo_tower.jpg')
+        image2_path = os.path.join(BASE_DIR,'tokyo_tower.jpg')
         sample2 = Image.open(image2_path)
         st.image(sample2,caption='Uninfected Cells', width='stretch')
         st.markdown("#### Training and Testing Sets")
