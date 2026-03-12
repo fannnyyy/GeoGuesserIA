@@ -1,0 +1,5 @@
+https://osv5m.github.io/cvpr-static.pdf
+voir methode knn et penalité mauvais pays. 
+voir data augmentation pour overfitting
+
+tester geostat
