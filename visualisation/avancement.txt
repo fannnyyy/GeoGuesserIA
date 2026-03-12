@@ -1,0 +1,2 @@
+Ajout confiance de la prédiction
+Ajout carte avec coordonnée GPS en fonction du modèle
