@@ -402,19 +402,25 @@ train_dataset, val_dataset, test_dataset = random_split(
 train_loader = DataLoader(
     train_dataset, 
     batch_size=batch_size, 
-    shuffle=True
+    shuffle=True,
+    num_workers=4, 
+    pin_memory=True
 )
 
 test_loader = DataLoader(
     test_dataset, 
     batch_size=batch_size, 
-    shuffle=False
+    shuffle=False,
+    num_workers=4, 
+    pin_memory=True
 )
 
 val_loader = DataLoader(
     val_dataset, 
     batch_size=batch_size, 
-    shuffle=False
+    shuffle=False,
+    num_workers=4, 
+    pin_memory=True
 )
 
 dataloader = {
