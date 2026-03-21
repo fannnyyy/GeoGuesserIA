@@ -242,6 +242,8 @@ En baissant à `lr=1e-4` en phase 2 :
 backbone    lr=1e-4  → affinage doux du pretrained 
 têtes       lr=1e-4  → affinage doux des têtes convergées 
 tout le réseau évolue lentement et stablement 
+
+ajout data augmentation
 """
 
 import torch
@@ -415,13 +417,13 @@ test_size = total - train_size - val_size
 
 random.shuffle(indices)
 
-train_indices    = indices[:train_size]
-val_indices      = indices[train_size:train_size + val_size]
-test_indices     = indices[train_size + val_size:]
+train_indices = indices[:train_size]
+val_indices = indices[train_size:train_size + val_size]
+test_indices = indices[train_size + val_size:]
 
 train_dataset_final = Subset(train_dataset,    train_indices)
-val_dataset_final   = Subset(val_test_dataset, val_indices)
-test_dataset_final  = Subset(val_test_dataset, test_indices)
+val_dataset_final = Subset(val_test_dataset, val_indices)
+test_dataset_final = Subset(val_test_dataset, test_indices)
 
 
 train_loader = DataLoader(
