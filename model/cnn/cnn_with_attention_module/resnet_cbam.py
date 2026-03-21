@@ -258,6 +258,8 @@ from PIL import Image
 from sklearn.preprocessing import LabelEncoder   
 from sklearn.metrics import f1_score            
 from torch.utils.data import DataLoader, random_split 
+import random
+from torch.utils.data import Subset
 
 
 def haversine_loss(pred, target, epsSq=1.e-13, epsAs=1.e-7):
@@ -377,30 +379,53 @@ batch_size = 32
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-transform = transforms.Compose([
+train_transform = transforms.Compose([
+    transforms.Resize([224,224]),
+    transforms.RandomHorizontalFlip(),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+])
+
+val_test_transform = transforms.Compose([
     transforms.Resize([224,224]),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
 
-dataset = GeoGuesserIADataset(
+train_dataset = GeoGuesserIADataset(
     csv_path='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/test_filtered.csv',
     root_dir='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test',
-    transform=transform
+    transform=train_transform
 )
 
-train_size = int(0.8 * len(dataset))
-val_size = int(0.1 * len(dataset))
-test_size = len(dataset) - train_size - val_size
-
-train_dataset, val_dataset, test_dataset = random_split(
-    dataset, 
-    [train_size, val_size, test_size]
+val_test_dataset = GeoGuesserIADataset(
+    csv_path='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/test_filtered.csv',
+    root_dir='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test',
+    transform=val_test_transform
 )
+
+total = len(train_dataset)
+indices = list(range(total))
+
+train_size = int(0.8 * total)
+val_size = int(0.1 * total)
+test_size = total - train_size - val_size
+
+random.shuffle(indices)
+
+train_indices    = indices[:train_size]
+val_indices      = indices[train_size:train_size + val_size]
+test_indices     = indices[train_size + val_size:]
+
+train_dataset_final = Subset(train_dataset,    train_indices)
+val_dataset_final   = Subset(val_test_dataset, val_indices)
+test_dataset_final  = Subset(val_test_dataset, test_indices)
+
 
 train_loader = DataLoader(
-    train_dataset, 
+    train_dataset_final, 
     batch_size=batch_size, 
     shuffle=True,
     num_workers=4, 
@@ -408,7 +433,7 @@ train_loader = DataLoader(
 )
 
 test_loader = DataLoader(
-    test_dataset, 
+    test_dataset_final, 
     batch_size=batch_size, 
     shuffle=False,
     num_workers=4, 
@@ -416,7 +441,7 @@ test_loader = DataLoader(
 )
 
 val_loader = DataLoader(
-    val_dataset, 
+    val_dataset_final, 
     batch_size=batch_size, 
     shuffle=False,
     num_workers=4, 
@@ -429,7 +454,7 @@ dataloader = {
     'validation' : val_loader
 }
 
-num_countries = len(dataset.le.classes_)
+num_countries = len(train_dataset.le.classes_)
 model = GeoGussrAttentionMultiTask(num_countries).to(device)
 
 criterion_countries = nn.CrossEntropyLoss()
@@ -447,7 +472,7 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-lambda_gps = 0.001
+lambda_gps = 1.0
 
 NUM_EPOCH_PHASE1 = 5
 NUM_EPOCH_PHASE2 = 20
@@ -499,7 +524,8 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
 
                 loss_country = criterion_countries(pred_countries, labels_country)
                 loss_gps = haversine_loss(pred_gps, labels_gps)
-                loss = loss_country + lambda_gps * loss_gps
+                loss_gps_normalized = loss_gps / 20000
+                loss = loss_country + lambda_gps * loss_gps_normalized
 
                 if phase == 'train':
                     loss.backward()
@@ -530,7 +556,7 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
 if __name__ == '__main__':
     model_trained = train_model(model, optimizer)
     torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_reg.pt')
-    joblib.dump(dataset.le, 'label_encoder.pkl')
+    joblib.dump(train_dataset.le, 'label_encoder.pkl')
     print('Modèle sauvegardé')
 
 
