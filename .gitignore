@@ -1,3 +1,4 @@
+# Datasets / data
 geo_uniform_test
 gg-geojson-main
 gps_query_imgs
@@ -7,11 +8,20 @@ compressed_dataset
 2k_random_test
 dataset
 dataset_err
-venv/
 dataset/compressed_dataset
 dataset_OSV5M/datasets/osv5m
-*.pt 
-*.plk
-/model/cnn/cnn_with_attention_module/geoguessr_model_attention_classif_reg.pt
-/model/cnn/cnn_with_attention_module/label_encoder.pkl
 
+# Environnements
+venv/
+
+# Modèles (PyTorch)
+*.pt
+*.pth
+
+# Pickle / objets sérialisés
+*.pkl
+*.plk
+
+# Cas spécifiques (au cas où déjà trackés quelque part)
+model/cnn/cnn_with_attention_module/geoguessr_model_attention_classif_reg.pt
+model/cnn/cnn_with_attention_module/label_encoder.pkl

@@ -1,0 +1,42 @@
+{
+  "checkpoint_path": "checkpoints/knn_geo_country_noaug.pt",
+  "output_path": "checkpoints/knn_geo_country_noaug_index.pt",
+  "feature_backbone": "geo_vit",
+  "geo_vit_checkpoint": "VIT/checkpoints/vit_geo_best.pt",
+  "image_size": 224,
+  "num_augmented_views": 0,
+  "rotation_deg": 0.0,
+  "color_jitter": 0.0,
+  "horizontal_flip": false,
+  "temperature": 0.05,
+  "country_penalty_multiplier": 10.0,
+  "selection_metric": "country_penalized_mean_km",
+  "k_values": [
+    1,
+    2,
+    3
+  ],
+  "best_k": 1,
+  "val_metrics": {
+    "mean_km": 1419.871826171875,
+    "median_km": 9.335159301757812,
+    "country_penalized_mean_km": 13591.3681640625,
+    "acc_at_1km": 0.23029696941375732,
+    "acc_at_25km": 0.6000380516052246,
+    "acc_at_200km": 0.7200646996498108,
+    "country_acc": 0.7785550951957703,
+    "wrong_country_rate": 0.22144488990306854,
+    "k": 1
+  },
+  "test_metrics": {
+    "mean_km": 1413.518798828125,
+    "median_km": 9.312538146972656,
+    "country_penalized_mean_km": 13483.048828125,
+    "acc_at_1km": 0.22881074249744415,
+    "acc_at_25km": 0.6003902554512024,
+    "acc_at_200km": 0.7192214131355286,
+    "country_acc": 0.7804216146469116,
+    "wrong_country_rate": 0.219578355550766,
+    "k": 1
+  }
+}
