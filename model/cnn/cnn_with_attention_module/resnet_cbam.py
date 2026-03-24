@@ -262,6 +262,7 @@ from sklearn.metrics import f1_score
 from torch.utils.data import DataLoader, random_split 
 import random
 from torch.utils.data import Subset
+import math
 
 
 def haversine_loss(pred, target, epsSq=1.e-13, epsAs=1.e-7):
@@ -274,6 +275,30 @@ def haversine_loss(pred, target, epsSq=1.e-13, epsAs=1.e-7):
     a = torch.sin(delta_phi/2)**2 + torch.cos(phi1) * torch.cos(phi2) * torch.sin(delta_lambda/2)**2
     return torch.Tensor.mean(2 * r * torch.asin((1.0 - epsAs) * torch.sqrt(a + (1.0 - a**2) * epsSq)))
 
+def sincos_to_rad(sin, cos):
+    return torch.atan2(sin, cos)
+
+
+class HaversineLoss(nn.Module):
+    def __init__(self, radius=6371):
+        super().__init__()
+        self.radius = radius
+
+    def forward(self, preds, targets):
+        lat1 = sincos_to_rad(preds[:, 0],   preds[:, 1])
+        lon1 = sincos_to_rad(preds[:, 2],   preds[:, 3])
+        lat2 = sincos_to_rad(targets[:, 0], targets[:, 1])
+        lon2 = sincos_to_rad(targets[:, 2], targets[:, 3])
+
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+
+        a = (
+            torch.sin(dlat / 2) ** 2
+            + torch.cos(lat1) * torch.cos(lat2) * torch.sin(dlon / 2) ** 2
+        )
+        c = 2 * torch.atan2(torch.sqrt(a), torch.sqrt(1 - a))
+        return (self.radius * c).mean()
 
 
 class BottleneckWithCBAM(nn.Module):
@@ -312,11 +337,10 @@ class GeoGussrAttentionMultiTask(nn.Module):
             nn.Linear(512, num_countries)
         )
         self.head_gps = nn.Sequential(
-            nn.Linear(2048, 512),
+            nn.Linear(2048 + num_countries, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(0.5),
-            nn.Linear(512, 2),
-            nn.Tanh()
+            nn.Linear(512, 4)
         )
 
     def forward(self, x):
@@ -329,10 +353,15 @@ class GeoGussrAttentionMultiTask(nn.Module):
         x = self.layer3(x)
         x = self.layer4(x)
         x = self.avgpool(x)
-        x = x.flatten(1)
-        pred_countries = self.head_countries(x)
-        pred_gps = self.head_gps(x)
-        pred_gps = pred_gps * torch.tensor([90.,180.], device=x.device)
+        feats = x.flatten(1)                             
+        pred_countries = self.head_countries(feats)       
+        cls_probs = torch.softmax(pred_countries, dim=1) 
+        reg_input = torch.cat([feats, cls_probs], dim=1)
+        raw = self.head_gps(reg_input)
+        lat = F.normalize(raw[:, 0:2], dim=1)
+        lon = F.normalize(raw[:, 2:4], dim=1)
+        pred_gps = torch.cat([lat, lon], dim=1)
+
         return pred_countries, pred_gps
 
 
@@ -370,9 +399,12 @@ class GeoGuesserIADataset(torch.utils.data.Dataset):
         label_country = self.le.transform([country])[0]
         label_country = torch.tensor(label_country, dtype=torch.long)
 
-        lat = self.df.iloc[idx]['latitude']
-        long = self.df.iloc[idx]['longitude']
-        label_gps = torch.tensor([lat, long], dtype=torch.float32)
+        lat_r = math.radians(float(self.df.iloc[idx]['latitude']))   
+        lon_r = math.radians(float(self.df.iloc[idx]['longitude']))  
+        label_gps = torch.tensor(
+            [math.sin(lat_r), math.cos(lat_r), math.sin(lon_r), math.cos(lon_r)],
+            dtype=torch.float32,
+        )
 
         return img, label_country, label_gps
 
@@ -460,7 +492,7 @@ num_countries = len(train_dataset.le.classes_)
 model = GeoGussrAttentionMultiTask(num_countries).to(device)
 
 criterion_countries = nn.CrossEntropyLoss()
-criterion_gps = haversine_loss
+criterion_gps = HaversineLoss()
 
 head_params_ids = set(
     id(p) for p in list(model.head_countries.parameters()) + list(model.head_gps.parameters())
@@ -474,7 +506,9 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-lambda_gps = 1.0
+LAMBDA_CLS_HIGH = 10  
+LAMBDA_CLS_LOW  = 1    
+LAMBDA_REG      = 1.0
 
 NUM_EPOCH_PHASE1 = 5
 NUM_EPOCH_PHASE2 = 20
@@ -525,12 +559,14 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                 all_labels.append(labels_country.detach().cpu().numpy())
 
                 loss_country = criterion_countries(pred_countries, labels_country)
-                loss_gps = haversine_loss(pred_gps, labels_gps)
-                loss_gps_normalized = loss_gps / 20000
-                loss = loss_country + lambda_gps * loss_gps_normalized
+                loss_gps =  criterion_gps(pred_gps, labels_gps)
 
+                lambda_cls = LAMBDA_CLS_HIGH if epoch < NUM_EPOCH_PHASE1 else LAMBDA_CLS_LOW
+                loss = lambda_cls * loss_country + LAMBDA_REG * loss_gps
+                
                 if phase == 'train':
                     loss.backward()
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
                     optimizer.step()
 
                 running_loss_country += loss_country.detach() * inputs.size(0)
