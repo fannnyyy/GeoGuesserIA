@@ -322,9 +322,10 @@ def resnet50_cbam(**kwargs):
 
 
 class GeoGussrAttentionMultiTask(nn.Module):
-    def __init__(self, num_countries):
+    def __init__(self, num_countries, embed_detach=False):
         super().__init__()
         self.num_countries = num_countries
+        self.embed_detach = embed_detach
         model = resnet50_cbam()
         for name, layer in model.named_children():
             if name != "fc":
@@ -355,7 +356,8 @@ class GeoGussrAttentionMultiTask(nn.Module):
         x = self.avgpool(x)
         feats = x.flatten(1)                             
         pred_countries = self.head_countries(feats)       
-        cls_probs = torch.softmax(pred_countries, dim=1) 
+        cls_probs = torch.softmax(pred_countries, dim=1)
+        embed = cls_probs.detach() if self.embed_detach else cls_probs 
         reg_input = torch.cat([feats, cls_probs], dim=1)
         raw = self.head_gps(reg_input)
         lat = F.normalize(raw[:, 0:2], dim=1)
@@ -489,7 +491,7 @@ dataloader = {
 }
 
 num_countries = len(train_dataset.le.classes_)
-model = GeoGussrAttentionMultiTask(num_countries).to(device)
+model = GeoGussrAttentionMultiTask(num_countries, embed_detach=True).to(device)
 
 criterion_countries = nn.CrossEntropyLoss()
 criterion_gps = HaversineLoss()
@@ -506,9 +508,7 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-LAMBDA_CLS_HIGH = 10  
-LAMBDA_CLS_LOW  = 1    
-LAMBDA_REG      = 1.0
+LAMBDA_REG = 1.0
 
 NUM_EPOCH_PHASE1 = 5
 NUM_EPOCH_PHASE2 = 20
@@ -561,9 +561,11 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                 loss_country = criterion_countries(pred_countries, labels_country)
                 loss_gps =  criterion_gps(pred_gps, labels_gps)
 
-                lambda_cls = LAMBDA_CLS_HIGH if epoch < NUM_EPOCH_PHASE1 else LAMBDA_CLS_LOW
-                loss = lambda_cls * loss_country + LAMBDA_REG * loss_gps
-                
+                if epoch < NUM_EPOCH_PHASE1:
+                    loss = loss_country         
+                else:
+                    loss = loss_country + LAMBDA_REG * loss_gps
+
                 if phase == 'train':
                     loss.backward()
                     torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
@@ -593,8 +595,8 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
 
 if __name__ == '__main__':
     model_trained = train_model(model, optimizer)
-    torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_reg.pt')
-    joblib.dump(train_dataset.le, 'label_encoder.pkl')
+    torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_reg_v2.pt')
+    joblib.dump(train_dataset.le, 'label_encoder_v2.pkl')
     print('Modèle sauvegardé')
 
 
