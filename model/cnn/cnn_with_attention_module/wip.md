@@ -61,6 +61,8 @@ Sans séparation, le modèle pourrait mémoriser les images plutôt qu'apprendre
 
 Les têtes sont initialisées aléatoirement — si on dégèle tout dès le début, leurs gradients chaotiques remontent dans le backbone et détruisent les features ImageNet. Phase 1 gèle le backbone pour stabiliser les têtes d'abord. Phase 2 dégèle tout pour le fine-tuning complet avec des gradients propres.
 
+Epoch 1/25 trèèèèèèèèèèèès long (slurm 159997)
+
 ---
 
 ## Batch 2 — Optimisation de l'entraînement
@@ -68,6 +70,14 @@ Les têtes sont initialisées aléatoirement — si on dégèle tout dès le dé
 **`num_workers=4` + `pin_memory=True`**
 
 Sans `num_workers`, le chargement des images se fait dans le thread principal — le GPU attend que le CPU charge chaque batch, créant un goulot d'étranglement. Avec `num_workers=4`, quatre processus préchargent les batchs en parallèle pendant que le GPU entraîne. `pin_memory=True` accélère le transfert CPU→GPU en utilisant la mémoire paginée plutôt que la mémoire paginable. Le run passait de ~10h à ~3-5h.
+
+Epoch 25/25 (slurm 160062)
+train | loss_total: 8.5414 | loss_country: 0.7350 | loss_gps: 7806.5km | f1: 0.4002
+validation | loss_total: 9.0822 | loss_country: 1.2917 | loss_gps: 7790.5km | f1: 0.4743
+
+GPS : 7806km — bloqué ❌
+Pays f1 : 0.47 ✅
+Le pays apprend bien mais GPS complètement mort — confirme que le problème est architectural, pas juste un manque d'epochs.
 
 ---
 
@@ -82,6 +92,14 @@ Une image Street View retournée horizontalement reste géolocalisable — le r�
 **Augmentation de `lambda_gps` + normalisation par 20000**
 
 Avec `lambda_gps=0.001` la loss GPS contribuait ~7.8 à la loss totale mais son **gradient** était trop faible pour modifier les poids — la tête GPS ne recevait aucun signal d'apprentissage utile et restait bloquée à ~7800km. La normalisation par 20000 (distance maximale sur Terre) ramène la Haversine entre 0 et 1, comparable à la CrossEntropy, permettant un équilibre entre les deux losses.
+
+Epoch 25/25 (slurm 160426)
+train | loss_total: 1.1416 | loss_country: 0.7511 | loss_gps: 7809.0km | f1: 0.4289
+validation | loss_total: 1.5433 | loss_country: 1.1544 | loss_gps: 7776.9km | f1: 0.4943
+
+GPS : 7809km — toujours bloqué ❌
+Pays f1 : 0.49 ✅ (légère amélioration)
+L'augmentation de données améliore légèrement le pays mais ne change rien au GPS — preuve définitive que lambda et normalisation ne suffisaient pas, il fallait changer l'architecture.
 
 ---
 
@@ -135,6 +153,17 @@ else:
 Avec `LAMBDA_CLS_HIGH=10` et la Haversine à ~5000km, même en multipliant pays par 10 la GPS représentait ~99% de la loss totale — les gradients GPS écrasaient complètement le signal pays. La tête pays ne pouvait pas apprendre, et donc les probabilités pays injectées dans la tête GPS étaient mauvaises, créant un cercle vicieux.
 
 En désactivant GPS complètement en phase 1, le pays apprend correctement. En phase 2, le GPS conditionné peut utiliser de bonnes probabilités pays comme contexte pour apprendre efficacement la localisation fine.
+
+Epoch 25/25
+train | loss_total: 1522.9128 | loss_country: 3.3538 | loss_gps: 1519.6km | f1: 0.0153
+validation | loss_total: 1800.4628 | loss_country: 3.0325 | loss_gps: 1797.4km | f1: 0.0155
+Modèle sauvegardé
+
+GPS : 1519km ✅ (de 7800 → 1519, -80%)
+Pays f1 : 0.015 ❌ (de 0.49 → 0.015, effondrement)
+Le GPS conditionné fonctionne mais le curriculum lambda a tué le pays — c'est le cercle vicieux décrit dans le document.
+
+---
 
 ## Batch 5 — Découplage des gradients et curriculum corrigé
 
