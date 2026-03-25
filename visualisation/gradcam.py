@@ -116,8 +116,6 @@ def compare_gradcam(img_path, model, le):
     plt.imsave('gradcam_comparison.png', np.array(final_img))
 
 
-    
-
 
 if __name__ == '__main__':
     le = joblib.load("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_with_attention_module/label_encoder.pkl")
