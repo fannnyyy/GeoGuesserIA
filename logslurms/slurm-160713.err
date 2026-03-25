@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 131, in <module>
+    compare_gradcam(img_path, model,le)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 102, in compare_gradcam
+    draw.text((BORDER + (W - tw) // 2, TITLE_Y), "Before CBAM", fill=(0,0,0))
+NameError: name 'TITLE_Y' is not defined

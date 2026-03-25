@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 92, in <module>
+    compare_gradcam(img_path, model)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 65, in compare_gradcam
+    pred = model(img_tensor)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 44, in forward
+    pred_countries, _ = self.model(x)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_with_attention_module/resnet_cbam.py", line 348, in forward
+    x = self.conv1(x)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torch/nn/modules/conv.py", line 463, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torch/nn/modules/conv.py", line 459, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+RuntimeError: Input type (torch.cuda.FloatTensor) and weight type (torch.FloatTensor) should be the same

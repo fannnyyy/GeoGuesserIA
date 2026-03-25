@@ -1,0 +1,44 @@
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.0.2 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 31, in <module>
+    from resnet_cbam import GeoGussrAttentionMultiTask, val_test_transform, device, test_dataset_final
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_with_attention_module/resnet_cbam.py", line 250, in <module>
+    from torchvision import datasets, models, transforms
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/__init__.py", line 5, in <module>
+    from torchvision import datasets, io, models, ops, transforms, utils
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/__init__.py", line 17, in <module>
+    from . import detection, optical_flow, quantization, segmentation, video
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/detection/__init__.py", line 1, in <module>
+    from .faster_rcnn import *
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/detection/faster_rcnn.py", line 16, in <module>
+    from .anchor_utils import AnchorGenerator
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/detection/anchor_utils.py", line 10, in <module>
+    class AnchorGenerator(nn.Module):
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/detection/anchor_utils.py", line 63, in AnchorGenerator
+    device: torch.device = torch.device("cpu"),
+/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/models/detection/anchor_utils.py:63: UserWarning: Failed to initialize NumPy: _ARRAY_API not found (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:77.)
+  device: torch.device = torch.device("cpu"),
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 80, in <module>
+    compare_gradcam(img_path, model)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 63, in compare_gradcam
+    gradcam_before_cbam = generate_gradcam(img_path, model.model.layer4[-1].bottleneck.conv3, model)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 54, in generate_gradcam
+    img = preprocess_img(img_path)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 49, in preprocess_img
+    img = val_test_transform(img).unsqueeze(0).to(device)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/transforms/transforms.py", line 95, in __call__
+    img = t(img)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/transforms/transforms.py", line 135, in __call__
+    return F.to_tensor(pic)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/torchvision/transforms/functional.py", line 163, in to_tensor
+    img = torch.from_numpy(np.array(pic, mode_to_nptype.get(pic.mode, np.uint8), copy=True))
+RuntimeError: Numpy is not available

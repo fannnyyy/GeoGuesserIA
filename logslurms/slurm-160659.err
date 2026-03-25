@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 23, in <module>
+    from resnet_cbam import GeoGussrAttentionMultiTask, val_test_transform, device, test_dataset_final
+ModuleNotFoundError: No module named 'resnet_cbam'

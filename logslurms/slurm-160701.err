@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 93, in <module>
+    model = ModelWrapperGradCAMClassif(model)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam.py", line 71, in compare_gradcam
+    pred_country = le.inverse_transform([pred_class])[0]
+NameError: name 'ImageDraw' is not defined
