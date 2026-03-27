@@ -219,7 +219,40 @@ Le curriculum avec `LAMBDA_CLS_HIGH=10` était insuffisant — même multiplié 
 
 La solution la plus robuste est **binaire** — soit GPS est complètement absent (phase 1), soit il est présent avec un poids équilibré (phase 2). Pas de compromis qui ne fonctionne pas en pratique. Ça simplifie aussi le code — deux hyperparamètres (`LAMBDA_CLS_HIGH`, `LAMBDA_CLS_LOW`) supprimés, remplacés par une simple condition.
 
+**Modifications :**
+- `embed_detach=True` — découplage des gradients GPS/pays
+- Curriculum binaire — GPS désactivé en phase 1
+- Suppression de `LAMBDA_CLS_HIGH` et `LAMBDA_CLS_LOW`
+
+**Résultat epoch 25 :**
+```
+Epoch 5  → loss_country: 3.32  ✅ phase 1 normale
+Epoch 6  → loss_total: 4385km  ← GPS explose au passage phase 2
+Epoch 7  → NaN partout ❌ gradient explosion
+```
+
+**Diagnostic :** `LAMBDA_REG=1.0` trop grand + lr trop élevé en phase 2 → gradients GPS explosent → NaN irréversible
+
 ---
+
+## Batch 6 — Stabilisation du passage phase 2
+
+**Modifications :**
+- `LAMBDA_REG : 1.0 → 0.1` — réduire l'impact GPS en phase 2
+- `lr phase 2 : 1e-4 → 1e-5` — pas plus petits pour éviter l'explosion
+- `clip_grad_norm_ : max_norm=5.0 → 1.0` — clipping plus agressif
+- Détection NaN — ignorer les batchs corrompus :
+
+```python
+if torch.isnan(loss):
+    optimizer.zero_grad()
+    continue
+```
+
+**Objectif :** passage phase 1→2 stable sans explosion de gradient
+
+
+
 
 ## Résumé de l'évolution de l'architecture
 
@@ -232,5 +265,8 @@ V2 — GPS conditionné + sin/cos + curriculum lambda
 
 V3 — embed_detach + curriculum binaire
      → pays et GPS apprennent indépendamment ✅
-     → à tester
+     → Epoch 5  → loss_country: 3.32  ✅ phase 1 normale
+       Epoch 6  → loss_total: 4385km  ← GPS explose au passage phase 2
+       Epoch 7  → NaN partout ❌ gradient explosion
 ```
+

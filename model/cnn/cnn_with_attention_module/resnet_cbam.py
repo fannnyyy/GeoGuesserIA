@@ -508,7 +508,7 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-LAMBDA_REG = 1.0
+LAMBDA_REG = 0.1
 
 NUM_EPOCH_PHASE1 = 5
 NUM_EPOCH_PHASE2 = 20
@@ -526,9 +526,9 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
         if epoch == NUM_EPOCH_PHASE1:
             for param in model.parameters():
                 param.requires_grad = True
-            optimizer.param_groups[0]['lr'] = 1e-4
-            optimizer.param_groups[1]['lr'] = 1e-4 
-            optimizer.param_groups[2]['lr'] = 1e-4
+            optimizer.param_groups[0]['lr'] = 1e-5
+            optimizer.param_groups[1]['lr'] = 1e-5 
+            optimizer.param_groups[2]['lr'] = 1e-5
 
         for phase in ['train', 'validation']:
             running_loss_country = 0.0   
@@ -568,7 +568,7 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
 
                 if phase == 'train':
                     loss.backward()
-                    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
                     optimizer.step()
 
                 running_loss_country += loss_country.detach() * inputs.size(0)
@@ -595,8 +595,8 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
 
 if __name__ == '__main__':
     model_trained = train_model(model, optimizer)
-    torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_reg_v2.pt')
-    joblib.dump(train_dataset.le, 'label_encoder_v2.pkl')
+    torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_reg_more_epoch.pt')
+    joblib.dump(train_dataset.le, 'label_encoder_more_epoch.pkl')
     print('Modèle sauvegardé')
 
 
