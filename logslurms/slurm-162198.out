@@ -1,0 +1,2 @@
+Device: cuda | Batch size: 32
+Chargement des cellules : ../../../model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl

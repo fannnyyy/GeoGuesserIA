@@ -1,0 +1,2 @@
+Device: cuda | Batch size: 32
+Chargement des cellules : /usr/users/geoguessr_ia/badoul_fan/datasets/OSV5M/cells_kmeans.pkl

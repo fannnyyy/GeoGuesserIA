@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/resnet_classification.py", line 268, in <module>
+    with open(CELLS_PATH, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/users/geoguessr_ia/badoul_fan/datasets/OSV5M/cells_kmeans.pkl'
