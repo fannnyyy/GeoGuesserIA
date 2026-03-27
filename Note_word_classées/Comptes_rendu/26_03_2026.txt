@@ -1,0 +1,5 @@
+Bilan de la réunion :
+- Fanny continue sur le modèle d’attention etc et sur l’interface streamlit
+- ⁠je continue le bout de rapport (explication de mes modèles + analyse du dataset) et aide Fanny avec l’interface 
+
+Et Diane le monsieur a une proposition de modèle pour toi pour les kmeans
