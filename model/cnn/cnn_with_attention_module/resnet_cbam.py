@@ -510,8 +510,8 @@ optimizer = optim.Adam([
 
 LAMBDA_REG = 0.1
 
-NUM_EPOCH_PHASE1 = 5
-NUM_EPOCH_PHASE2 = 20
+NUM_EPOCH_PHASE1 = 10
+NUM_EPOCH_PHASE2 = 45
 
 def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2):
     
