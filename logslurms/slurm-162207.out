@@ -1,0 +1,7 @@
+Device: cuda | Batch size: 32
+Chargement des cellules : /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl
+Cellules chargées : 1000
+Images indexées      : 3394684
+Lignes CSV utilisées : 0
+CSV IDs (sample)  : ['574181207305439', '333574322129026', '636305258168031', '166741299029322', '818163849121312']
+id_to_cell (sample): ['547473234108938', '826109781317024', '1006398440000844', '2943891539215481', '122945119799579']

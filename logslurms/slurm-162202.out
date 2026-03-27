@@ -1,0 +1,5 @@
+Device: cuda | Batch size: 32
+Chargement des cellules : /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl
+Cellules chargées : 1000
+Images indexées      : 3394684
+Lignes CSV utilisées : 0
