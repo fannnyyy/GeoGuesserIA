@@ -89,7 +89,7 @@ output_dir = DATA_DIR / "metadata_filtered"
 output_dir.mkdir(exist_ok=True)
 
 for split, df in filtered_dfs.items():
-    output_path = output_dir / f"{split}_filtered.csv"
+    output_path = output_dir / f"{split}_filtered_v2.csv"
     df.to_csv(output_path, index=False)
     print(f"Sauvegardé: {output_path}")
     print(f"   {len(df):,} entrées")
@@ -105,7 +105,7 @@ print(f"  TOTAL: {total_images:,}")
 if filtered_dfs:
     print(f"\nCSV filtrés créés:")
     for split, df in filtered_dfs.items():
-        print(f"  {split}: {len(df):,} entrées → data/metadata_filtered/{split}_filtered.csv")
+        print(f"  {split}: {len(df):,} entrées → data/metadata_filtered/{split}_filtered_v2.csv")
 
 
 summary_path = DATA_DIR / "dataset_summary.txt"
@@ -123,6 +123,6 @@ with open(summary_path, 'w') as f:
         f.write(f"  {split}: {len(df):,} entrées\n")
     
     f.write(f"\nUtilisation:\n")
-    f.write(f"  - Utiliser les CSV dans: data/metadata_filtered/\n")
+    f.write(f"  - Utiliser les CSV dans: data/metadata_filtered_v2/\n")
     f.write(f"  - Images dans: data/images/{'{train,test}'}/\n")
 

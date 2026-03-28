@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/compute_cells.py", line 36, in <module>
+    data = pd.read_csv(CSV_FILE)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/datasets/OSV5M/train_filtered_v2.csv'
