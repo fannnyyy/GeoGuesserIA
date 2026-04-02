@@ -326,8 +326,8 @@ class GeoGussrAttentionMultiTask(nn.Module):
         super().__init__()
         self.num_countries = num_countries
         self.embed_detach = embed_detach
-        #model = resnet50_cbam()
-        model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
+        model = resnet50_cbam()
+        #model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
         for name, layer in model.named_children():
             if name != "fc":
                 setattr(self, name, layer)
@@ -481,7 +481,7 @@ sampler = WeightedRandomSampler(
 train_loader = DataLoader(
     train_dataset_final, 
     batch_size=batch_size, 
-    shuffle=False,
+    shuffle=sampler,
     num_workers=4, 
     pin_memory=True
 )
@@ -613,8 +613,8 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
 
 if __name__ == '__main__':
     model_trained = train_model(model, optimizer)
-    torch.save(model_trained.state_dict(), 'geoguessr_model_classif_comparaison.pt')
-    joblib.dump(train_dataset.le, 'label_encoder_comparaison.pkl')
+    torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_WeightedRandomSampler.pt')
+    joblib.dump(train_dataset.le, 'label_encoder_WeightedRandomSampler.pkl')
     print('Modèle sauvegardé')
 
 
