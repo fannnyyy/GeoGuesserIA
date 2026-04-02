@@ -327,6 +327,7 @@ class GeoGussrAttentionMultiTask(nn.Module):
         self.num_countries = num_countries
         self.embed_detach = embed_detach
         model = resnet50_cbam()
+        #model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
         for name, layer in model.named_children():
             if name != "fc":
                 setattr(self, name, layer)
@@ -369,7 +370,7 @@ class GeoGussrAttentionMultiTask(nn.Module):
 
 class GeoGuesserIADataset(torch.utils.data.Dataset):
     def __init__(self, csv_path, root_dir, transform=None):
-        self.df = pd.read_csv(csv_path)
+        self.df = pd.read_csv(csv_path, low_memory=False)
         self.root_dir = root_dir
         self.le = LabelEncoder()
         self.le.fit(self.df['country'])
