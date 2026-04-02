@@ -110,7 +110,7 @@ print(f"Device: {device}, batch size: {batch_size}")
 # Dataset & loaders
 # -----------------------------
 dataset = GeoDataset(
-    csv_file=os.path.expanduser("~/datasets/OSV5M/test_filtered.csv"),
+    csv_file=os.path.expanduser("~/datasets/OSV5M/samples_filtered.csv"),
     img_dir=os.path.expanduser("~/datasets/OSV5M"),
     transform=transform,
     max_samples=20000

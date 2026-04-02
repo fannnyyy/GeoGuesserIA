@@ -142,8 +142,8 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 from collections import Counter
 
-csv_path = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/test_filtered.csv"
-root_dir = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test"
+csv_path = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/samples_filtered.csv"
+root_dir = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/samples"
 
 subdirs = sorted([d for d in os.listdir(root_dir) if os.path.isdir(os.path.join(root_dir, d))])
 train_dirs = subdirs[:4]

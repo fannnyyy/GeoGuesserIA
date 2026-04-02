@@ -48,18 +48,18 @@ une fois que finit tous est dans le dossier logslurms
 
 Copie dataset :
 - rendre public au autre utilisateur le dossier :
-chmod -R 755 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
+chmod -R 755 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/samples
 chmod 755 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA{,/dataset_OSV5M{,/datasets{,/osv5m{,/images}}}}
 chmod 755 /usr/users/geoguessr_ia/badoul_fan
 
 - vérifier que les droits sont accordés :
-ls -ld /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
+ls -ld /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/samples
 
 - dire à l'autre de copier notre dossier :
-rsync -avh --progress /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test/ /usr/users/geoguessr_ia/hanoir_mal/datasets/fanny/
+rsync -avh --progress /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/samples/ /usr/users/geoguessr_ia/hanoir_mal/datasets/fanny/
 
 - remettre les anviens droits TOUS LES FAIRE :
-chmod -R 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/test
+chmod -R 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/samples
 
 chmod 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images
 chmod 700 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m

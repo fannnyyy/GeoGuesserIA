@@ -5,8 +5,8 @@ from pathlib import Path
 
 
 DATA_DIR = Path("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m")  
-METADATA_TRAIN = DATA_DIR / "metadata_filtered" / "train_filtered.csv"
-METADATA_TEST = DATA_DIR / "metadata_filtered" / "test_filtered.csv"
+METADATA_TRAIN = DATA_DIR / "metadata_filtered" / "rest_filtered.csv"
+METADATA_TEST = DATA_DIR / "metadata_filtered" / "samples_filtered.csv"
 
 
 try:
