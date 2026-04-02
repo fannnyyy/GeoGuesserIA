@@ -1,0 +1,13 @@
+Device: cuda | Batch size: 32
+Chargement des cellules : /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl
+Cellules chargées : 1000
+Images indexées      : 3394684
+Lignes CSV utilisées : 500000
+Sampler prêt — 450,000 samples | cellules non vides : 1000/1000
+CSV IDs (sample)  : ['574181207305439', '333574322129026', '636305258168031', '166741299029322', '818163849121312']
+id_to_cell (sample): ['574181207305439', '333574322129026', '636305258168031', '166741299029322', '818163849121312']
+Calcul de la matrice de distances entre centroïdes...
+Matrice prête.
+
+Entraînement — 30 epochs | 500000 samples | 1000 cellules
+

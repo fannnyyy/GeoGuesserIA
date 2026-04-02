@@ -1,0 +1,4 @@
+Epoch 1/55
+train | loss_total: 3.1409 | loss_country: 3.1409 | loss_gps: 10103.9km | f1: 0.0156
+validation | loss_total: 2.8485 | loss_country: 2.8485 | loss_gps: 10193.7km | f1: 0.0233
+Epoch 2/55
