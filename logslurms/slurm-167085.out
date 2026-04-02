@@ -1,0 +1,51 @@
+Chargement des CSV…
+  Train : 3,394,684 lignes  |  Test : 210,122 lignes
+  Colonnes : ['id', 'latitude', 'longitude', 'thumb_original_url', 'country', 'sequence', 'captured_at', 'lon_bin', 'lat_bin', 'cell', 'land_cover', 'road_index', 'drive_side', 'climate', 'soil', 'dist_sea', 'region', 'sub-region', 'city', 'unique_city', 'unique_sub-region', 'unique_region', 'unique_country', 'quadtree_10_1000', 'creator_username', 'creator_id', 'split']
+
+============================================================
+EDA OSV5M — RAPPORT
+============================================================
+
+Train : 3,394,684   Test : 210,122   Total : 210,122
+Colonnes (27) : id, latitude, longitude, thumb_original_url, country, sequence, captured_at, lon_bin, lat_bin, cell, land_cover, road_index, drive_side, climate, soil, dist_sea, region, sub-region, city, unique_city, unique_sub-region, unique_region, unique_country, quadtree_10_1000, creator_username, creator_id, split
+
+── Valeurs manquantes (%) ──────────────────────────────────
+  sub-region                      53.20%
+  unique_sub-region               53.20%
+  road_index                       7.86%
+  region                           0.82%
+  unique_region                    0.82%
+  unique_city                      0.01%
+  city                             0.01%
+  creator_username                 0.00%
+  creator_id                       0.00%
+
+── Coordonnées GPS ─────────────────────────────────────────
+  latitude: min=-54.8709  max=78.3295  mean=19.8001  std=30.1894
+  longitude: min=-176.7907  max=178.6184  mean=12.6433  std=80.2542
+
+[WARN] folium non installé — pip install folium  →  carte ignorée
+Histogrammes lat/lon…
+KDE 2D…
+Distribution pays (colonne : country)…
+
+── Top 10 pays ─────────────────────────────────────────────
+  US                                    23,875  (11.4%)
+  RU                                    14,984  (7.1%)
+  AU                                    11,052  (5.3%)
+  BR                                    10,425  (5.0%)
+  CA                                     9,580  (4.6%)
+  IN                                     6,525  (3.1%)
+  MX                                     4,759  (2.3%)
+  CN                                     4,404  (2.1%)
+  AR                                     4,260  (2.0%)
+  KZ                                     3,883  (1.8%)
+Distribution continent (colonne : region)…
+Plot valeurs manquantes…
+Analyse des cellules k-means…
+
+── Cellules k-means (1000) ──────────────────────────────────
+  Images assignées    : 3,394,684
+  Cellules vides      : 0
+  Min / Max / Moyenne : 68 / 14939 / 3394.7
+Calcul dispersion intra-cellule (sample 50k)…

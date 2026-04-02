@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/EdA_complete.py", line 281, in <module>
+    df_sub = df_sub[df_sub["id"].isin(id_to_cell)].sample(
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pandas/core/generic.py", line 6140, in sample
+    sampled_indices = sample.sample(obj_len, size, replace, weights, rs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pandas/core/sample.py", line 152, in sample
+    return random_state.choice(obj_len, size=size, replace=replace, p=weights).astype(
+  File "numpy/random/mtrand.pyx", line 945, in numpy.random.mtrand.RandomState.choice
+ValueError: a must be greater than 0 unless no samples are taken

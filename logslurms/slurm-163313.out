@@ -15,11 +15,11 @@ Inertia for init 5/10: 14708.0703125
 Init 6/10 with method k-means++
 Inertia for init 6/10: 15665.7265625
 Init 7/10 with method k-means++
-Inertia for init 7/10: 24763.455078125
+Inertia for init 7/10: 24763.453125
 Init 8/10 with method k-means++
 Inertia for init 8/10: 16117.5439453125
 Init 9/10 with method k-means++
-Inertia for init 9/10: 14798.267578125
+Inertia for init 9/10: 14798.2685546875
 Init 10/10 with method k-means++
 Inertia for init 10/10: 14796.6181640625
 [MiniBatchKMeans] Reassigning 69 cluster centers.
@@ -27,26 +27,29 @@ Minibatch step 1/101840: mean batch inertia: 0.483788720703125
 Minibatch step 2/101840: mean batch inertia: 0.5714076171875, ewa inertia: 0.5714076171875
 [MiniBatchKMeans] Reassigning 8 cluster centers.
 Minibatch step 3/101840: mean batch inertia: 0.541769482421875, ewa inertia: 0.5712330022540636
-Minibatch step 4/101840: mean batch inertia: 0.51595595703125, ewa inertia: 0.5709073340685158
-Minibatch step 5/101840: mean batch inertia: 0.696142431640625, ewa inertia: 0.5716451645156537
-Minibatch step 6/101840: mean batch inertia: 0.8919615234375, ewa inertia: 0.5735323284729684
-Minibatch step 7/101840: mean batch inertia: 0.57972080078125, ewa inertia: 0.5735687882464572
-Minibatch step 8/101840: mean batch inertia: 0.5757412109375, ewa inertia: 0.5735815872112568
-Minibatch step 9/101840: mean batch inertia: 0.705420703125, ewa inertia: 0.5743583256474519
-Minibatch step 10/101840: mean batch inertia: 1.0817609375, ewa inertia: 0.5773477200204353
+Minibatch step 4/101840: mean batch inertia: 0.515955908203125, ewa inertia: 0.5709073337808419
+Minibatch step 5/101840: mean batch inertia: 0.6961423828125, ewa inertia: 0.5716451639420006
+Minibatch step 6/101840: mean batch inertia: 0.8919615234375, ewa inertia: 0.573532327902695
+Minibatch step 7/101840: mean batch inertia: 0.579720849609375, ewa inertia: 0.5735687879672176
+Minibatch step 8/101840: mean batch inertia: 0.5757412109375, ewa inertia: 0.5735815869336623
+Minibatch step 9/101840: mean batch inertia: 0.705420703125, ewa inertia: 0.5743583253714929
+Minibatch step 10/101840: mean batch inertia: 1.0817611328125, ewa inertia: 0.577347720896798
 [MiniBatchKMeans] Reassigning 1 cluster centers.
-Minibatch step 11/101840: mean batch inertia: 0.463560888671875, ewa inertia: 0.5766773377531642
-Minibatch step 12/101840: mean batch inertia: 0.620127587890625, ewa inertia: 0.5769333276322691
+Minibatch step 11/101840: mean batch inertia: 0.463560888671875, ewa inertia: 0.5766773386243638
+Minibatch step 12/101840: mean batch inertia: 0.620127587890625, ewa inertia: 0.576933328498336
 [MiniBatchKMeans] Reassigning 1 cluster centers.
-Minibatch step 13/101840: mean batch inertia: 0.65495322265625, ewa inertia: 0.5773929867465845
-Minibatch step 14/101840: mean batch inertia: 0.618588232421875, ewa inertia: 0.5776356911251956
+Minibatch step 13/101840: mean batch inertia: 0.65495322265625, ewa inertia: 0.5773929876075489
+Minibatch step 14/101840: mean batch inertia: 0.618588232421875, ewa inertia: 0.5776356919810877
 Converged (lack of improvement in inertia) at step 14/101840
 
 K-means terminé.
-Inertie finale : 1795432.62
+Inertie finale : 1795432.75
 
 Images par cellule — min: 68  max: 14939  moyenne: 3394.7  médiane: 2808.5
 
 Calcul des moyennes GPS réelles par cellule...
 Écart moyen centroïde vs moyenne GPS : 0.1181°
 Écart max                            : 15.2990°
+
+Cellules sauvegardées : /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl
+Lance maintenant : python resnet_classification.py

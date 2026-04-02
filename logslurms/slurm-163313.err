@@ -1,0 +1,2 @@
+/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/compute_cells.py:36: DtypeWarning: Columns (11,27) have mixed types. Specify dtype option on import or set low_memory=False.
+  data = pd.read_csv(CSV_FILE)

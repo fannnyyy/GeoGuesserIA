@@ -1,0 +1,5 @@
+/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_with_attention_module/resnet_cbam.py:372: DtypeWarning: Columns (11,27) have mixed types. Specify dtype option on import or set low_memory=False.
+  self.df = pd.read_csv(csv_path)
+/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/cnn_with_attention_module/resnet_cbam.py:372: DtypeWarning: Columns (11,27) have mixed types. Specify dtype option on import or set low_memory=False.
+  self.df = pd.read_csv(csv_path)
+slurmstepd: error: *** JOB 168333 ON sh13 CANCELLED AT 2026-04-02T14:03:39 ***

@@ -1,2 +1,6 @@
 /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/compute_cells.py:36: DtypeWarning: Columns (11,27) have mixed types. Specify dtype option on import or set low_memory=False.
   data = pd.read_csv(CSV_FILE)
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/compute_cells.py", line 115, in <module>
+    with open(OUT_PATH, "wb") as f:
+IsADirectoryError: [Errno 21] Is a directory: '/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif'
