@@ -1,0 +1,2 @@
+/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/analyze.py:2: DtypeWarning: Columns (11,27) have mixed types. Specify dtype option on import or set low_memory=False.
+  df = pd.read_csv('/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/rest_filtered_v2.csv')

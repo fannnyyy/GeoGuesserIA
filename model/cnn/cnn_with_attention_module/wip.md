@@ -270,3 +270,34 @@ V3 — embed_detach + curriculum binaire
        Epoch 7  → NaN partout ❌ gradient explosion
 ```
 
+
+ajout de Weighted sampler PyTorch (pas de modif CSV)
+Par pays → cohérent si ta loss est basée sur les pays, mais ton modèle prédit des cellules, pas des pays. Un pays peut couvrir plusieurs cellules très inégales (les US ont des zones désertiques quasi vides et des zones urbaines très denses).
+Par cellule → parfaitement aligné avec ta CrossEntropy géographique. Chaque cellule reçoit le même poids d'apprentissage.
+
+voir comment sa marche
+
+train modèle M rest dataset WeightedRandomSampler : 
+168742 (500 000 samples)
+
+train modèle attention rest dataset WeightedRandomSampler : sbatch ./job/train_resnet50_attention_job.sh
+168758 CANCELED
+
+train comparaison modède sans attention dataset samples sans WeightedRandomSampler:
+168750 NAN values
+
+train modèle attention samples dataset WeightedRandomSampler :
+168736 CANCELED + NAN values
+
+train modèle attention rest undersampling US :
+177594
+
+ajouter grad cam pour tous
+
+Rapport :
+Dire que dans le dataset pa forcement d'indice visuel pluoto route
+regader toute les combinaison de modèle
+
+
+modele Dinov2 KNN undersampling us dataset rest :
+177974 

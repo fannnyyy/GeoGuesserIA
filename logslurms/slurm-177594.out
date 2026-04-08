@@ -1,0 +1,11 @@
+Train avant : 2,715,747 après undersampling US : 2,069,618
+Epoch 1/55
+train | loss_total: 3.5869 | loss_country: 3.5869 | loss_gps: 7275.3km | f1: 0.0174
+validation | loss_total: 3.3806 | loss_country: 3.3806 | loss_gps: 6261.5km | f1: 0.0236
+Epoch 2/55
+train | loss_total: 3.5417 | loss_country: 3.5417 | loss_gps: 7275.1km | f1: 0.0203
+validation | loss_total: 3.2979 | loss_country: 3.2979 | loss_gps: 6275.2km | f1: 0.0249
+Epoch 3/55
+train | loss_total: 3.5426 | loss_country: 3.5426 | loss_gps: 7278.3km | f1: 0.0206
+validation | loss_total: 3.3269 | loss_country: 3.3269 | loss_gps: 6247.9km | f1: 0.0270
+Epoch 4/55
