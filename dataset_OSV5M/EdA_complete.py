@@ -41,8 +41,8 @@ warnings.filterwarnings("ignore")
 # CONFIG  — adapte ces chemins à ton arborescence
 # ──────────────────────────────────────────────────────────────
 BASE    = Path("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m")
-TRAIN_CSV   = BASE / "metadata_filtered/train_filtered_v2.csv"
-TEST_CSV    = BASE / "metadata_filtered/test_filtered_v2.csv"
+TRAIN_CSV   = BASE / "metadata_filtered/rest_filtered_v2.csv"
+TEST_CSV    = BASE / "metadata_filtered/samples_filtered_v2.csv"
 CELLS_PKL   = Path("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl")
 OUT_DIR     = Path("eda_outputs_test")
 OUT_DIR.mkdir(exist_ok=True)
@@ -59,8 +59,7 @@ test  = pd.read_csv(TEST_CSV,  low_memory=False)
 
 train["split"] = "train"
 test["split"]  = "test"
-#df = pd.concat([train, test], ignore_index=True)
-df = test
+df = pd.concat([train, test], ignore_index=True)
 
 print(f"  Train : {len(train):,} lignes  |  Test : {len(test):,} lignes")
 print(f"  Colonnes : {df.columns.tolist()}\n")

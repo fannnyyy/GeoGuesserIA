@@ -1,0 +1,72 @@
+Chargement des CSV…
+  Train : 3,394,684 lignes  |  Test : 210,122 lignes
+  Colonnes : ['id', 'latitude', 'longitude', 'thumb_original_url', 'country', 'sequence', 'captured_at', 'lon_bin', 'lat_bin', 'cell', 'region', 'sub-region', 'city', 'land_cover', 'road_index', 'drive_side', 'climate', 'soil', 'dist_sea', 'quadtree_10_5000', 'quadtree_10_25000', 'quadtree_10_1000', 'quadtree_10_50000', 'quadtree_10_12500', 'quadtree_10_500', 'quadtree_10_2500', 'unique_region', 'unique_sub-region', 'unique_city', 'unique_country', 'creator_username', 'creator_id', 'split']
+
+============================================================
+EDA OSV5M — RAPPORT
+============================================================
+
+Train : 3,394,684   Test : 210,122   Total : 3,604,806
+Colonnes (33) : id, latitude, longitude, thumb_original_url, country, sequence, captured_at, lon_bin, lat_bin, cell, region, sub-region, city, land_cover, road_index, drive_side, climate, soil, dist_sea, quadtree_10_5000, quadtree_10_25000, quadtree_10_1000, quadtree_10_50000, quadtree_10_12500, quadtree_10_500, quadtree_10_2500, unique_region, unique_sub-region, unique_city, unique_country, creator_username, creator_id, split
+
+── Valeurs manquantes (%) ──────────────────────────────────
+  sub-region                      33.53%
+  unique_sub-region               33.53%
+  quadtree_10_5000                 5.83%
+  quadtree_10_50000                5.83%
+  quadtree_10_2500                 5.83%
+  quadtree_10_25000                5.83%
+  quadtree_10_12500                5.83%
+  quadtree_10_500                  5.83%
+  road_index                       2.62%
+  region                           0.51%
+  unique_region                    0.51%
+  creator_username                 0.00%
+  creator_id                       0.00%
+  city                             0.00%
+  unique_city                      0.00%
+
+── Coordonnées GPS ─────────────────────────────────────────
+  latitude: min=-54.8872  max=78.6559  mean=32.1732  std=25.8805
+  longitude: min=-176.8113  max=178.7216  mean=-2.2008  std=75.3795
+Génération de la carte Folium…
+
+Carte interactive sauvegardée : eda_outputs_test/01_world_heatmap.html
+Histogrammes lat/lon…
+KDE 2D…
+Distribution pays (colonne : country)…
+
+── Top 10 pays ─────────────────────────────────────────────
+  US                                   869,424  (24.1%)
+  DE                                   189,827  (5.3%)
+  FR                                   169,684  (4.7%)
+  RU                                   169,499  (4.7%)
+  JP                                   147,668  (4.1%)
+  AU                                   123,554  (3.4%)
+  BR                                   107,722  (3.0%)
+  GB                                    96,971  (2.7%)
+  SE                                    93,549  (2.6%)
+  IT                                    81,261  (2.3%)
+Distribution continent (colonne : region)…
+Plot valeurs manquantes…
+Analyse des cellules k-means…
+
+── Cellules k-means (1000) ──────────────────────────────────
+  Images assignées    : 3,394,684
+  Cellules vides      : 0
+  Min / Max / Moyenne : 68 / 14939 / 3394.7
+Calcul dispersion intra-cellule (sample 50k)…
+
+── Dispersion intra-cellule (sample 50k) ──────────────────
+  Médiane : 39.8 km
+  Moyenne : 49.3 km
+  P90     : 89.9 km
+  P95     : 112.5 km
+  Max     : 4179.4 km
+
+============================================================
+Tous les graphiques sont dans : eda_outputs_test/
+============================================================
+
+EDA terminée. Rapport : eda_outputs_test/eda_report.txt
+Graphiques       : eda_outputs_test/
