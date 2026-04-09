@@ -1,0 +1,20 @@
+2026-04-09 16:23:56.675 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 16:23:58.002 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 16:23:58.023 Uncaught app execution
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 128, in exec_func_with_error_handling
+    result = func()
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 669, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/streamlit_app.py", line 389, in <module>
+    activations = get_activations_resnet(model_obj, tensor)
+NameError: name 'get_activations_resnet' is not defined
+slurmstepd: error: *** JOB 179606 ON tx12 CANCELLED AT 2026-04-09T16:24:38 ***

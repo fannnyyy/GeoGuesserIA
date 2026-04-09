@@ -56,6 +56,7 @@ from prediction_streamlit import (
     extract_dino_features,
     make_map,
     get_activations,
+    get_activations_resnet,
 )
 
 
@@ -385,7 +386,9 @@ elif page == "predict":
             if selected_model not in ("dino_knn", "vit"):
                 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
                 with st.expander("Visualiser les couches internes du modèle"):
-                    try:
+                    if selected_model in ("resnet50_geo", "resnet18_geo"):
+                        activations = get_activations_resnet(model_obj, tensor)
+                    else:
                         activations = get_activations(model_obj, tensor)
                         n_layers = len(activations)
                         if n_layers > 0:
@@ -417,8 +420,7 @@ elif page == "predict":
                                 plt.close(fig)
                             else:
                                 st.markdown(f"`Shape : {list(act.shape)}` — pas de carte spatiale à afficher")
-                    except Exception as e:
-                        st.warning(f"Visualisation des couches non disponible : {e}")
+                    
                         
 elif page == "analyse":
     render_analyse_page()

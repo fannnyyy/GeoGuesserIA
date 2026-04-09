@@ -1,0 +1,159 @@
+2026-04-09 15:45:59.449 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:46:01.488 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:49:52.364 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:49:54.166 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:49:54.380 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:49:56.374 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:50:00.501 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:50:01.231 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:50:02.649 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:50:03.582 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:50:12.890 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:50:13.412 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:56:33.461 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:56:33.871 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:57:09.111 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:57:09.555 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:57:28.264 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:57:30.363 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:57:31.590 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:57:32.267 Uncaught app execution
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 128, in exec_func_with_error_handling
+    result = func()
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 669, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/streamlit_app.py", line 366, in <module>
+    gradcam_img = make_gradcam_regression(pil_img, model_obj)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam_streamlit.py", line 148, in make_gradcam_regression
+    heatmap = cam(input_tensor=img_tensor, targets=[SinLatTarget()])
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pytorch_grad_cam/base_cam.py", line 209, in __call__
+    return self.forward(input_tensor, targets, eigen_smooth)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pytorch_grad_cam/base_cam.py", line 109, in forward
+    loss = sum([target(output) for target, output in zip(targets, outputs)])
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pytorch_grad_cam/base_cam.py", line 109, in <listcomp>
+    loss = sum([target(output) for target, output in zip(targets, outputs)])
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam_streamlit.py", line 140, in __call__
+    return output[:, 0]
+IndexError: too many indices for tensor of dimension 1
+2026-04-09 15:58:17.449 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:58:19.143 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:58:28.062 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:58:28.087 Uncaught app execution
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 128, in exec_func_with_error_handling
+    result = func()
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 669, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/streamlit_app.py", line 366, in <module>
+    gradcam_img = make_gradcam_regression(pil_img, model_obj)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam_streamlit.py", line 148, in make_gradcam_regression
+    heatmap = cam(input_tensor=img_tensor, targets=[SinLatTarget()])
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pytorch_grad_cam/base_cam.py", line 209, in __call__
+    return self.forward(input_tensor, targets, eigen_smooth)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pytorch_grad_cam/base_cam.py", line 109, in forward
+    loss = sum([target(output) for target, output in zip(targets, outputs)])
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/pytorch_grad_cam/base_cam.py", line 109, in <listcomp>
+    loss = sum([target(output) for target, output in zip(targets, outputs)])
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/gradcam_streamlit.py", line 140, in __call__
+    return output[:, 0]
+IndexError: too many indices for tensor of dimension 1
+2026-04-09 15:58:33.018 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-04-09 15:58:34.703 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+slurmstepd: error: *** JOB 179573 ON tx16 CANCELLED AT 2026-04-09T16:07:01 ***

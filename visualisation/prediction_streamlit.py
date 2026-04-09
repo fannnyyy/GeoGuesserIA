@@ -354,6 +354,20 @@ def get_activations(model, tensor):
     for h in hooks: h.remove()
     return activations
 
+def get_activations_resnet(model, tensor):
+    """Version spécifique pour GeoResNet — hook sur backbone.children()"""
+    activations, hooks = [], []
+    def make_hook():
+        def fn(m, inp, out): activations.append(out.detach().cpu())
+        return fn
+    # Hook sur les couches internes du backbone
+    for layer in model.backbone.children():
+        hooks.append(layer.register_forward_hook(make_hook()))
+    with torch.no_grad():
+        model(tensor)
+    for h in hooks: h.remove()
+    return activations
+
 
 @st.cache_resource
 def load_dino_knn():

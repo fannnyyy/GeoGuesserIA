@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/resnet_classification.py", line 352, in <module>
+    train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, sampler = sampler,
+NameError: name 'sampler' is not defined

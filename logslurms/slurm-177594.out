@@ -42,3 +42,9 @@ Epoch 14/55
 train | loss_total: 3.8684 | loss_country: 2.4371 | loss_gps: 1431.3km | f1: 0.0833
 validation | loss_total: 3.6198 | loss_country: 1.8981 | loss_gps: 1721.7km | f1: 0.1438
 Epoch 15/55
+train | loss_total: 3.6381 | loss_country: 2.3219 | loss_gps: 1316.2km | f1: 0.0978
+validation | loss_total: 3.3369 | loss_country: 1.7665 | loss_gps: 1570.4km | f1: 0.1627
+Epoch 16/55
+train | loss_total: 3.4539 | loss_country: 2.2298 | loss_gps: 1224.1km | f1: 0.1099
+validation | loss_total: 3.2755 | loss_country: 1.7301 | loss_gps: 1545.4km | f1: 0.1758
+Epoch 17/55

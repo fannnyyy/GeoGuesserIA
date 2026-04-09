@@ -137,7 +137,9 @@ def make_gradcam_regression(pil_img, model):
     """GradCAM pour GeoResNet — cible : sin(lat) sortie[:,0]."""
     class SinLatTarget:
         def __call__(self, output):
-            return output[:, 0]
+            if output.dim() == 1:
+                return output[0]   
+            return output[:, 0] 
     transform_img = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
