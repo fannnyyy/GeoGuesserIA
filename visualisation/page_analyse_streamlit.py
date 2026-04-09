@@ -22,6 +22,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 CSV_TRAIN = os.path.join(BASE_DIR, "../dataset_OSV5M/datasets/osv5m/metadata_filtered/rest_filtered_v2.csv")
@@ -60,6 +61,22 @@ LAND_COVER_COLORS = {
 }
 
 N_TSNE_SAMPLES = 1000
+
+class GeoResNetClassif(nn.Module):
+    def __init__(self, n_cells, hidden_dim=512, dropout_p=0.4):
+        super().__init__()
+        backbone = tv_models.resnet50(weights=None)
+        in_feats = backbone.fc.in_features
+        backbone.fc = nn.Identity()
+        self.backbone = backbone
+        self.head = nn.Sequential(
+            nn.Linear(in_feats, hidden_dim),
+            nn.ReLU(), nn.Dropout(dropout_p),
+            nn.Linear(hidden_dim, n_cells),
+        )
+ 
+    def forward(self, x):
+        return self.head(self.backbone(x))
 
 
 @st.cache_data
@@ -466,7 +483,15 @@ def render_tsne(df):
     with col_reset:
         force_recompute = st.button("Vider le cache")
 
-    model_name = model_choice.split(" ")[0].lower()
+
+    MODEL_NAME_MAP = {
+        "DINOv2 KNN": "dino",
+        "ResNet50 + CBAM": "cbam",
+        "ResNet50 Classif Cellules (classification pure)": "resnet_classif",
+        "ResNet50 Reg (régression pure)": "resnet_reg",
+    }
+
+    model_name = MODEL_NAME_MAP.get(model_choice, model_choice.split(" ")[0].lower())
     cache_file = os.path.join(TSNE_CACHE_DIR, f"tsne_{model_name}_p{perplexity}.npz")
 
     if force_recompute and os.path.exists(cache_file):

@@ -1,0 +1,22 @@
+2026-04-09 22:36:25.525 Uncaught app execution
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 128, in exec_func_with_error_handling
+    result = func()
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 669, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/streamlit_app.py", line 427, in <module>
+    render_analyse_page()
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 591, in render_analyse_page
+    render_tsne(df)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 497, in render_tsne
+    features, countries = extract_resnet_classif_embeddings_for_tsne(N_TSNE_SAMPLES, _df=df)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 227, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 269, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 328, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 390, in extract_resnet_classif_embeddings_for_tsne
+    model = GeoResNetClassif(
+NameError: name 'GeoResNetClassif' is not defined
+slurmstepd: error: *** JOB 179948 ON tx02 CANCELLED AT 2026-04-09T22:43:00 ***
