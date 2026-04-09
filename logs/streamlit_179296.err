@@ -1,0 +1,22 @@
+2026-04-09 12:05:59.740 Uncaught app execution
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 128, in exec_func_with_error_handling
+    result = func()
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 669, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/streamlit_app.py", line 399, in <module>
+    render_analyse_page()
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 583, in render_analyse_page
+    render_tsne(df)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 489, in render_tsne
+    features, countries = extract_resnet_classif_embeddings_for_tsne(N_TSNE_SAMPLES, _df=df)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 227, in __call__
+    return self._get_or_create_cached_value(args, kwargs, spinner_message)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 269, in _get_or_create_cached_value
+    return self._handle_cache_miss(cache, value_key, func_args, func_kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/caching/cache_utils.py", line 328, in _handle_cache_miss
+    computed_value = self._info.func(*func_args, **func_kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 380, in extract_resnet_classif_embeddings_for_tsne
+    with open(cells_path, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/../model/saved/resnet_full_classif/cells_kmeans.pkl'
+slurmstepd: error: *** JOB 179296 ON tx02 CANCELLED AT 2026-04-09T13:51:44 DUE TO TIME LIMIT ***

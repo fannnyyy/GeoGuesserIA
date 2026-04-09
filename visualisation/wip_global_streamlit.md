@@ -1,3 +1,15 @@
+lancer job
+scontrol show job 178142
+dans powershell :
+ssh -L 8501:NodeList:8501 dce-login
+puis dans navigateur :
+http://localhost:8501
+
+chnager de port si besoin (8502:NodeList:8501 dce-login, http://localhost:8502)
+
+
+
+
 Ajout confiance de la prédiction
 Ajout carte avec coordonnée GPS en fonction du modèle
 Visualiser les masques d'attention et voir littéralement 

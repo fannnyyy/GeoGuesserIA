@@ -42,3 +42,4 @@ Traceback (most recent call last):
   File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/asyncio/events.py", line 33, in __init__
     context = contextvars.copy_context()
 RecursionError: maximum recursion depth exceeded while calling a Python object
+slurmstepd: error: *** JOB 179200 ON tx13 CANCELLED AT 2026-04-09T10:48:56 ***

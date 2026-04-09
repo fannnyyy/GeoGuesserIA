@@ -1,17 +1,3 @@
-"""
-Page 5 — Analyse du dataset OSV5M
-À intégrer dans streamlit_app.py comme nouvelle page dans le menu.
-
-Contenu :
-    1. Distribution land_cover (barplot + noms lisibles)
-    2. Road index (distribution + corrélation avec erreur GPS)
-    3. t-SNE des embeddings (DINO / CBAM / ResNet)
-       → coloré par pays (top 15) ou par land_cover
-
-Prérequis :
-    pip install scikit-learn plotly
-"""
-
 import os
 import sys
 import random
@@ -24,18 +10,25 @@ import plotly.express as px
 import plotly.graph_objects as go
 from torchvision import transforms
 from PIL import Image
+import joblib
+from cbam import CBAM
+from resnet_cbam import GeoGussrAttentionMultiTask
+import torch.nn as nn
+import torchvision.models as tv_models
+import torch.nn.functional as F
+import pickle
+from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
-# ─────────────────────────────────────────────────────────────────
-# CONSTANTES
-# ─────────────────────────────────────────────────────────────────
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-CSV_TRAIN = os.path.join(BASE_DIR, "../dataset_OSV5M/datasets/osv5m/metadata_filtered/train_filtered.csv")
-CSV_TEST  = os.path.join(BASE_DIR, "../dataset_OSV5M/datasets/osv5m/metadata_filtered/test_filtered.csv")
+CSV_TRAIN = os.path.join(BASE_DIR, "../dataset_OSV5M/datasets/osv5m/metadata_filtered/rest_filtered_v2.csv")
+CSV_TEST  = os.path.join(BASE_DIR, "../dataset_OSV5M/datasets/osv5m/metadata_filtered/samples_filtered_v2.csv")
 IMG_DIR   = os.path.join(BASE_DIR, "../dataset_OSV5M/datasets/osv5m/images")
 
-# Mapping MODIS Land Cover
+# Mapping MODIS
 LAND_COVER_NAMES = {
     0:  "Water",
     1:  "Evergreen Needleleaf Forest",
@@ -68,14 +61,11 @@ LAND_COVER_COLORS = {
 
 N_TSNE_SAMPLES = 1000
 
-# ─────────────────────────────────────────────────────────────────
-# CHARGEMENT DES CSV
-# ─────────────────────────────────────────────────────────────────
 
 @st.cache_data
 def load_csv():
     dfs = []
-    for path, split in [(CSV_TRAIN, "train"), (CSV_TEST, "test")]:
+    for path, split in [(CSV_TRAIN, "rest"), (CSV_TEST, "sample")]:
         if os.path.exists(path):
             df = pd.read_csv(path)
             df["split"] = split
@@ -87,14 +77,11 @@ def load_csv():
     return df
 
 
-# ─────────────────────────────────────────────────────────────────
-# INDEX DES IMAGES
-# ─────────────────────────────────────────────────────────────────
 
 @st.cache_data
 def build_image_index():
     index = {}
-    for split_dir in ["train", "test", "rest_images"]:
+    for split_dir in ["samples", "rest_images"]:
         split_path = os.path.join(IMG_DIR, split_dir)
         if not os.path.isdir(split_path):
             continue
@@ -108,29 +95,22 @@ def build_image_index():
     return index
 
 
-# ─────────────────────────────────────────────────────────────────
-# SECTION 1 — DISTRIBUTION LAND COVER
-# ─────────────────────────────────────────────────────────────────
-
 def render_land_cover(df):
     st.markdown("### Distribution des types de terrain (Land Cover)")
     st.markdown("""
-    La colonne `land_cover` du dataset OSV5M utilise la classification **MODIS** — 
+    La colonne `land_cover` du dataset OSV5M utilise la classification **MODIS** où
     chaque image est associée au type de terrain dominant dans sa zone géographique.
     """)
 
-    # Distribution globale
     split_choice = st.radio(
-        "Split à analyser",
-        ["Train + Test", "Train seulement", "Test seulement"],
+        "Différentes portions du dataset OSV5M utilisé pour les entraînements à analyser",
+        ["Partition principal", "Partition échantillonnée"],
         horizontal=True
     )
-    if split_choice == "Train seulement":
-        df_plot = df[df["split"] == "train"]
-    elif split_choice == "Test seulement":
-        df_plot = df[df["split"] == "test"]
+    if split_choice == "Partition principal":
+        df_plot = df[df["split"] == "rest"]
     else:
-        df_plot = df
+        df_plot = df[df["split"] == "sample"]
 
     counts = df_plot["land_cover"].value_counts().reset_index()
     counts.columns = ["land_cover", "count"]
@@ -160,16 +140,15 @@ def render_land_cover(df):
     fig.update_traces(textposition="outside")
     st.plotly_chart(fig, use_container_width=True)
 
-    # Observation clé
     top_class = counts.loc[counts["count"].idxmax()]
     st.info(
-        f"**Observation** — La classe dominante est **{top_class['name']}** "
+        f"**Observation** : La classe dominante est **{top_class['name']}** "
         f"({top_class['pct']}% des images). Les forêts (classes 1-5) représentent "
-        f"{counts[counts['land_cover'].isin([1,2,3,4,5])]['pct'].sum():.1f}% du dataset — "
+        f"{counts[counts['land_cover'].isin([1,2,3,4,5])]['pct'].sum():.1f}% du dataset qui sont "
         f"des zones avec peu d'indices géographiques discriminants (pas de panneaux, peu d'infrastructures)."
     )
 
-    # Distribution par pays top 10
+
     st.markdown("#### Land cover par pays (Top 10 pays)")
     top_countries = df_plot["country"].value_counts().head(10).index.tolist()
     df_top = df_plot[df_plot["country"].isin(top_countries)]
@@ -194,23 +173,16 @@ def render_land_cover(df):
     st.plotly_chart(fig2, use_container_width=True)
 
 
-# ─────────────────────────────────────────────────────────────────
-# SECTION 2 — ROAD INDEX
-# ─────────────────────────────────────────────────────────────────
-
 def render_road_index(df):
     st.markdown("### Road Index — densité routière")
     st.markdown("""
     Le `road_index` mesure la densité du réseau routier autour du point GPS de l'image.
     Un index élevé indique une zone urbaine bien connectée, un index faible indique une zone isolée.
-    **Hypothèse** : les images avec un road_index faible ont moins d'indices visuels (routes vides, 
-    pas de panneaux) et sont donc plus difficiles à géolocaliser.
     """)
 
     col1, col2 = st.columns(2)
 
     with col1:
-        # Distribution road_index
         sample = df["road_index"].dropna().sample(min(50000, len(df)), random_state=42)
         fig = px.histogram(
             x=sample,
@@ -228,7 +200,6 @@ def render_road_index(df):
         st.plotly_chart(fig, use_container_width=True)
 
     with col2:
-        # Road index par land_cover
         df_sample = df.dropna(subset=["road_index", "land_cover"]).sample(
             min(50000, len(df)), random_state=42
         )
@@ -254,36 +225,7 @@ def render_road_index(df):
         )
         st.plotly_chart(fig2, use_container_width=True)
 
-    # Stats rapides
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        pct_low = (df["road_index"] < 3).mean() * 100
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Road Index &lt; 3</div>
-            <div class="value">{pct_low:.1f}%</div>
-            <div class="sub">zones peu connectées</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col2:
-        pct_mid = ((df["road_index"] >= 3) & (df["road_index"] < 5)).mean() * 100
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Road Index 3-5</div>
-            <div class="value">{pct_mid:.1f}%</div>
-            <div class="sub">zones semi-rurales</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col3:
-        pct_high = (df["road_index"] >= 5).mean() * 100
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Road Index &gt; 5</div>
-            <div class="value">{pct_high:.1f}%</div>
-            <div class="sub">zones urbaines</div>
-        </div>
-        """, unsafe_allow_html=True)
-
+    
     st.info(
         "**Lien avec les performances** — Les zones avec road_index faible correspondent aux "
         "terrains forestiers et ruraux qui dominent le dataset. Ces zones produisent des images "
@@ -292,9 +234,6 @@ def render_road_index(df):
     )
 
 
-# ─────────────────────────────────────────────────────────────────
-# SECTION 3 — t-SNE DES EMBEDDINGS
-# ─────────────────────────────────────────────────────────────────
 
 @st.cache_data
 def load_dino_embeddings_for_tsne(n_samples=5000):
@@ -320,15 +259,13 @@ def load_dino_embeddings_for_tsne(n_samples=5000):
 
 @st.cache_data
 def extract_cbam_embeddings_for_tsne(n_samples=5000, _df=None):
-    import joblib
-    sys.path.insert(0, os.path.join(BASE_DIR, "../model/cnn/cnn_with_attention_module"))
-    from cbam import CBAM
-    from resnet_cbam import GeoGussrAttentionMultiTask
 
-    le = joblib.load(os.path.join(BASE_DIR, "../model/saved/label_encoder.pkl"))
+    sys.path.insert(0, os.path.join(BASE_DIR, "../model/cnn/cnn_with_attention_module"))
+    
+    le = joblib.load(os.path.join(BASE_DIR, "../model/saved/label_encoder_v2.pkl"))
     model = GeoGussrAttentionMultiTask(len(le.classes_))
     state = torch.load(
-        os.path.join(BASE_DIR, "../model/saved/geoguessr_model_attention_classif_reg.pt"),
+        os.path.join(BASE_DIR, "../model/saved/geoguessr_model_attention_classif_reg_v2.pt"),
         map_location="cpu", weights_only=False
     )
     if isinstance(state, dict) and "model_state_dict" in state:
@@ -342,6 +279,7 @@ def extract_cbam_embeddings_for_tsne(n_samples=5000, _df=None):
 @st.cache_data
 def extract_resnet_geo_embeddings_for_tsne(variant="resnet50", n_samples=5000, _df=None):
     """Pour GeoResNet (régression pure) — hook sur backbone.layer4[-1]"""
+
     key = "resnet50_geo_final" if variant == "resnet50" else "resnet18_geo"
     ckpt = torch.load(
         os.path.join(BASE_DIR, f"../model/saved/{key}.pt"),
@@ -349,9 +287,6 @@ def extract_resnet_geo_embeddings_for_tsne(variant="resnet50", n_samples=5000, _
     )
     p = ckpt.get("hyperparams", {"backbone": variant, "hidden_dim": 512, "n_layers": 1, "dropout_p": 0.4})
 
-    import torch.nn as nn
-    import torchvision.models as tv_models
-    import torch.nn.functional as F
 
     class GeoResNet(nn.Module):
         def __init__(self, backbone="resnet50", hidden_dim=512, n_layers=1, dropout_p=0.4):
@@ -436,41 +371,73 @@ def _extract_features_with_hook(model, layer_path, n_samples, df):
     features = torch.cat(features_list, dim=0).numpy()
     return features, countries
 
+
+@st.cache_data
+def extract_resnet_classif_embeddings_for_tsne(n_samples=5000, _df=None):
+    """Pour GeoResNetClassif (classification cellules k-means) — hook sur backbone.layer4[-1]"""
+
+    cells_path = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/saved/cells_kmeans.pkl"
+    with open(cells_path, "rb") as f:
+        cells = pickle.load(f)
+    n_cells = cells["n_cells"]
+
+    ckpt = torch.load(
+        os.path.join(BASE_DIR, "../model/saved/resnet50_classification.pt"),
+        map_location="cpu", weights_only=False
+    )
+    cfg_model = ckpt.get("config", {"hidden_dim": 512, "dropout_p": 0.4})
+
+    model = GeoResNetClassif(
+        n_cells=n_cells,
+        hidden_dim=cfg_model.get("hidden_dim", 512),
+        dropout_p=cfg_model.get("dropout_p", 0.4),
+    )
+    model.load_state_dict(ckpt["model_state_dict"])
+    model.eval()
+
+    return _extract_features_with_hook(model, "backbone.layer4", n_samples, _df)
+
+
+
 TSNE_CACHE_DIR = os.path.join(BASE_DIR, "../model/saved/tsne_cache")
 
+def compute_tsne(features, perplexity=30, n_iter=1000):
+    """Calcule le t-SNE sur les features."""
+    features = StandardScaler().fit_transform(features)
+
+    # Réduction PCA d'abord pour accélérer
+    n_components = min(20, features.shape[1], features.shape[0] - 1)
+    features_pca = PCA(n_components=n_components).fit_transform(features)
+
+    # t-SNE
+    tsne = TSNE(
+        n_components=2,
+        perplexity=perplexity,
+        n_iter=n_iter,
+        random_state=42,
+    )
+    return tsne.fit_transform(features_pca)
+
 def compute_tsne_cached(features, countries, model_name, perplexity=30):
-    """Calcule le t-SNE et sauvegarde sur disque."""
     os.makedirs(TSNE_CACHE_DIR, exist_ok=True)
-    
-    # Nom de fichier unique selon le modèle et la perplexité
     cache_file = os.path.join(TSNE_CACHE_DIR, f"tsne_{model_name}_p{perplexity}.npz")
-    
-    # Si le cache existe → charger directement
+
     if os.path.exists(cache_file):
-        st.info("✅ t-SNE chargé depuis le cache disque")
         data = np.load(cache_file, allow_pickle=True)
         return data["embedding"], list(data["countries"])
-    
-    # Sinon → calculer et sauvegarder
-    st.info("⏳ Premier calcul — sera mis en cache pour les prochaines fois")
-    embedding =  compute_tsne_cached(features, countries, model_name, perplexity)
-    
-    np.savez(
-        cache_file,
-        embedding=embedding,
-        countries=np.array(countries),
-    )
-    st.success(f"✅ t-SNE sauvegardé dans {cache_file}")
-    
-    return embedding, countries
 
+    embedding = compute_tsne(features, perplexity)
+
+    np.savez(cache_file, embedding=embedding, countries=np.array(countries))
+
+    return embedding, countries
 
 def render_tsne(df):
     st.markdown("### t-SNE des embeddings")
     st.markdown("""
     Le t-SNE projette les embeddings haute dimension (features extraites par les modèles) 
     en 2D pour visualiser la structure des représentations apprises. Si les clusters 
-    correspondent aux pays → le modèle discrimine bien géographiquement. Sinon → les 
+    correspondent aux pays alors le modèle discrimine bien géographiquement. Sinon les 
     features sont trop génériques.
     """)
 
@@ -479,10 +446,10 @@ def render_tsne(df):
         model_choice = st.selectbox(
             "Modèle",
             [
-                "DINOv2 KNN (bank pré-calculé)",
-                "ResNet50 + CBAM v1",
-                "ResNet50 Geo (régression pure)",
-                "ResNet18 Geo (régression pure)",
+                "DINOv2 KNN",
+                "ResNet50 + CBAM",
+                "ResNet50 Classif Cellules (classification pure)",
+                "ResNet50 Reg (régression pure)",
             ],
         )
     with col2:
@@ -495,12 +462,11 @@ def render_tsne(df):
 
     col_launch, col_reset = st.columns([3, 1])
     with col_launch:
-        launch = st.button("🔄 Lancer le t-SNE", type="primary")
+        launch = st.button("Lancer le t-SNE", type="primary")
     with col_reset:
-        force_recompute = st.button("🗑️ Vider le cache")
+        force_recompute = st.button("Vider le cache")
 
-    # Nom du modèle pour le cache
-    model_name = model_choice.split(" ")[0].lower()  # "dino", "resnet50", etc.
+    model_name = model_choice.split(" ")[0].lower()
     cache_file = os.path.join(TSNE_CACHE_DIR, f"tsne_{model_name}_p{perplexity}.npz")
 
     if force_recompute and os.path.exists(cache_file):
@@ -516,21 +482,18 @@ def render_tsne(df):
             elif "CBAM" in model_choice:
                 features, countries = extract_cbam_embeddings_for_tsne(N_TSNE_SAMPLES, _df=df)
             
-            elif "ResNet50 Geo" in model_choice:
+            elif "ResNet50 Reg" in model_choice:
                 features, countries = extract_resnet_geo_embeddings_for_tsne("resnet50", N_TSNE_SAMPLES, _df=df)
             
-            elif "ResNet18" in model_choice:
-                features, countries = extract_resnet_geo_embeddings_for_tsne("resnet18", N_TSNE_SAMPLES, _df=df)
+            elif "Classif" in model_choice:
+                features, countries = extract_resnet_classif_embeddings_for_tsne(N_TSNE_SAMPLES, _df=df)
 
-            # Récupérer land_cover depuis le CSV si nécessaire
             if color_by == "Land Cover" and df is not None:
                 id_to_lc = dict(zip(df["id"].astype(str), df["land_cover"]))
 
-            # Calcul t-SNE
             with st.spinner("Calcul t-SNE en cours (peut prendre 1-3 minutes)..."):
-                embedding = compute_tsne_cached(features, countries, model_name, perplexity)
+                embedding, countries = compute_tsne_cached(features, countries, model_name, perplexity)
 
-            # Préparation du plot
             tsne_df = pd.DataFrame({
                 "x": embedding[:, 0],
                 "y": embedding[:, 1],
@@ -578,17 +541,14 @@ def render_tsne(df):
             # Interprétation
             st.markdown("#### Interprétation")
             st.markdown("""
-            - **Clusters bien séparés par pays** → le modèle discrimine géographiquement ✅
-            - **Clusters mélangés** → les features sont trop génériques, certains pays 
-              se ressemblent visuellement → difficulté de géolocalisation ⚠️
-            - **Regroupements inattendus** → révèle des biais dans le dataset (ex: 
+            - **Clusters bien séparés par pays** : le modèle discrimine géographiquement
+            - **Clusters mélangés** : les features sont trop génériques, certains pays 
+              se ressemblent visuellement (difficulté de géolocalisation)
+            - **Regroupements inattendus** : révèle des biais dans le dataset (ex: 
               images US trop nombreuses formant un méga-cluster)
             """)
 
 
-# ─────────────────────────────────────────────────────────────────
-# RENDER PRINCIPAL — à appeler dans streamlit_app.py
-# ─────────────────────────────────────────────────────────────────
 
 def render_analyse_page():
     st.markdown("# Analyse du dataset OSV5M")
@@ -606,49 +566,11 @@ def render_analyse_page():
         st.error("Fichiers CSV non trouvés. Vérifiez les chemins dans CSV_TRAIN et CSV_TEST.")
         return
 
-    # Stats rapides en haut
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Images totales</div>
-            <div class="value">{len(df):,}</div>
-            <div class="sub">train + test</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col2:
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Pays couverts</div>
-            <div class="value">{df['country'].nunique()}</div>
-            <div class="sub">pays distincts</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col3:
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Types terrain</div>
-            <div class="value">{df['land_cover'].nunique()}</div>
-            <div class="sub">classes MODIS</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col4:
-        road_mean = df["road_index"].mean()
-        st.markdown(f"""
-        <div class="metric-card">
-            <div class="label">Road Index moyen</div>
-            <div class="value">{road_mean:.2f}</div>
-            <div class="sub">densité routière</div>
-        </div>
-        """, unsafe_allow_html=True)
 
-    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-
-    # Tabs pour les 3 sections
     tab1, tab2, tab3 = st.tabs([
-        "🌿 Land Cover",
-        "🛣️ Road Index",
-        "🔵 t-SNE Embeddings",
+        "Couverture du sol",
+        "Index routier",
+        "t-SNE",
     ])
 
     with tab1:
