@@ -25,3 +25,5 @@ venv/
 # Cas spécifiques (au cas où déjà trackés quelque part)
 model/cnn/cnn_with_attention_module/geoguessr_model_attention_classif_reg.pt
 model/cnn/cnn_with_attention_module/label_encoder.pkl
+
+*.npz
