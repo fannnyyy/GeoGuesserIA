@@ -290,7 +290,7 @@ train modèle attention samples dataset WeightedRandomSampler :
 168736 CANCELED + NAN values
 
 train modèle attention rest undersampling US :
-177594
+177594 NAN values + SCANCEL
 
 modele Dinov2 KNN undersampling us dataset rest :
 177979
@@ -299,7 +299,7 @@ train maëlys classif classif undersampling :
 179594
 
 train resnet sans cbam (comparaison) samples dataset :
-179650
+179650 NAN values + SCANCEL
 
 train resnet cbam samples :
-179689 
+179689 NAN values + SCANCEL
