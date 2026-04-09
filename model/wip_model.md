@@ -300,3 +300,6 @@ train maëlys classif classif undersampling :
 
 train resnet sans cbam (comparaison) samples dataset :
 179650
+
+train resnet cbam samples :
+179689 
