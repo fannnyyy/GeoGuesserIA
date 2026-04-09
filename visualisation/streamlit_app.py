@@ -18,7 +18,7 @@ import folium
 from streamlit_folium import st_folium
 import joblib
 from gradcam_streamlit import make_gradcam_comparison, make_gradcam_classif_reg, make_gradcam_classif_cells, make_gradcam_regression
-
+from page_analyse_streamlit import render_analyse_page
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -468,6 +468,7 @@ with st.sidebar:
         "2. Dataset":        "dataset",
         "3. Description des modèles":        "models",
         "4. Prédiction":     "predict",
+        "5. Analyse du dataset":     "analyse",
     }
     choice = st.radio("Navigation", list(MENU.keys()), label_visibility="collapsed")
     page = MENU[choice]
@@ -787,5 +788,8 @@ elif page == "predict":
                                 st.markdown(f"`Shape : {list(act.shape)}` — pas de carte spatiale à afficher")
                     except Exception as e:
                         st.warning(f"Visualisation des couches non disponible : {e}")
+                        
+elif page == "analyse":
+    render_analyse_page()
 
 

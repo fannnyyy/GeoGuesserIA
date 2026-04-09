@@ -1,0 +1,44 @@
+2026-04-09 10:44:40.777 Uncaught app execution
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 128, in exec_func_with_error_handling
+    result = func()
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 669, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/streamlit_app.py", line 793, in <module>
+    render_analyse_page()
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 661, in render_analyse_page
+    render_tsne(df)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 531, in render_tsne
+    embedding = compute_tsne_cached(features, countries, model_name, perplexity)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 456, in compute_tsne_cached
+    embedding =  compute_tsne_cached(features, countries, model_name, perplexity)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 456, in compute_tsne_cached
+    embedding =  compute_tsne_cached(features, countries, model_name, perplexity)
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 456, in compute_tsne_cached
+    embedding =  compute_tsne_cached(features, countries, model_name, perplexity)
+  [Previous line repeated 973 more times]
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 455, in compute_tsne_cached
+    st.info("⏳ Premier calcul — sera mis en cache pour les prochaines fois")
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/metrics_util.py", line 443, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/elements/alert.py", line 248, in info
+    return self.dg._enqueue("alert", alert_proto)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/delta_generator.py", line 502, in _enqueue
+    _enqueue_message(msg)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner_utils/script_run_context.py", line 297, in enqueue_message
+    ctx.enqueue(msg)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner_utils/script_run_context.py", line 205, in enqueue
+    self._enqueue(msg_to_send)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 413, in _enqueue_forward_msg
+    self.on_event.send(
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/blinker/base.py", line 249, in send
+    result = receiver(sender, **kwargs)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/app_session.py", line 519, in _on_scriptrunner_event
+    self._event_loop.call_soon_threadsafe(
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/asyncio/base_events.py", line 799, in call_soon_threadsafe
+    handle = self._call_soon(callback, args, context)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/asyncio/base_events.py", line 771, in _call_soon
+    handle = events.Handle(callback, args, self, context)
+  File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/asyncio/events.py", line 33, in __init__
+    context = contextvars.copy_context()
+RecursionError: maximum recursion depth exceeded while calling a Python object

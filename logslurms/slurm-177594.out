@@ -9,3 +9,36 @@ Epoch 3/55
 train | loss_total: 3.5426 | loss_country: 3.5426 | loss_gps: 7278.3km | f1: 0.0206
 validation | loss_total: 3.3269 | loss_country: 3.3269 | loss_gps: 6247.9km | f1: 0.0270
 Epoch 4/55
+train | loss_total: 3.5444 | loss_country: 3.5444 | loss_gps: 7274.0km | f1: 0.0212
+validation | loss_total: 3.3794 | loss_country: 3.3794 | loss_gps: 6268.2km | f1: 0.0273
+Epoch 5/55
+train | loss_total: 3.5454 | loss_country: 3.5454 | loss_gps: 7274.2km | f1: 0.0214
+validation | loss_total: 3.3307 | loss_country: 3.3307 | loss_gps: 6275.1km | f1: 0.0256
+Epoch 6/55
+train | loss_total: 3.5535 | loss_country: 3.5535 | loss_gps: 7277.2km | f1: 0.0215
+validation | loss_total: 3.3277 | loss_country: 3.3277 | loss_gps: 6243.7km | f1: 0.0278
+Epoch 7/55
+train | loss_total: 3.5587 | loss_country: 3.5587 | loss_gps: 7278.6km | f1: 0.0215
+validation | loss_total: 3.3578 | loss_country: 3.3578 | loss_gps: 6273.5km | f1: 0.0284
+Epoch 8/55
+train | loss_total: 3.5653 | loss_country: 3.5653 | loss_gps: 7272.3km | f1: 0.0215
+validation | loss_total: 3.3192 | loss_country: 3.3192 | loss_gps: 6225.4km | f1: 0.0278
+Epoch 9/55
+train | loss_total: 3.5797 | loss_country: 3.5797 | loss_gps: 7279.9km | f1: 0.0211
+validation | loss_total: 3.3688 | loss_country: 3.3688 | loss_gps: 6266.1km | f1: 0.0290
+Epoch 10/55
+train | loss_total: 3.5863 | loss_country: 3.5863 | loss_gps: 7272.2km | f1: 0.0207
+validation | loss_total: 3.4103 | loss_country: 3.4103 | loss_gps: 6257.5km | f1: 0.0268
+Epoch 11/55
+train | loss_total: 5.7201 | loss_country: 3.1426 | loss_gps: 2577.6km | f1: 0.0363
+validation | loss_total: 4.8233 | loss_country: 2.4194 | loss_gps: 2403.9km | f1: 0.0649
+Epoch 12/55
+train | loss_total: 4.6420 | loss_country: 2.8004 | loss_gps: 1841.6km | f1: 0.0530
+validation | loss_total: 4.1790 | loss_country: 2.1607 | loss_gps: 2018.3km | f1: 0.0825
+Epoch 13/55
+train | loss_total: 4.1787 | loss_country: 2.5887 | loss_gps: 1590.0km | f1: 0.0678
+validation | loss_total: 3.8904 | loss_country: 2.0035 | loss_gps: 1886.9km | f1: 0.1095
+Epoch 14/55
+train | loss_total: 3.8684 | loss_country: 2.4371 | loss_gps: 1431.3km | f1: 0.0833
+validation | loss_total: 3.6198 | loss_country: 1.8981 | loss_gps: 1721.7km | f1: 0.1438
+Epoch 15/55
