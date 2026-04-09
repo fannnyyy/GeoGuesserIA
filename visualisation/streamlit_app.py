@@ -390,37 +390,38 @@ elif page == "predict":
                         activations = get_activations_resnet(model_obj, tensor)
                     else:
                         activations = get_activations(model_obj, tensor)
-                        n_layers = len(activations)
-                        if n_layers > 0:
-                            layer_idx = st.slider(
-                                "Couche à visualiser",
-                                1, n_layers, min(4, n_layers),
-                                format="Couche %d"
-                            )
-                            act = activations[layer_idx - 1]
-                            if act.dim() == 4:
-                                import matplotlib.pyplot as plt
-                                n_show = min(act.shape[1], 32)
-                                cols_per_row = 8
-                                rows = max(1, (n_show + cols_per_row - 1) // cols_per_row)
-                                fig, axes = plt.subplots(rows, cols_per_row,
-                                                         figsize=(cols_per_row * 2, rows * 2))
-                                fig.patch.set_facecolor("#0d0d0d")
-                                if rows == 1:
-                                    axes = [axes]
-                                for r in range(rows):
-                                    for c in range(cols_per_row):
-                                        ch = r * cols_per_row + c
-                                        axes[r][c].set_facecolor("#0d0d0d")
-                                        if ch < n_show:
-                                            axes[r][c].imshow(act[0, ch].numpy(), cmap="inferno")
-                                        axes[r][c].axis("off")
-                                plt.tight_layout(pad=0.2)
-                                st.pyplot(fig)
-                                plt.close(fig)
-                            else:
-                                st.markdown(f"`Shape : {list(act.shape)}` — pas de carte spatiale à afficher")
                     
+                    n_layers = len(activations)
+                    if n_layers > 0:
+                        layer_idx = st.slider(
+                            "Couche à visualiser",
+                            1, n_layers, min(4, n_layers),
+                            format="Couche %d"
+                        )
+                        act = activations[layer_idx - 1]
+                        if act.dim() == 4:
+                            import matplotlib.pyplot as plt
+                            n_show = min(act.shape[1], 32)
+                            cols_per_row = 8
+                            rows = max(1, (n_show + cols_per_row - 1) // cols_per_row)
+                            fig, axes = plt.subplots(rows, cols_per_row,
+                                                     figsize=(cols_per_row * 2, rows * 2))
+                            fig.patch.set_facecolor("#0d0d0d")
+                            if rows == 1:
+                                axes = [axes]
+                            for r in range(rows):
+                                for c in range(cols_per_row):
+                                    ch = r * cols_per_row + c
+                                    axes[r][c].set_facecolor("#0d0d0d")
+                                    if ch < n_show:
+                                        axes[r][c].imshow(act[0, ch].numpy(), cmap="inferno")
+                                    axes[r][c].axis("off")
+                            plt.tight_layout(pad=0.2)
+                            st.pyplot(fig)
+                            plt.close(fig)
+                        else:
+                            st.markdown(f"`Shape : {list(act.shape)}` — pas de carte spatiale à afficher")
+                
                         
 elif page == "analyse":
     render_analyse_page()
