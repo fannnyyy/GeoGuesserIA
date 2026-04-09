@@ -432,14 +432,14 @@ val_test_transform = transforms.Compose([
 
 
 train_dataset = GeoGuesserIADataset(
-    csv_path='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/rest_filtered_v2.csv',
-    root_dir='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/rest_images',
+    csv_path='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/samples_filtered_v2.csv',
+    root_dir='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/samples',
     transform=train_transform
 )
 
 val_test_dataset = GeoGuesserIADataset(
-    csv_path='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/rest_filtered_v2.csv',
-    root_dir='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/rest_images',
+    csv_path='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/samples_filtered_v2.csv',
+    root_dir='/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/images/samples',
     transform=val_test_transform
 )
 
@@ -466,22 +466,12 @@ country_counts  = pd.Series(train_countries).value_counts().to_dict()
 total_train     = len(train_indices)
 n_classes       = len(country_counts)
 
-sample_weights = torch.tensor([
-    total_train / (n_classes * country_counts[c])
-    for c in train_countries
-], dtype=torch.float32)
-
-sampler = WeightedRandomSampler(
-    weights     = sample_weights,
-    num_samples = len(sample_weights),
-    replacement = True,
-)
 
 
 train_loader = DataLoader(
     train_dataset_final, 
     batch_size=batch_size, 
-    shuffle=sampler,
+    shuffle=True,
     num_workers=4, 
     pin_memory=True
 )
@@ -526,7 +516,7 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-LAMBDA_REG = 0.001 
+LAMBDA_REG = 0.01 
 
 NUM_EPOCH_PHASE1 = 10
 NUM_EPOCH_PHASE2 = 45
@@ -613,8 +603,8 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
 
 if __name__ == '__main__':
     model_trained = train_model(model, optimizer)
-    torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_WeightedRandomSampler.pt')
-    joblib.dump(train_dataset.le, 'label_encoder_WeightedRandomSampler.pkl')
+    torch.save(model_trained.state_dict(), 'geoguessr_model_attention_classif_samples.pt')
+    joblib.dump(train_dataset.le, 'label_encoder_samples.pkl')
     print('Modèle sauvegardé')
 
 
