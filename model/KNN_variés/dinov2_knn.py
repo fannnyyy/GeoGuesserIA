@@ -17,8 +17,8 @@ from tqdm import tqdm
 from transformers import AutoImageProcessor, AutoModel
 
 
-DATASET_DIR = Path("dataset/osv5m_test")
-CSV_PATH = DATASET_DIR / "test_filtered.csv"
+DATASET_DIR = Path("dataset_OSV5M/datasets/osv5m")
+CSV_PATH = DATASET_DIR / "/metadata_filtered/rest_filtered_v2.csv"
 DEFAULT_CHECKPOINT_PATH = Path("checkpoints/dinov2_knn_geo.pt")
 DEFAULT_OUTPUT_PATH = Path("checkpoints/dinov2_knn_geo_index.pt")
 DEFAULT_SUMMARY_PATH = Path("checkpoints/dinov2_knn_geo_summary.json")
@@ -626,6 +626,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-test-samples", type=int, default=None)
     parser.add_argument("--skip-test", action="store_true")
     parser.add_argument("--device", type=str, default="auto", choices=["auto", "cpu", "cuda"])
+    parser.add_argument("--us-max-samples", type=int, default=5000, help="Max US samples in training bank (undersampling)")
     return parser.parse_args()
 
 
@@ -665,6 +666,24 @@ def main() -> None:
     train_samples = maybe_limit(train_samples, args.max_train_samples)
     val_samples = maybe_limit(val_samples, args.max_val_samples)
     test_samples = maybe_limit(test_samples, args.max_test_samples)
+    
+    # ── Undersampling US ──────────────────────────────────────────────
+    US_MAX =  args.us_max_samples
+
+    us_samples    = [s for s in train_samples if s.country == "US"]
+    non_us_samples = [s for s in train_samples if s.country != "US"]
+
+    if len(us_samples) > US_MAX:
+        rng = random.Random(args.seed)
+        us_samples = rng.sample(us_samples, US_MAX)
+        print(f"Undersampling US : {len(us_samples)} / {len([s for s in train_samples if s.country == 'US'])} gardés")
+
+    train_samples = non_us_samples + us_samples
+    rng2 = random.Random(args.seed + 1)
+    rng2.shuffle(train_samples)
+
+    print(f"Train après undersampling : {len(train_samples)} samples")
+    # ─────────────────────────────────────────────────────────────────
 
     if not train_samples:
         raise RuntimeError("the training split is empty after filtering/limiting")

@@ -5,14 +5,14 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=20000M
-#SBATCH --output=/usr/users/geoguessr_ia/verbec_dia/logs/%x_%j.out
-#SBATCH --error=/usr/users/geoguessr_ia/verbec_dia/logs/%x_%j.err
+#SBATCH --output=/usr/users/geoguessr_ia/badoul_fan/logs/%x_%j.out
+#SBATCH --error=/usr/users/geoguessr_ia/badoul_fan/logs/%x_%j.err
 
 set -euxo pipefail
 
-mkdir -p /usr/users/geoguessr_ia/verbec_dia/logs
-mkdir -p /usr/users/geoguessr_ia/verbec_dia/.cache/huggingface
-cd /usr/users/geoguessr_ia/verbec_dia
+mkdir -p /usr/users/geoguessr_ia/badoul_fan/logs
+mkdir -p /usr/users/geoguessr_ia/badoul_fan/.cache/huggingface
+cd /usr/users/geoguessr_ia/badoul_fan
 
 export HF_HOME=/usr/users/geoguessr_ia/verbec_dia/.cache/huggingface
 export TRANSFORMERS_CACHE=/usr/users/geoguessr_ia/verbec_dia/.cache/huggingface
