@@ -9,5 +9,5 @@ module load anaconda3/2022.10/gcc-13.1.0
 eval "$(conda shell.bash hook)"
 conda activate geoguesseriassh
 
-cd $HOME/GeoGuesserIA/model/cnn/resnet/resnet_full_classif
-python3 resnet_classification.py
+cd $HOME/GeoGuesserIA/model/cnn/cnn_with_attention_module
+python3 resnet_for_comparaison.py

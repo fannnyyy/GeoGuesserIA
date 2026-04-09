@@ -278,7 +278,7 @@ Par cellule → parfaitement aligné avec ta CrossEntropy géographique. Chaque 
 voir comment sa marche
 
 train modèle M rest dataset WeightedRandomSampler : 
-168742 (500 000 samples)
+168742 (500 000 samples) resnet50_classification_full_dataset_WeightedRandomSampler
 
 train modèle attention rest dataset WeightedRandomSampler : sbatch ./job/train_resnet50_attention_job.sh
 168758 CANCELED
@@ -292,12 +292,11 @@ train modèle attention samples dataset WeightedRandomSampler :
 train modèle attention rest undersampling US :
 177594
 
-ajouter grad cam pour tous
-
-Rapport :
-Dire que dans le dataset pa forcement d'indice visuel pluoto route
-regader toute les combinaison de modèle
-
-
 modele Dinov2 KNN undersampling us dataset rest :
-177974 
+177979
+
+train maëlys classif classif undersampling :
+179594
+
+train resnet sans cbam (comparaison) samples dataset :
+179650
