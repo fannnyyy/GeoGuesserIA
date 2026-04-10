@@ -208,6 +208,92 @@ Alternative plus simple et stable au WeightedRandomSampler — supprime directem
 
 ---
 
+WeightedRandomSampler  → sur-échantillonne les pays rares à chaque batch
+                       → tous les pays voient autant de batchs
+                       → mais les images US apparaissent moins souvent
+
+Undersampling US       → supprime physiquement des images US du dataset
+                       → plus simple, plus transparent
+                       → irréversible (images supprimées de l'entraînement)
+
+Tu peux noter que les deux ont été testés — le WeightedRandomSampler n'a pas eu l'effet escompté à cause du bug shuffle=sampler, et l'undersampling US a été préféré pour sa simplicité et sa transparence.
+Ce bug signifie que le WeightedRandomSampler n'a jamais fonctionné — les batchs étaient dans l'ordre du CSV sans mélange ni rééquilibrage. On l'a supprimé quand on a corrigé le bug, et remplacé par shuffle=True simple.
+
+## Batch 8 — Stabilisation du NaN
+
+Diagnostic
+Les trois modèles entraînés (CBAM samples, CBAM sans attention comparaison, 
+*CBAM rest undersampling US) ont tous présenté un NaN systématique entre 
+l'epoch 12 et 17, précisément au moment du passage de la phase 1 à la phase 2. 
+Ce phénomène est identique dans les trois cas, ce qui confirme qu'il ne s'agit pas 
+d'un problème de données mais d'un problème architectural lié au curriculum.
+La cause : en phase 1, seule la loss_country est optimisée. La tête GPS n'apprend 
+pas. Quand la phase 2 démarre, la loss_gps est brutalement ajoutée avec une valeur 
+initiale de ~2000-3000 km. Même avec LAMBDA_REG=0.01, cela donne 
+loss_total = loss_country + 0.01 × 2500 = 2.2 + 25 = 27. Ce choc de gradient dépasse 
+le clip_grad_norm=0.5 et corrompt les poids.
+
+## NaN dans l'entraînement — Diagnostic et solution
+
+---
+
+### Pourquoi les NaN apparaissent
+
+Les NaN sont apparus de manière systématique entre l'epoch 12 et 17 dans tous les modèles testés, précisément au moment du passage de la phase 1 à la phase 2. Ce comportement identique sur trois modèles distincts confirme que le problème est architectural et non lié aux données.
+
+En phase 1, seule la `loss_country` est optimisée — la tête GPS ne reçoit aucun signal de gradient et ses poids restent dans leur état d'initialisation aléatoire. Quand la phase 2 démarre brutalement à l'epoch 10, la `loss_gps` est ajoutée d'un coup avec une valeur initiale de l'ordre de 2000 à 3000 km. Même avec `LAMBDA_REG=0.01`, cela donne une `loss_total` de l'ordre de 25 dès le premier batch de la phase 2 — soit un ordre de grandeur supérieur à la `loss_country` qui était autour de 2.
+
+Ce choc de gradient dépasse la capacité du `clip_grad_norm=0.5` à le contenir. Les gradients explosent, les poids prennent des valeurs infinies, et dès qu'une valeur infinie entre dans un calcul, elle produit un NaN. Une fois un NaN introduit dans les poids, il se propage à tous les calculs suivants de façon irréversible — c'est pourquoi tous les epochs suivants restent à NaN même avec la détection et le skip des batchs NaN.
+
+---
+
+### Pourquoi le bug embed_detach aggravait la situation
+
+Un second problème a été identifié en comparant l'implémentation avec le code d'une collègue. Dans le `forward` du modèle, `embed_detach=True` était censé découpler les gradients GPS et pays — empêcher la tête GPS d'envoyer des gradients vers la tête pays via l'embedding. Mais le code utilisait `cls_probs` directement au lieu de `embed` dans la concaténation :
+
+```python
+embed = cls_probs.detach() if self.embed_detach else cls_probs
+reg_input = torch.cat([feats, cls_probs], dim=1)  # ❌ embed_detach sans effet
+```
+
+Ce bug signifie que depuis le début du projet, `embed_detach` n'avait aucun effet — les gradients GPS remontaient toujours dans la tête pays, créant des interférences supplémentaires au moment du passage en phase 2.
+
+---
+
+## Solution — Batch 9
+
+Deux corrections ont été apportées simultanément.
+
+**Correction du bug embed_detach** — utiliser `embed` au lieu de `cls_probs` dans la concaténation :
+
+```python
+embed = cls_probs.detach() if self.embed_detach else cls_probs
+reg_input = torch.cat([feats, embed], dim=1)  # ✅
+```
+
+**Warmup progressif de lambda_gps** — au lieu d'activer le GPS brutalement à l'epoch 10, le poids de la loss GPS monte progressivement sur 5 epochs. En phase 1, le GPS est présent avec un poids quasi nul (`1e-5`) pour que la tête GPS ne parte pas de zéro. En phase 2, lambda monte de 0 à `LAMBDA_REG` sur 5 epochs :
+
+```python
+if epoch < NUM_EPOCH_PHASE1:
+    loss = loss_country + 0.00001 * loss_gps    # GPS quasi nul mais présent
+
+else:
+    warmup = min((epoch - NUM_EPOCH_PHASE1) / 5.0, 1.0)
+    loss = loss_country + (LAMBDA_REG * warmup) * loss_gps
+```
+
+L'idée est d'éviter le choc brutal qui causait les NaN. En gardant le GPS légèrement actif dès la phase 1, la tête GPS ne part pas de zéro quand la phase 2 démarre — ses poids ont déjà convergé vers des valeurs raisonnables, et l'augmentation progressive de lambda évite toute explosion de gradient.
+
+`LAMBDA_REG` a également été réduit à `0.0001` pour que la contribution GPS en régime permanent reste comparable à la `loss_country` :
+
+```
+loss_gps × 0.0001 = 2000 × 0.0001 = 0.2
+loss_country      ≈ 2.0
+→ ratio GPS/pays  ≈ 10%  ✅ équilibré
+```
+
++ détection Nan 
+
 ## TODO — À faire
 
 - [ ] **Grad-CAM sur tous les modèles** — visualiser les zones d'attention pour comprendre ce que le réseau regarde (panneaux, végétation, routes, ciel...)
