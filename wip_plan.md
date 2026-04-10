@@ -13,10 +13,6 @@ etat l'art
 dataset
 	OSV5M
 		analyse
-        
-    Annexe ? Dataset abandonné 
-    (Kaggle + Flair
-        description + impossibilité de matching)
 
 Approche théorique cf problématique 
         Stratégie Classif, Reg, ....
@@ -27,7 +23,6 @@ Approche théorique cf problématique
 modèle
 	Resnet
 		architecture
-		(métrique d'éval) à bouger 
 		modélisation
 			reg x 2
                 Résultats
@@ -92,6 +87,12 @@ Réponse à notre problématique + contexte métier
     
 
 Annexe
+    Dataset abandonné 
+        (Kaggle + Flair
+            description + impossibilité de matching)
+    
+    Etat de l'art moindre
+
 
 
              

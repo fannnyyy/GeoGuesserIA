@@ -53,7 +53,7 @@ self.cls_head = nn.Sequential(Linear(2048→512), ReLU, Dropout(0.4), Linear(512
 self.reg_head = nn.Sequential(Linear(2048+N→512), ReLU, Dropout(0.4), Linear(512→4))
 ```
 - Dropout plus doux : `0.4`
-- Même conditionnement GPS par pays ✅
+- Même conditionnement GPS par pays 
 
 ---
 
@@ -69,7 +69,7 @@ reg_input = torch.cat([feats, cls_probs], dim=1)  # ← bug : utilise cls_probs 
 **Code collègue** — `embed_detach=False` par défaut, implémentation correcte :
 ```python
 embed = cls_probs.detach() if self.embed_detach else cls_probs
-reg_input = torch.cat([feats, embed], dim=1)  # ✅ utilise embed
+reg_input = torch.cat([feats, embed], dim=1)  #  utilise embed
 ```
 
 ---

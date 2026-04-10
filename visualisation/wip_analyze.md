@@ -25,9 +25,9 @@ C'est cohérent avec ton hypothèse.
 Pour les embeddings t-SNE
 Oui tu peux faire les 3 modèles — mais il faut les embeddings intermédiaires, 
 pas les prédictions finales. Voici ce qui est disponible :
-DINO KNN     → bank_features déjà sauvegardés ✅ direct
-ResNet CBAM  → extraire via hook sur layer4[-1] ⚠️ à calculer sur N images
-ResNet classif → idem ⚠️
+DINO KNN     → bank_features déjà sauvegardés  direct
+ResNet CBAM  → extraire via hook sur layer4[-1]  à calculer sur N images
+ResNet classif → idem 
 Pour CBAM et ResNet, il faut passer un batch d'images dans le modèle et récupérer les features
 
 
@@ -82,12 +82,12 @@ CBAM              → features avec attention spatiale
 
 ```
 t-SNE avec clusters bien séparés par pays
-→ le modèle a appris des features géographiquement discriminantes ✅
+→ le modèle a appris des features géographiquement discriminantes 
 
 t-SNE avec points mélangés (comme ton DINO)
 → même DINOv2 ne sépare pas bien les pays
 → les images de différents pays se ressemblent trop visuellement
-→ c'est la preuve que le dataset est difficile ⚠️
+→ c'est la preuve que le dataset est difficile 
 ```
 
 ---

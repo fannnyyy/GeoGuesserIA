@@ -1,4 +1,4 @@
-# Rapport d'expériences — GeoGuessr IA
+
 ## Évolution de l'architecture ResNet50 + CBAM
 
 ---
@@ -7,13 +7,13 @@
 
 | Batch | Modification principale | GPS (km) | Pays F1 | Statut |
 |-------|------------------------|----------|---------|--------|
-| 1 | Architecture de base | ~7800 | 0.40 | ✅ |
-| 2 | num_workers + pin_memory | ~7806 | 0.47 | ✅ |
-| 3 | Data augmentation + lambda | ~7809 | 0.49 | ✅ GPS bloqué |
-| 4 | GPS conditionné + sin/cos + curriculum | ~1519 | 0.015 | ⚠️ GPS ✅ Pays ❌ |
-| 5 | embed_detach + curriculum binaire | NaN ep.7 | — | ❌ explosion |
-| 6 | LAMBDA 0.1 + lr 1e-5 + clip 1.0 | — | — | ⚠️ stabilisation |
-| 7 | WeightedRandomSampler + Undersampling US | En cours | — | 🔄 |
+| 1 | Architecture de base | ~7800 | 0.40 |  |
+| 2 | num_workers + pin_memory | ~7806 | 0.47 |  |
+| 3 | Data augmentation + lambda | ~7809 | 0.49 |  GPS bloqué |
+| 4 | GPS conditionné + sin/cos + curriculum | ~1519 | 0.015 |  GPS  Pays  |
+| 5 | embed_detach + curriculum binaire | NaN ep.7 | — |  explosion |
+| 6 | LAMBDA 0.1 + lr 1e-5 + clip 1.0 | — | — |  stabilisation |
+| 7 | WeightedRandomSampler + Undersampling US | En cours | — |  |
 
 ---
 
@@ -44,7 +44,7 @@ Les têtes sont initialisées aléatoirement — si on dégèle tout dès le dé
 ### Résultats
 ```
 Epoch 1/25 — très long (pas de num_workers)
-GPS : ~7800 km ❌
+GPS : ~7800 km 
 Pays F1 : 0.40
 ```
 > **Diagnostic :** GPS complètement bloqué — confirme que le problème est architectural, pas juste un manque d'epochs. Le pays apprend mais le GPS ne reçoit aucun signal utile.
@@ -65,7 +65,7 @@ Epoch 25/25
 train      | loss_total: 8.5414 | loss_country: 0.7350 | loss_gps: 7806.5km | f1: 0.4002
 validation | loss_total: 9.0822 | loss_country: 1.2917 | loss_gps: 7790.5km | f1: 0.4743
 ```
-> **Diagnostic :** GPS bloqué à 7806km ❌ — Pays F1 0.47 ✅. Le pays apprend bien mais GPS complètement mort. Confirme que le problème est architectural, pas juste un manque d'epochs.
+> **Diagnostic :** GPS bloqué à 7806km  — Pays F1 0.47 . Le pays apprend bien mais GPS complètement mort. Confirme que le problème est architectural, pas juste un manque d'epochs.
 
 ---
 
@@ -86,7 +86,7 @@ Epoch 25/25
 train      | loss_total: 1.1416 | loss_country: 0.7511 | loss_gps: 7809.0km | f1: 0.4289
 validation | loss_total: 1.5433 | loss_country: 1.1544 | loss_gps: 7776.9km | f1: 0.4943
 ```
-> **Diagnostic :** GPS toujours bloqué à 7809km ❌ — Pays F1 0.49 ✅ légère amélioration. Preuve définitive que lambda et normalisation ne suffisent pas — il faut changer l'architecture GPS.
+> **Diagnostic :** GPS toujours bloqué à 7809km  — Pays F1 0.49  légère amélioration. Preuve définitive que lambda et normalisation ne suffisent pas — il faut changer l'architecture GPS.
 
 ---
 
@@ -123,7 +123,7 @@ Epoch 25/25
 train      | loss_total: 1522.9128 | loss_country: 3.3538 | loss_gps: 1519.6km | f1: 0.0153
 validation | loss_total: 1800.4628 | loss_country: 3.0325 | loss_gps: 1797.4km | f1: 0.0155
 ```
-> **Diagnostic :** GPS 7800 → 1519km ✅ (-80%). Pays F1 0.015 ❌ (effondrement depuis 0.49). Le GPS conditionné fonctionne mais le curriculum lambda a tué le pays — cercle vicieux : mauvaises probas pays → mauvais contexte GPS → gradients GPS perturbent pays.
+> **Diagnostic :** GPS 7800 → 1519km  (-80%). Pays F1 0.015  (effondrement depuis 0.49). Le GPS conditionné fonctionne mais le curriculum lambda a tué le pays — cercle vicieux : mauvaises probas pays → mauvais contexte GPS → gradients GPS perturbent pays.
 
 ---
 
@@ -144,9 +144,9 @@ Même avec `LAMBDA_CLS_HIGH=10`, la loss pays (~4.0) donnait `40` contre `5000` 
 
 ### Résultats
 ```
-Epoch 5  → loss_country: 3.32  ✅ phase 1 normale
+Epoch 5  → loss_country: 3.32   phase 1 normale
 Epoch 6  → loss_total: 4385km  ← GPS explose au passage phase 2
-Epoch 7  → NaN partout ❌ gradient explosion
+Epoch 7  → NaN partout  gradient explosion
 ```
 > **Diagnostic :** `LAMBDA_REG=1.0` trop grand + lr trop élevé en phase 2 → gradients GPS explosent → NaN irréversible.
 
@@ -186,11 +186,11 @@ L'EDA du dataset OSV5M révèle un déséquilibre géographique majeur :
 
 | Job SLURM | Modèle | Dataset | Sampler/Équilibrage | Statut | Résultat |
 |-----------|--------|---------|---------------------|--------|----------|
-| 168742 | ResNet50 classif k-means (modèle M) | rest (500k samples) | WeightedRandomSampler par cellule | ✅ Terminé | À compléter |
-| 168758 | ResNet50 + CBAM attention | rest | WeightedRandomSampler par pays | ❌ CANCELED | Timeout DCE |
-| 168750 | ResNet50 sans attention (comparaison) | samples | Sans sampler | ❌ FAILED | NaN values |
-| 168736 | ResNet50 + CBAM attention | samples | WeightedRandomSampler | ❌ CANCELED + NaN | Timeout + NaN |
-| 177594 | ResNet50 + CBAM attention | rest | Undersampling US (cap 30k) | 🔄 En cours | — |
+| 168742 | ResNet50 classif k-means (modèle M) | rest (500k samples) | WeightedRandomSampler par cellule |  Terminé | À compléter |
+| 168758 | ResNet50 + CBAM attention | rest | WeightedRandomSampler par pays |  CANCELED | Timeout DCE |
+| 168750 | ResNet50 sans attention (comparaison) | samples | Sans sampler |  FAILED | NaN values |
+| 168736 | ResNet50 + CBAM attention | samples | WeightedRandomSampler |  CANCELED + NaN | Timeout + NaN |
+| 177594 | ResNet50 + CBAM attention | rest | Undersampling US (cap 30k) |  En cours | — |
 
 ### Justification des approches
 
@@ -253,7 +253,7 @@ Un second problème a été identifié en comparant l'implémentation avec le co
 
 ```python
 embed = cls_probs.detach() if self.embed_detach else cls_probs
-reg_input = torch.cat([feats, cls_probs], dim=1)  # ❌ embed_detach sans effet
+reg_input = torch.cat([feats, cls_probs], dim=1)  #  embed_detach sans effet
 ```
 
 Ce bug signifie que depuis le début du projet, `embed_detach` n'avait aucun effet — les gradients GPS remontaient toujours dans la tête pays, créant des interférences supplémentaires au moment du passage en phase 2.
@@ -268,7 +268,7 @@ Deux corrections ont été apportées simultanément.
 
 ```python
 embed = cls_probs.detach() if self.embed_detach else cls_probs
-reg_input = torch.cat([feats, embed], dim=1)  # ✅
+reg_input = torch.cat([feats, embed], dim=1)  # 
 ```
 
 **Warmup progressif de lambda_gps** — au lieu d'activer le GPS brutalement à l'epoch 10, le poids de la loss GPS monte progressivement sur 5 epochs. En phase 1, le GPS est présent avec un poids quasi nul (`1e-5`) pour que la tête GPS ne parte pas de zéro. En phase 2, lambda monte de 0 à `LAMBDA_REG` sur 5 epochs :
@@ -289,7 +289,7 @@ L'idée est d'éviter le choc brutal qui causait les NaN. En gardant le GPS lég
 ```
 loss_gps × 0.0001 = 2000 × 0.0001 = 0.2
 loss_country      ≈ 2.0
-→ ratio GPS/pays  ≈ 10%  ✅ équilibré
+→ ratio GPS/pays  ≈ 10%   équilibré
 ```
 
 + détection Nan 
@@ -313,24 +313,24 @@ loss_country      ≈ 2.0
 ```
 V1 — GPS indépendant + tanh * [90,180]
      SLURM 159997 / 160062
-     → GPS bloqué à 7800km ❌  |  Pays F1 = 0.47 ✅
+     → GPS bloqué à 7800km   |  Pays F1 = 0.47 
 
         ↓ Batch 3 : augmentation + lambda
 
      SLURM 160426
-     → GPS toujours 7809km ❌  |  Pays F1 = 0.49 ✅
+     → GPS toujours 7809km   |  Pays F1 = 0.49 
      → Preuve : problème architectural, pas de données
 
         ↓ Batch 4 : GPS conditionné + sin/cos
 
 V2 — GPS conditionné par pays + encodage sin/cos + curriculum
-     → GPS 7800 → 1519km ✅ (-80%)  |  Pays F1 = 0.015 ❌
+     → GPS 7800 → 1519km  (-80%)  |  Pays F1 = 0.015 
      → Cercle vicieux : gradients GPS perturbent pays
 
         ↓ Batch 5 : embed_detach + curriculum binaire
 
 V3 — Découplage gradients + curriculum binaire
-     → Epoch 5 stable ✅  →  Epoch 6-7 : NaN ❌
+     → Epoch 5 stable   →  Epoch 6-7 : NaN 
      → LAMBDA_REG=1.0 trop grand
 
         ↓ Batch 6 : LAMBDA 0.1 + lr 1e-5 + clip 1.0
