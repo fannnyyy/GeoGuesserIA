@@ -358,8 +358,8 @@ class GeoGussrAttentionMultiTask(nn.Module):
         feats = x.flatten(1)                             
         pred_countries = self.head_countries(feats)       
         cls_probs = torch.softmax(pred_countries, dim=1)
-        embed = cls_probs.detach() if self.embed_detach else cls_probs 
-        reg_input = torch.cat([feats, cls_probs], dim=1)
+        embed = cls_probs.detach() if self.embed_detach else cls_probs
+        reg_input = torch.cat([feats, embed], dim=1)
         raw = self.head_gps(reg_input)
         lat = F.normalize(raw[:, 0:2], dim=1)
         lon = F.normalize(raw[:, 2:4], dim=1)
@@ -516,7 +516,7 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-LAMBDA_REG = 0.01 
+LAMBDA_REG = 0.0001 
 
 NUM_EPOCH_PHASE1 = 10
 NUM_EPOCH_PHASE2 = 45
@@ -570,11 +570,15 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                 loss_gps =  criterion_gps(pred_gps, labels_gps)
 
                 if epoch < NUM_EPOCH_PHASE1:
-                    loss = loss_country         
+                    loss = loss_country + 0.00001 * loss_gps
                 else:
-                    loss = loss_country + LAMBDA_REG * loss_gps
-
+                    warmup = min((epoch - NUM_EPOCH_PHASE1) / 5.0, 1.0)
+                    loss = loss_country + (LAMBDA_REG * warmup) * loss_gps
+                    
                 if phase == 'train':
+                    if torch.isnan(loss) or torch.isinf(loss):
+                        optimizer.zero_grad()
+                        continue
                     loss.backward()
                     torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)
                     optimizer.step()

@@ -1,251 +1,3 @@
-"""
-1. Charger resnet50(pretrained=True)
-2. Accéder aux blocs Bottleneck existants
-3. "Wrapper" chaque bloc avec CBAM
-4. Les poids CNN restent pretrained
-5. Les poids CBAM s'initialisent aléatoirement et s'apprennent
-
-Utilisation :
-torchvision.models.resnet50(pretrained=True) = même architecture 
-mais avec les poids ImageNet pré-entraînés. C'est du transfer learning
-(le réseau a déjà appris à détecter des textures, bords, formes génériques 
-sur 1.2M d'images).
-
-
-ResNet 50 :
-class GeoGuessrModel(nn.Module):
-    def __init__(self, num_countries):
-        - charger resnet50_cbam()
-        - stocker les couches du backbone sans fc
-        - définir tête pays  (2048 → ... → num_countries)
-        - définir tête GPS   (2048 → ... → 2) + tanh + dénorm
-
-    def forward(self, x):
-        - passer par chaque couche backbone manuellement
-        - flatten
-        - tête pays → softmax
-        - tête GPS  → tanh → dénorm
-        - retourner (pred_pays, pred_GPS)
-
-loss_totale = CrossEntropy(pred_pays, label_pays) 
-            + λ * Haversine(pred_GPS, label_GPS)
-
-
-Normalisation des coordonnées GPS résumé complet
-
-Pourquoi normaliser ?
-
-Les réseaux de neurones fonctionnent mal avec des grandes valeurs brutes. Les poids sont initialisés proches de 0, les activations aussi — des valeurs comme `48.85` ou `139.7` créent des gradients instables.
-
-lat  ∈ [-90,  +90]   → trop grand pour le réseau
-lon  ∈ [-180, +180]  → trop grand pour le réseau
-
-La normalisation simple — diviser par le max
-
-lat_norm = lat / 90    → [-1, +1]
-lon_norm = lon / 180   → [-1, +1]
-
-Et la dénormalisation inverse :
-
-lat = lat_norm * 90
-lon = lon_norm * 180
-
-Tanh l'activation finale de la tête GPS
-
-La tête GPS doit sortir des valeurs entre -1 et +1. Tanh fait exactement ça :
-
-tanh(x) → ]-1, +1[
-
-Pas Sigmoid qui sort entre 0 et +1.
-
-Le pipeline complet
-
-ENTRAÎNEMENT :
-
-Labels dans le dataset
-lat=48.85, lon=2.35 (degrés bruts)
-          ↓
-         pas de normalisation des labels
-         on garde les degrés bruts comme target
-
-
-Forward pass :
-Image → backbone → features [2048]
-                       ↓
-                   tête GPS
-                       ↓
-               Linear → ... → Linear
-                       ↓
-                     tanh          → sortie ∈ [-1, +1]
-                       ↓
-                  * [90, 180]      → degrés réels ∈ [-90/+90, -180/+180]
-                       ↓
-              haversine_loss(pred_degrés, target_degrés)
-
-Pourquoi dénormaliser dans le forward et pas dans la loss ?
-
-Parce que la Haversine loss attend des **degrés réels** — elle fait des `torch.deg2rad()` en interne. Si tu lui passes des valeurs entre -1 et +1, elle calcule une distance absurde.
-
-Dans le forward :
-out = self.linear_gps(x)      # valeurs quelconques
-out = torch.tanh(out)          # → [-1, +1]
-out = out * torch.tensor([90., 180.])  # → degrés réels
-return out
-
-Dans la loss :
-haversine_loss(pred, target)   # pred ET target en degrés ✅
-
-Le problème du méridien 180° — pourquoi 3 sorties en V2
-
-Avec 2 sorties `(lat, lon)` :
-
-Point A : lon = -179°  →  lon_norm = -0.994
-Point B : lon = +179°  →  lon_norm = +0.994
-
-Distance réelle    : ~2km   (ils sont voisins dans le Pacifique)
-Distance pour MSE  : |−0.994 − 0.994| = 1.988  → énorme pénalité 
-
-
-Avec 3 sorties cartésiennes `(x, y, z)` :
-
-x = cos(lat) * cos(lon)
-y = cos(lat) * sin(lon)
-z = sin(lat)
-
-Point A et Point B → coordonnées (x,y,z) très proches 
-
-Mais pour la V1 — 2 sorties suffisent. Le méridien 180° concerne une minorité d'images dans OSV5M. Tu passes à 3 sorties si tu vois des erreurs aberrantes sur le Pacifique.
-
-Récapitulatif visuel
-
-                    Réseau
-                 ┌──────────┐
-lat=48.85° ───→  │          │
-lon=2.35°  ───→  │ backbone │──→ tanh ──→ *[90,180] ──→ 48.72°, 2.41°
-(target)         │  + CBAM  │                              ↓
-                 └──────────┘                     haversine_loss
-                                                  (km entre pred et target)
-
-
-Les valeurs importantes à retenir
-
-| Variable | Plage brute | Plage normalisée | Facteur |
-|---|---|---|---|
-| Latitude | [-90, +90] | [-1, +1] via tanh | ×90 |
-| Longitude | [-180, +180] | [-1, +1] via tanh | ×180 |
-
-Image Street View
-      ↓
-conv1 → bn1 → relu → maxpool
-      ↓
-layer1 [3 × BottleneckWithCBAM]
-layer2 [4 × BottleneckWithCBAM]
-layer3 [6 × BottleneckWithCBAM]
-layer4 [3 × BottleneckWithCBAM]
-      ↓
-avgpool → flatten [2048]
-      ↙               ↘
-head_countries      head_gps
-Linear 2048→512     Linear 2048→512
-ReLU                ReLU
-Dropout             Dropout
-Linear 512→N        Linear 512→2
-                    Tanh → *[90,180]
-      ↓               ↓
-pred_countries    pred_gps (lat, lon)
-
-
-Phase 1 — Têtes seulement
-backbone  →  gelé       (requires_grad = False)
-têtes     →  apprennent (requires_grad = True)
-
-But : stabiliser les têtes avant de toucher au backbone
-Durée : quelques epochs (5-10)
-
-          ↓
-
-Phase 2 — Fine-tuning complet
-backbone  →  dégelé, lr faible  (1e-4)
-têtes     →  continuent, lr faible (1e-4)
-
-But : adapter le backbone à GeoGuessr tout en gardant
-      ce qu'il a appris sur ImageNet
-Durée : plus long (20-50 epochs)
-
-
-## Pourquoi des lr différents ?
-
-### Le backbone — pretrained sur ImageNet
-
-Il a déjà appris des **features génériques très utiles** — bords, textures, formes, végétation. Ces features sont précieuses et fragiles.
-
-Un grand lr les **écrase** :
-
-```
-gradient × lr_grand  →  mise à jour trop grande
-→ les features ImageNet sont détruites
-→ tu repars de zéro sans le savoir
-```
-
-Un petit lr les **préserve et affine doucement** :
-
-```
-gradient × lr_petit  →  petite mise à jour
-→ les features s'adaptent progressivement à GeoGuessr
-→ tu gardes le bénéfice du pretraining 
-```
-
----
-
-### Les têtes — initialisées aléatoirement
-
-Elles partent de zéro — elles ont besoin d'apprendre **vite** pour converger :
-
-```
-lr grand  →  apprentissage rapide 
-lr petit  →  convergence très lente, entraînement inefficace ❌
-```
-
----
-
-### Visuellement
-
-```
-ImageNet features          Tâche GeoGuessr
-     ↓                           ↓
-backbone lr=1e-4           têtes lr=1e-3
-"je peaufine"              "j'apprends"
-petits pas                 grands pas
-```
-
----
-
-### L'analogie
-
-C'est comme rénover une maison ancienne :
-
-**Backbone** = murs porteurs → on touche avec précaution, petits ajustements
-
-**Têtes** = décoration intérieure → on peut tout refaire rapidement sans risque
-
-En phase 1 les têtes ont appris avec `lr=1e-3` — elles sont **déjà partiellement convergées**.
-
-Si tu gardes `lr=1e-3` en phase 2 :
-```
-têtes déjà convergées + lr encore grand
-→ elles oscillent autour du minimum au lieu de converger
-→ instabilité qui se propage dans le backbone via les gradients 
-```
-
-En baissant à `lr=1e-4` en phase 2 :
-```
-backbone    lr=1e-4  → affinage doux du pretrained 
-têtes       lr=1e-4  → affinage doux des têtes convergées 
-tout le réseau évolue lentement et stablement 
-
-ajout data augmentation
-"""
-
 import torch
 from torchvision import datasets, models, transforms
 import torch.nn as nn
@@ -337,7 +89,7 @@ train_loader = DataLoader(
     train_dataset_final,
     batch_size  = batch_size,
     shuffle     = True,
-    num_workers = 4,
+    num_workers = 8,
     pin_memory  = True,
 )
 
@@ -345,7 +97,7 @@ test_loader = DataLoader(
     test_dataset_final, 
     batch_size=batch_size, 
     shuffle=False,
-    num_workers=4, 
+    num_workers=8, 
     pin_memory=True
 )
 
@@ -353,7 +105,7 @@ val_loader = DataLoader(
     val_dataset_final, 
     batch_size=batch_size, 
     shuffle=False,
-    num_workers=4, 
+    num_workers=8, 
     pin_memory=True
 )
 
@@ -381,7 +133,7 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-LAMBDA_REG = 0.001 
+LAMBDA_REG = 0.0001 
 
 NUM_EPOCH_PHASE1 = 10
 NUM_EPOCH_PHASE2 = 45
@@ -435,11 +187,15 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                 loss_gps =  criterion_gps(pred_gps, labels_gps)
 
                 if epoch < NUM_EPOCH_PHASE1:
-                    loss = loss_country         
+                    loss = loss_country + 0.00001 * loss_gps
                 else:
-                    loss = loss_country + LAMBDA_REG * loss_gps
+                    warmup = min((epoch - NUM_EPOCH_PHASE1) / 5.0, 1.0)
+                    loss = loss_country + (LAMBDA_REG * warmup) * loss_gps
 
                 if phase == 'train':
+                    if torch.isnan(loss) or torch.isinf(loss):
+                        optimizer.zero_grad()
+                        continue
                     loss.backward()
                     torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)
                     optimizer.step()
