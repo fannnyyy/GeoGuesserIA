@@ -1,0 +1,38 @@
+Device: cuda | Batch size: 32
+Chargement des cellules : /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl
+Cellules chargées : 1000
+Images indexées      : 3394684
+Lignes CSV utilisées : 500000
+Undersampling US : 30000 / 124387 gardés
+Dataset après undersampling : 405613 samples
+Calcul de la matrice de distances entre centroïdes...
+Matrice prête.
+
+Entraînement, 30 epochs | 500000 samples | 1000 cellules
+
+Epoch  1/30 | Train loss: 5.836  acc: 1.9% | Test loss: 5.562  acc: 2.5%  Haversine: 3144.9 km
+Epoch  2/30 | Train loss: 5.538  acc: 3.0% | Test loss: 5.413  acc: 3.9%  Haversine: 2628.4 km
+Epoch  3/30 | Train loss: 5.437  acc: 3.6% | Test loss: 5.388  acc: 4.0%  Haversine: 2812.7 km
+Epoch  4/30 | Train loss: 5.376  acc: 4.0% | Test loss: 5.323  acc: 4.9%  Haversine: 2543.6 km
+Epoch  5/30 | Train loss: 5.330  acc: 4.3% | Test loss: 5.290  acc: 5.1%  Haversine: 2321.1 km
+Epoch  6/30 | Train loss: 5.295  acc: 4.5% | Test loss: 5.263  acc: 4.9%  Haversine: 2371.3 km
+Epoch  7/30 | Train loss: 5.266  acc: 4.7% | Test loss: 5.237  acc: 5.2%  Haversine: 2163.0 km
+Epoch  8/30 | Train loss: 5.241  acc: 4.8% | Test loss: 5.248  acc: 5.4%  Haversine: 2161.4 km
+Epoch  9/30 | Train loss: 5.217  acc: 5.0% | Test loss: 5.217  acc: 5.4%  Haversine: 2283.4 km
+Epoch 10/30 | Train loss: 5.193  acc: 5.2% | Test loss: 5.191  acc: 5.9%  Haversine: 2141.9 km
+Epoch 11/30 | Train loss: 5.171  acc: 5.3% | Test loss: 5.188  acc: 5.6%  Haversine: 2303.2 km
+Epoch 12/30 | Train loss: 5.151  acc: 5.5% | Test loss: 5.158  acc: 5.8%  Haversine: 2090.0 km
+Epoch 13/30 | Train loss: 5.126  acc: 5.6% | Test loss: 5.171  acc: 5.5%  Haversine: 1923.0 km
+Epoch 14/30 | Train loss: 5.104  acc: 5.8% | Test loss: 5.156  acc: 5.8%  Haversine: 2062.9 km
+Epoch 15/30 | Train loss: 5.078  acc: 5.9% | Test loss: 5.140  acc: 6.2%  Haversine: 1998.3 km
+Epoch 16/30 | Train loss: 5.053  acc: 6.2% | Test loss: 5.104  acc: 6.4%  Haversine: 1843.2 km
+Epoch 17/30 | Train loss: 5.025  acc: 6.3% | Test loss: 5.113  acc: 6.6%  Haversine: 1885.0 km
+Epoch 18/30 | Train loss: 4.998  acc: 6.5% | Test loss: 5.097  acc: 6.7%  Haversine: 1728.8 km
+Epoch 19/30 | Train loss: 4.970  acc: 6.7% | Test loss: 5.083  acc: 6.7%  Haversine: 1735.5 km
+Epoch 20/30 | Train loss: 4.940  acc: 7.0% | Test loss: 5.065  acc: 7.4%  Haversine: 1623.4 km
+Epoch 21/30 | Train loss: 4.909  acc: 7.1% | Test loss: 5.065  acc: 7.2%  Haversine: 1588.7 km
+Epoch 22/30 | Train loss: 4.882  acc: 7.4% | Test loss: 5.054  acc: 7.5%  Haversine: 1556.6 km
+Epoch 23/30 | Train loss: 4.852  acc: 7.6% | Test loss: 5.049  acc: 7.5%  Haversine: 1569.0 km
+Epoch 24/30 | Train loss: 4.825  acc: 7.9% | Test loss: 5.040  acc: 7.6%  Haversine: 1522.0 km
+Epoch 25/30 | Train loss: 4.800  acc: 8.2% | Test loss: 5.042  acc: 7.9%  Haversine: 1493.9 km
+Epoch 26/30 | Train loss: 4.779  acc: 8.4% | Test loss: 5.038  acc: 7.9%  Haversine: 1455.9 km

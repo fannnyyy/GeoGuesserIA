@@ -1,5 +1,5 @@
 """
-Géolocalisation d'images par régression GPS — Run final (hyperparamètres optimisés via Optuna)
+Géolocalisation d'images par régression GPS, Run final (hyperparamètres optimisés via Optuna)
 
 Le modèle prend en entrée une photo de rue et prédit directement ses coordonnées GPS : c'est de la
 régression pure sur les coordonnées encodées en sin/cos pour éviter les discontinuités
@@ -264,7 +264,7 @@ criterion = HaversineLoss()
 
 best_test = float("inf")
 
-print(f"\nEntraînement final — {FINAL_EPOCHS} epochs sur {MAX_SAMPLES} samples")
+print(f"\nEntraînement final, {FINAL_EPOCHS} epochs sur {MAX_SAMPLES} samples")
 
 for epoch in range(FINAL_EPOCHS):
 

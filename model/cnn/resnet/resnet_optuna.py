@@ -175,7 +175,7 @@ BASE_TRANSFORM = transforms.Compose([
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
-# On charge le dataset une seule fois — trials partagent le même split
+# On charge le dataset une seule fois, trials partagent le même split
 _dataset = GeoDataset(
     csv_file=os.path.expanduser("~/datasets/OSV5M/test_filtered.csv"),
     img_dir=os.path.expanduser("~/datasets/OSV5M"),
@@ -367,7 +367,7 @@ if __name__ == "__main__":
         sampler=optuna.samplers.TPESampler(seed=42),
     )
 
-    # Nombre de trials HPO — augmenter selon le temps disponible
+    # Nombre de trials HPO, augmenter selon le temps disponible
     N_TRIALS = 30
 
     study.optimize(
@@ -382,7 +382,7 @@ if __name__ == "__main__":
     # -----------------------------
 
     print("\n" + "=" * 60)
-    print("OPTUNA — Résultats")
+    print("OPTUNA, Résultats")
     print("=" * 60)
 
     pruned = len(study.get_trials(states=[TrialState.PRUNED]))

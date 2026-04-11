@@ -1,0 +1,64 @@
+Epoch 1/55
+train | loss_total: 42.8388 | loss_country: 3.6749 | loss_gps: 6090.0km | f1: 0.0189
+validation | loss_total: 38.0831 | loss_country: 3.2404 | loss_gps: 5679.3km | f1: 0.0305
+Epoch 2/55
+train | loss_total: 40.4937 | loss_country: 3.4694 | loss_gps: 5799.5km | f1: 0.0296
+validation | loss_total: 36.6042 | loss_country: 3.1051 | loss_gps: 5553.5km | f1: 0.0484
+Epoch 3/55
+train | loss_total: 39.7814 | loss_country: 3.4088 | loss_gps: 5693.3km | f1: 0.0351
+validation | loss_total: 35.9951 | loss_country: 3.0560 | loss_gps: 5435.1km | f1: 0.0535
+Epoch 4/55
+train | loss_total: 39.4079 | loss_country: 3.3803 | loss_gps: 5605.1km | f1: 0.0373
+validation | loss_total: 35.4002 | loss_country: 2.9976 | loss_gps: 5424.0km | f1: 0.0541
+Epoch 5/55
+train | loss_total: 39.1079 | loss_country: 3.3553 | loss_gps: 5554.9km | f1: 0.0391
+validation | loss_total: 35.5930 | loss_country: 3.0135 | loss_gps: 5457.7km | f1: 0.0565
+Epoch 6/55
+train | loss_total: 38.9344 | loss_country: 3.3411 | loss_gps: 5523.3km | f1: 0.0426
+validation | loss_total: 35.1788 | loss_country: 2.9796 | loss_gps: 5382.6km | f1: 0.0632
+Epoch 7/55
+train | loss_total: 38.8067 | loss_country: 3.3342 | loss_gps: 5464.9km | f1: 0.0416
+validation | loss_total: 34.9724 | loss_country: 2.9731 | loss_gps: 5240.9km | f1: 0.0617
+Epoch 8/55
+train | loss_total: 38.6361 | loss_country: 3.3186 | loss_gps: 5449.8km | f1: 0.0439
+validation | loss_total: 34.5779 | loss_country: 2.9400 | loss_gps: 5177.5km | f1: 0.0652
+Epoch 9/55
+train | loss_total: 38.5948 | loss_country: 3.3191 | loss_gps: 5403.8km | f1: 0.0441
+validation | loss_total: 34.5814 | loss_country: 2.9427 | loss_gps: 5154.3km | f1: 0.0662
+Epoch 10/55
+train | loss_total: 38.4122 | loss_country: 3.3025 | loss_gps: 5387.1km | f1: 0.0461
+validation | loss_total: 34.1674 | loss_country: 2.8977 | loss_gps: 5190.6km | f1: 0.0708
+Epoch 11/55
+train | loss_total: 7.4154 | loss_country: 2.9839 | loss_gps: 4431.4km | f1: 0.0613
+validation | loss_total: 6.0429 | loss_country: 2.4454 | loss_gps: 3597.5km | f1: 0.1057
+Epoch 12/55
+train | loss_total: 6.3652 | loss_country: 2.7413 | loss_gps: 3623.9km | f1: 0.0760
+validation | loss_total: 5.3978 | loss_country: 2.2465 | loss_gps: 3151.3km | f1: 0.1290
+Epoch 13/55
+train | loss_total: 5.7880 | loss_country: 2.5700 | loss_gps: 3218.0km | f1: 0.0894
+validation | loss_total: 4.9994 | loss_country: 2.0876 | loss_gps: 2911.7km | f1: 0.1558
+Epoch 14/55
+train | loss_total: 5.3475 | loss_country: 2.4244 | loss_gps: 2923.1km | f1: 0.1039
+validation | loss_total: 4.6610 | loss_country: 1.9679 | loss_gps: 2693.1km | f1: 0.1725
+Epoch 15/55
+train | loss_total: 4.9962 | loss_country: 2.3024 | loss_gps: 2693.8km | f1: 0.1155
+validation | loss_total: 4.4076 | loss_country: 1.8664 | loss_gps: 2541.3km | f1: 0.1927
+Epoch 16/55
+train | loss_total: 4.7016 | loss_country: 2.1886 | loss_gps: 2513.0km | f1: 0.1287
+validation | loss_total: 4.1924 | loss_country: 1.7786 | loss_gps: 2413.8km | f1: 0.2072
+Epoch 17/55
+train | loss_total: 4.4393 | loss_country: 2.0880 | loss_gps: 2351.3km | f1: 0.1403
+validation | loss_total: 4.0003 | loss_country: 1.7049 | loss_gps: 2295.4km | f1: 0.2292
+Epoch 18/55
+train | loss_total: 4.2137 | loss_country: 1.9895 | loss_gps: 2224.2km | f1: 0.1523
+validation | loss_total: 3.8772 | loss_country: 1.6415 | loss_gps: 2235.7km | f1: 0.2396
+Epoch 19/55
+train | loss_total: 4.0099 | loss_country: 1.9017 | loss_gps: 2108.2km | f1: 0.1634
+validation | loss_total: 3.7801 | loss_country: 1.5870 | loss_gps: 2193.1km | f1: 0.2509
+Epoch 20/55
+train | loss_total: 3.8163 | loss_country: 1.8149 | loss_gps: 2001.4km | f1: 0.1753
+validation | loss_total: 3.6616 | loss_country: 1.5544 | loss_gps: 2107.2km | f1: 0.2617
+Epoch 21/55
+train | loss_total: 3.6604 | loss_country: 1.7423 | loss_gps: 1918.0km | f1: 0.1845
+validation | loss_total: 3.5575 | loss_country: 1.5072 | loss_gps: 2050.3km | f1: 0.2764
+Epoch 22/55

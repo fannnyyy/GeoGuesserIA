@@ -1,7 +1,7 @@
 Chargement du CSV...
 Lignes chargées : 3394684
 
-Calcul k-means — 1000 cellules sur 3394684 points...
+Calcul k-means, 1000 cellules sur 3394684 points...
 Init 1/10 with method k-means++
 Inertia for init 1/10: 14695.822265625
 Init 2/10 with method k-means++
@@ -45,7 +45,7 @@ Converged (lack of improvement in inertia) at step 14/101840
 K-means terminé.
 Inertie finale : 1795432.75
 
-Images par cellule — min: 68  max: 14939  moyenne: 3394.7  médiane: 2808.5
+Images par cellule, min: 68  max: 14939  moyenne: 3394.7  médiane: 2808.5
 
 Calcul des moyennes GPS réelles par cellule...
 Écart moyen centroïde vs moyenne GPS : 0.1181°

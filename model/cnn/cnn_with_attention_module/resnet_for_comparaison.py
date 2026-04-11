@@ -277,45 +277,52 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-LAMBDA_REG = 0.0001 
+LAMBDA_CLS_HIGH = 10
+LAMBDA_CLS_LOW  = 1
+LAMBDA_REG      = 0.001
 
 NUM_EPOCH_PHASE1 = 10
 NUM_EPOCH_PHASE2 = 45
 
 def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2):
-    
+
+    # Phase 1, geler le backbone
     for name, module in model.named_children():
         if name not in ['head_countries', 'head_gps']:
             for param in module.parameters():
                 param.requires_grad = False
-    
-    for epoch in range(num_epochs):
-        print('Epoch {}/{}'.format(epoch+1, num_epochs))
 
+    for epoch in range(num_epochs):
+        print('Epoch {}/{}'.format(epoch + 1, num_epochs))
+
+        # Phase 2, dégeler tout avec lr réduit
         if epoch == NUM_EPOCH_PHASE1:
             for param in model.parameters():
                 param.requires_grad = True
             optimizer.param_groups[0]['lr'] = 1e-5
-            optimizer.param_groups[1]['lr'] = 1e-5 
+            optimizer.param_groups[1]['lr'] = 1e-5
             optimizer.param_groups[2]['lr'] = 1e-5
 
+        # Curriculum lambda, GPS toujours actif
+        lambda_cls = LAMBDA_CLS_HIGH if epoch < NUM_EPOCH_PHASE1 else LAMBDA_CLS_LOW
+
         for phase in ['train', 'validation']:
-            running_loss_country = 0.0   
-            running_loss_gps = 0.0  
-            running_loss_total = 0.0   
-            
-            all_preds = []
+            running_loss_country = 0.0
+            running_loss_gps     = 0.0
+            running_loss_total   = 0.0
+
+            all_preds  = []
             all_labels = []
 
             if phase == 'train':
                 model.train()
             else:
                 model.eval()
-            
+
             for inputs, labels_country, labels_gps in dataloader[phase]:
-                inputs = inputs.to(device)
+                inputs         = inputs.to(device)
                 labels_country = labels_country.to(device)
-                labels_gps = labels_gps.to(device)
+                labels_gps     = labels_gps.to(device)
 
                 if phase == 'validation':
                     with torch.no_grad():
@@ -323,18 +330,15 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                 else:
                     optimizer.zero_grad()
                     pred_countries, pred_gps = model(inputs)
-                
+
                 all_preds.append(torch.argmax(pred_countries, dim=1).detach().cpu().numpy())
                 all_labels.append(labels_country.detach().cpu().numpy())
 
                 loss_country = criterion_countries(pred_countries, labels_country)
-                loss_gps =  criterion_gps(pred_gps, labels_gps)
+                loss_gps     = criterion_gps(pred_gps, labels_gps)
 
-                if epoch < NUM_EPOCH_PHASE1:
-                    loss = loss_country + 0.00001 * loss_gps
-                else:
-                    warmup = min((epoch - NUM_EPOCH_PHASE1) / 5.0, 1.0)
-                    loss = loss_country + (LAMBDA_REG * warmup) * loss_gps
+                # GPS actif dès le début, curriculum sur lambda_cls uniquement
+                loss = lambda_cls * loss_country + LAMBDA_REG * loss_gps
 
                 if phase == 'train':
                     if torch.isnan(loss) or torch.isinf(loss):
@@ -345,25 +349,26 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                     optimizer.step()
 
                 running_loss_country += loss_country.detach() * inputs.size(0)
-                running_loss_gps += loss_gps.detach() * inputs.size(0)
-                running_loss_total += loss.detach() * inputs.size(0)
-                
-            all_preds = np.concatenate(all_preds)
+                running_loss_gps     += loss_gps.detach()     * inputs.size(0)
+                running_loss_total   += loss.detach()         * inputs.size(0)
+
+            all_preds  = np.concatenate(all_preds)
             all_labels = np.concatenate(all_labels)
 
             f1 = f1_score(all_labels, all_preds, average='macro')
-            
+
             epoch_loss_country = running_loss_country / len(dataloader[phase].dataset)
-            epoch_loss_total = running_loss_total / len(dataloader[phase].dataset)
-            epoch_gps_dist = running_loss_gps / len(dataloader[phase].dataset)
-            
+            epoch_loss_total   = running_loss_total   / len(dataloader[phase].dataset)
+            epoch_gps_dist     = running_loss_gps     / len(dataloader[phase].dataset)
+
             print('{} | loss_total: {:.4f} | loss_country: {:.4f} | loss_gps: {:.1f}km | f1: {:.4f}'.format(
-                    phase,
-                    epoch_loss_total,
-                    epoch_loss_country,
-                    epoch_gps_dist,
-                    f1
-                ))
+                phase,
+                epoch_loss_total,
+                epoch_loss_country,
+                epoch_gps_dist,
+                f1
+            ))
+
     return model
 
 if __name__ == '__main__':

@@ -6,13 +6,13 @@ GradCAM sur BottleneckWithCBAM → ce que CBAM force le réseau à regarder
 layer4[-1].bottleneck.conv3  →  GradCAM "ResNet pur"
 layer4[-1].cbam              →  GradCAM "après attention CBAM"
 
-Étape 1 — Forward pass + hook
+Étape 1, Forward pass + hook
 Tu enregistres les activations d'une couche cible pendant le forward.
-Étape 2 — Backward pass
+Étape 2, Backward pass
 Tu calcules le gradient de la classe prédite par rapport à ces activations.
-Étape 3 — Pondération
+Étape 3, Pondération
 Tu multiplies les activations par leurs gradients moyennés, puis tu passes par 
-ReLU — ça donne une heatmap de la taille de la feature map.
+ReLU, ça donne une heatmap de la taille de la feature map.
 heatmap = ReLU( Σ gradient_moyen_canal_k * activation_canal_k )
 Puis tu upsamples la heatmap à la taille de l'image originale et tu la superposes.
 

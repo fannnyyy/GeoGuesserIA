@@ -347,7 +347,7 @@ lambda_cls_low  = cfg["lambda_cls_low"]
 best_test_km  = float("inf")
 best_test_acc = 0.0
 
-print(f"\nEntraînement — {FINAL_EPOCHS} epochs | {MAX_SAMPLES} samples")
+print(f"\nEntraînement, {FINAL_EPOCHS} epochs | {MAX_SAMPLES} samples")
 print(f"Pays : {dataset.num_countries} | "
       f"λ_cls {lambda_cls_high} (epochs 1-{PHASE1_EPOCHS}) "
       f"→ {lambda_cls_low} (epochs {PHASE1_EPOCHS+1}-{FINAL_EPOCHS})\n")
@@ -425,7 +425,7 @@ for epoch in range(FINAL_EPOCHS):
         f"Test:  {test_km:.1f} km  acc {test_acc:.1f}%"
     )
 
-print(f"\nMeilleur test — {best_test_km:.1f} km | acc pays {best_test_acc:.1f}%")
+print(f"\nMeilleur test, {best_test_km:.1f} km | acc pays {best_test_acc:.1f}%")
 
 # ─────────────────────────────────────────────
 # Sauvegarde

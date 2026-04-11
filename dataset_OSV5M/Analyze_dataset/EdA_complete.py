@@ -1,5 +1,5 @@
 """
-EDA complet — Dataset OSV5M (GeoGuessr IA)
+EDA complet, Dataset OSV5M (GeoGuessr IA)
 ==========================================
 Lance ce script depuis la racine du projet :
     python eda_osv5m.py
@@ -38,7 +38,7 @@ from scipy.stats import gaussian_kde
 warnings.filterwarnings("ignore")
 
 # ──────────────────────────────────────────────────────────────
-# CONFIG  — adapte ces chemins à ton arborescence
+# CONFIG , adapte ces chemins à ton arborescence
 # ──────────────────────────────────────────────────────────────
 BASE    = Path("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m")
 TRAIN_CSV   = BASE / "metadata_filtered/rest_filtered_v2.csv"
@@ -65,7 +65,7 @@ print(f"  Train : {len(train):,} lignes  |  Test : {len(test):,} lignes")
 print(f"  Colonnes : {df.columns.tolist()}\n")
 
 # ──────────────────────────────────────────────────────────────
-# 2. RAPPORT TEXTE — stats de base
+# 2. RAPPORT TEXTE, stats de base
 # ──────────────────────────────────────────────────────────────
 report_lines = []
 def log(msg=""):
@@ -73,7 +73,7 @@ def log(msg=""):
     report_lines.append(msg)
 
 log("=" * 60)
-log("EDA OSV5M — RAPPORT")
+log("EDA OSV5M, RAPPORT")
 log("=" * 60)
 log(f"\nTrain : {len(train):,}   Test : {len(test):,}   Total : {len(df):,}")
 log(f"Colonnes ({len(df.columns)}) : {', '.join(df.columns)}")
@@ -130,7 +130,7 @@ try:
     log(f"\nCarte interactive sauvegardée : {map_path}")
 
 except ImportError:
-    log("\n[WARN] folium non installé — pip install folium  →  carte ignorée")
+    log("\n[WARN] folium non installé, pip install folium  →  carte ignorée")
 
 # ──────────────────────────────────────────────────────────────
 # 4. HISTOGRAMMES LAT / LON
@@ -143,7 +143,7 @@ with plt.style.context(STYLE):
         ax.hist(vals, bins=180, color=color, alpha=0.85, edgecolor="none")
         ax.set_xlabel(col.capitalize())
         ax.set_ylabel("Nombre d'images")
-        ax.set_title(f"Distribution — {col}")
+        ax.set_title(f"Distribution, {col}")
         ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:.0f}°"))
     fig.suptitle("Distribution des coordonnées GPS", fontweight="bold")
     fig.tight_layout()
@@ -318,7 +318,7 @@ if CELLS_PKL.exists():
         plt.close(fig)
 
 else:
-    log(f"\n[INFO] Fichier pkl introuvable : {CELLS_PKL} — section cellules ignorée")
+    log(f"\n[INFO] Fichier pkl introuvable : {CELLS_PKL}, section cellules ignorée")
 
 # ──────────────────────────────────────────────────────────────
 # 9. RÉSOLUTION DES IMAGES  (si colonnes width/height présentes)

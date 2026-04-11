@@ -153,7 +153,7 @@ with open(CELLS_PATH, "rb") as f:
 
 if "mean_centers" not in cells:
     raise KeyError(
-        "mean_centers absent du pkl — relance compute_cells.py d'abord."
+        "mean_centers absent du pkl, relance compute_cells.py d'abord."
     )
 
 n_cells    = cells["n_cells"]
@@ -167,7 +167,7 @@ print(f"centers      (k-means) : OK")
 print(f"mean_centers (GPS réel) : OK")
 
 # ─────────────────────────────────────────────
-# Dataset — même split 90/10 que l'entraînement
+# Dataset, même split 90/10 que l'entraînement
 # ─────────────────────────────────────────────
 
 transform = transforms.Compose([

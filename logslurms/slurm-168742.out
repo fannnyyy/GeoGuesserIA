@@ -3,13 +3,13 @@ Chargement des cellules : /usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/
 Cellules chargées : 1000
 Images indexées      : 3394684
 Lignes CSV utilisées : 500000
-Sampler prêt — 450,000 samples | cellules non vides : 1000/1000
+Sampler prêt, 450,000 samples | cellules non vides : 1000/1000
 CSV IDs (sample)  : ['574181207305439', '333574322129026', '636305258168031', '166741299029322', '818163849121312']
 id_to_cell (sample): ['574181207305439', '333574322129026', '636305258168031', '166741299029322', '818163849121312']
 Calcul de la matrice de distances entre centroïdes...
 Matrice prête.
 
-Entraînement — 30 epochs | 500000 samples | 1000 cellules
+Entraînement, 30 epochs | 500000 samples | 1000 cellules
 
 Epoch  1/30 | Train loss: 5.757  acc: 2.3% | Test loss: 5.564  acc: 2.8%  Haversine: 3531.8 km
 Epoch  2/30 | Train loss: 5.399  acc: 4.2% | Test loss: 5.483  acc: 3.3%  Haversine: 2545.6 km
@@ -42,5 +42,5 @@ Epoch 28/30 | Train loss: 4.544  acc: 14.1% | Test loss: 5.111  acc: 7.5%  Haver
 Epoch 29/30 | Train loss: 4.535  acc: 14.3% | Test loss: 5.112  acc: 7.7%  Haversine: 1501.6 km
 Epoch 30/30 | Train loss: 4.531  acc: 14.3% | Test loss: 5.106  acc: 7.5%  Haversine: 1501.7 km
 
-Meilleur test — 1496.5 km | acc cellule 7.6%
+Meilleur test, 1496.5 km | acc cellule 7.6%
 Modèle sauvegardé : resnet50_classification_full_dataset_WeightedRandomSampler.pt

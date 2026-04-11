@@ -144,7 +144,7 @@ def render_land_cover(df):
         color_discrete_map={row["name"]: row["color"] for _, row in counts.iterrows()},
         text=counts["pct"].astype(str) + "%",
         labels={"name": "Type de terrain", "count": "Nombre d'images"},
-        title=f"Distribution land_cover — {len(df_plot):,} images",
+        title=f"Distribution land_cover, {len(df_plot):,} images",
     )
     fig.update_layout(
         showlegend=False,
@@ -191,7 +191,7 @@ def render_land_cover(df):
 
 
 def render_road_index(df):
-    st.markdown("### Road Index — densité routière")
+    st.markdown("### Road Index, densité routière")
     st.markdown("""
     Le `road_index` mesure la densité du réseau routier autour du point GPS de l'image.
     Un index élevé indique une zone urbaine bien connectée, un index faible indique une zone isolée.
@@ -244,7 +244,7 @@ def render_road_index(df):
 
     
     st.info(
-        "**Lien avec les performances** — Les zones avec road_index faible correspondent aux "
+        "**Lien avec les performances**, Les zones avec road_index faible correspondent aux "
         "terrains forestiers et ruraux qui dominent le dataset. Ces zones produisent des images "
         "similaires visuellement entre pays différents, ce qui explique les faibles performances "
         "de géolocalisation."
@@ -295,7 +295,7 @@ def extract_cbam_embeddings_for_tsne(n_samples=5000, _df=None):
 
 @st.cache_data
 def extract_resnet_geo_embeddings_for_tsne(variant="resnet50", n_samples=5000, _df=None):
-    """Pour GeoResNet (régression pure) — hook sur backbone.layer4[-1]"""
+    """Pour GeoResNet (régression pure), hook sur backbone.layer4[-1]"""
 
     key = "resnet50_geo_final" if variant == "resnet50" else "resnet18_geo"
     ckpt = torch.load(
@@ -391,7 +391,7 @@ def _extract_features_with_hook(model, layer_path, n_samples, df):
 
 @st.cache_data
 def extract_resnet_classif_embeddings_for_tsne(n_samples=5000, _df=None):
-    """Pour GeoResNetClassif (classification cellules k-means) — hook sur backbone.layer4[-1]"""
+    """Pour GeoResNetClassif (classification cellules k-means), hook sur backbone.layer4[-1]"""
 
     cells_path = "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/saved/cells_kmeans.pkl"
     with open(cells_path, "rb") as f:
@@ -534,7 +534,7 @@ def render_tsne(df):
                     tsne_df,
                     x="x", y="y",
                     color="label",
-                    title=f"t-SNE — {model_choice} — colorié par pays (Top 15)",
+                    title=f"t-SNE, {model_choice}, colorié par pays (Top 15)",
                     opacity=0.6,
                     size_max=4,
                     labels={"x": "t-SNE 1", "y": "t-SNE 2", "label": "Pays"},
@@ -549,7 +549,7 @@ def render_tsne(df):
                     tsne_df,
                     x="x", y="y",
                     color="country",
-                    title=f"t-SNE — {model_choice}",
+                    title=f"t-SNE, {model_choice}",
                     opacity=0.6,
                     labels={"x": "t-SNE 1", "y": "t-SNE 2"},
                 )

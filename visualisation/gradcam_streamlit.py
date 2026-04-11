@@ -89,7 +89,7 @@ def _make_heatmap_image(pil_img, heatmap, title):
 
 
 def make_gradcam_classif_reg(pil_img, model, idx_to_country):
-    """GradCAM pour GeoResNetClassifRegress — cible : logits pays."""
+    """GradCAM pour GeoResNetClassifRegress, cible : logits pays."""
 
     class WrapperClassifReg(nn.Module):
         def __init__(self, m):
@@ -112,12 +112,12 @@ def make_gradcam_classif_reg(pil_img, model, idx_to_country):
         country = idx_to_country.get(idx, str(idx))
     cam = GradCAM(model=wrapper, target_layers=[wrapper.model.backbone.layer4[-1]])
     heatmap = cam(input_tensor=img_tensor)
-    return _make_heatmap_image(pil_img, heatmap, f"GradCAM — Pays prédit : {country}")
+    return _make_heatmap_image(pil_img, heatmap, f"GradCAM, Pays prédit : {country}")
 
 
 
 def make_gradcam_classif_cells(pil_img, model):
-    """GradCAM pour GeoResNetClassif — cible : cellule prédite."""
+    """GradCAM pour GeoResNetClassif, cible : cellule prédite."""
 
     transform_img = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -130,11 +130,11 @@ def make_gradcam_classif_cells(pil_img, model):
         idx = logits.argmax(dim=1).item()
     cam = GradCAM(model=model, target_layers=[model.backbone.layer4[-1]])
     heatmap = cam(input_tensor=img_tensor)
-    return _make_heatmap_image(pil_img, heatmap, f"GradCAM — Cellule #{idx}")
+    return _make_heatmap_image(pil_img, heatmap, f"GradCAM, Cellule #{idx}")
 
 
 def make_gradcam_regression(pil_img, model):
-    """GradCAM pour GeoResNet — cible : sin(lat) sortie[:,0]."""
+    """GradCAM pour GeoResNet, cible : sin(lat) sortie[:,0]."""
     class SinLatTarget:
         def __call__(self, output):
             if output.dim() == 1:
@@ -148,5 +148,5 @@ def make_gradcam_regression(pil_img, model):
     img_tensor = transform_img(pil_img.convert("RGB")).unsqueeze(0)
     cam = GradCAM(model=model, target_layers=[model.backbone.layer4[-1]])
     heatmap = cam(input_tensor=img_tensor, targets=[SinLatTarget()])
-    return _make_heatmap_image(pil_img, heatmap, "GradCAM — sin(lat)")
+    return _make_heatmap_image(pil_img, heatmap, "GradCAM, sin(lat)")
 

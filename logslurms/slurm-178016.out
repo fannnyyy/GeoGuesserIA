@@ -3,7 +3,7 @@ Chargement des CSV…
   Colonnes : ['id', 'latitude', 'longitude', 'thumb_original_url', 'country', 'sequence', 'captured_at', 'lon_bin', 'lat_bin', 'cell', 'region', 'sub-region', 'city', 'land_cover', 'road_index', 'drive_side', 'climate', 'soil', 'dist_sea', 'quadtree_10_5000', 'quadtree_10_25000', 'quadtree_10_1000', 'quadtree_10_50000', 'quadtree_10_12500', 'quadtree_10_500', 'quadtree_10_2500', 'unique_region', 'unique_sub-region', 'unique_city', 'unique_country', 'creator_username', 'creator_id', 'split']
 
 ============================================================
-EDA OSV5M — RAPPORT
+EDA OSV5M, RAPPORT
 ============================================================
 
 Train : 3,394,684   Test : 210,122   Total : 3,604,806

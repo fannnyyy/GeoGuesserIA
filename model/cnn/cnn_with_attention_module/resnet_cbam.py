@@ -35,12 +35,12 @@ Normalisation des coordonnées GPS résumé complet
 
 Pourquoi normaliser ?
 
-Les réseaux de neurones fonctionnent mal avec des grandes valeurs brutes. Les poids sont initialisés proches de 0, les activations aussi — des valeurs comme `48.85` ou `139.7` créent des gradients instables.
+Les réseaux de neurones fonctionnent mal avec des grandes valeurs brutes. Les poids sont initialisés proches de 0, les activations aussi, des valeurs comme `48.85` ou `139.7` créent des gradients instables.
 
 lat  ∈ [-90,  +90]   → trop grand pour le réseau
 lon  ∈ [-180, +180]  → trop grand pour le réseau
 
-La normalisation simple — diviser par le max
+La normalisation simple, diviser par le max
 
 lat_norm = lat / 90    → [-1, +1]
 lon_norm = lon / 180   → [-1, +1]
@@ -84,7 +84,7 @@ Image → backbone → features [2048]
 
 Pourquoi dénormaliser dans le forward et pas dans la loss ?
 
-Parce que la Haversine loss attend des **degrés réels** — elle fait des `torch.deg2rad()` en interne. Si tu lui passes des valeurs entre -1 et +1, elle calcule une distance absurde.
+Parce que la Haversine loss attend des **degrés réels**, elle fait des `torch.deg2rad()` en interne. Si tu lui passes des valeurs entre -1 et +1, elle calcule une distance absurde.
 
 Dans le forward :
 out = self.linear_gps(x)      # valeurs quelconques
@@ -95,7 +95,7 @@ return out
 Dans la loss :
 haversine_loss(pred, target)   # pred ET target en degrés ✅
 
-Le problème du méridien 180° — pourquoi 3 sorties en V2
+Le problème du méridien 180°, pourquoi 3 sorties en V2
 
 Avec 2 sorties `(lat, lon)` :
 
@@ -114,7 +114,7 @@ z = sin(lat)
 
 Point A et Point B → coordonnées (x,y,z) très proches 
 
-Mais pour la V1 — 2 sorties suffisent. Le méridien 180° concerne une minorité d'images dans OSV5M. Tu passes à 3 sorties si tu vois des erreurs aberrantes sur le Pacifique.
+Mais pour la V1, 2 sorties suffisent. Le méridien 180° concerne une minorité d'images dans OSV5M. Tu passes à 3 sorties si tu vois des erreurs aberrantes sur le Pacifique.
 
 Récapitulatif visuel
 
@@ -155,7 +155,7 @@ Linear 512→N        Linear 512→2
 pred_countries    pred_gps (lat, lon)
 
 
-Phase 1 — Têtes seulement
+Phase 1, Têtes seulement
 backbone  →  gelé       (requires_grad = False)
 têtes     →  apprennent (requires_grad = True)
 
@@ -164,7 +164,7 @@ Durée : quelques epochs (5-10)
 
           ↓
 
-Phase 2 — Fine-tuning complet
+Phase 2, Fine-tuning complet
 backbone  →  dégelé, lr faible  (1e-4)
 têtes     →  continuent, lr faible (1e-4)
 
@@ -175,9 +175,9 @@ Durée : plus long (20-50 epochs)
 
 ## Pourquoi des lr différents ?
 
-### Le backbone — pretrained sur ImageNet
+### Le backbone, pretrained sur ImageNet
 
-Il a déjà appris des **features génériques très utiles** — bords, textures, formes, végétation. Ces features sont précieuses et fragiles.
+Il a déjà appris des **features génériques très utiles**, bords, textures, formes, végétation. Ces features sont précieuses et fragiles.
 
 Un grand lr les **écrase** :
 
@@ -197,9 +197,9 @@ gradient × lr_petit  →  petite mise à jour
 
 ---
 
-### Les têtes — initialisées aléatoirement
+### Les têtes, initialisées aléatoirement
 
-Elles partent de zéro — elles ont besoin d'apprendre **vite** pour converger :
+Elles partent de zéro, elles ont besoin d'apprendre **vite** pour converger :
 
 ```
 lr grand  →  apprentissage rapide 
@@ -228,7 +228,7 @@ C'est comme rénover une maison ancienne :
 
 **Têtes** = décoration intérieure → on peut tout refaire rapidement sans risque
 
-En phase 1 les têtes ont appris avec `lr=1e-3` — elles sont **déjà partiellement convergées**.
+En phase 1 les têtes ont appris avec `lr=1e-3`, elles sont **déjà partiellement convergées**.
 
 Si tu gardes `lr=1e-3` en phase 2 :
 ```
@@ -516,45 +516,49 @@ optimizer = optim.Adam([
     {'params': model.head_gps.parameters(), 'lr':1e-3}
 ])
 
-LAMBDA_REG = 0.0001 
+LAMBDA_CLS_HIGH = 10
+LAMBDA_CLS_LOW  = 1
+LAMBDA_REG      = 0.001
 
 NUM_EPOCH_PHASE1 = 10
 NUM_EPOCH_PHASE2 = 45
 
 def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2):
-    
+
     for name, module in model.named_children():
         if name not in ['head_countries', 'head_gps']:
             for param in module.parameters():
                 param.requires_grad = False
-    
+
     for epoch in range(num_epochs):
-        print('Epoch {}/{}'.format(epoch+1, num_epochs))
+        print('Epoch {}/{}'.format(epoch + 1, num_epochs))
 
         if epoch == NUM_EPOCH_PHASE1:
             for param in model.parameters():
                 param.requires_grad = True
             optimizer.param_groups[0]['lr'] = 1e-5
-            optimizer.param_groups[1]['lr'] = 1e-5 
+            optimizer.param_groups[1]['lr'] = 1e-5
             optimizer.param_groups[2]['lr'] = 1e-5
 
+        lambda_cls = LAMBDA_CLS_HIGH if epoch < NUM_EPOCH_PHASE1 else LAMBDA_CLS_LOW
+
         for phase in ['train', 'validation']:
-            running_loss_country = 0.0   
-            running_loss_gps = 0.0  
-            running_loss_total = 0.0   
-            
-            all_preds = []
+            running_loss_country = 0.0
+            running_loss_gps     = 0.0
+            running_loss_total   = 0.0
+
+            all_preds  = []
             all_labels = []
 
             if phase == 'train':
                 model.train()
             else:
                 model.eval()
-            
+
             for inputs, labels_country, labels_gps in dataloader[phase]:
-                inputs = inputs.to(device)
+                inputs         = inputs.to(device)
                 labels_country = labels_country.to(device)
-                labels_gps = labels_gps.to(device)
+                labels_gps     = labels_gps.to(device)
 
                 if phase == 'validation':
                     with torch.no_grad():
@@ -562,19 +566,15 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                 else:
                     optimizer.zero_grad()
                     pred_countries, pred_gps = model(inputs)
-                
+
                 all_preds.append(torch.argmax(pred_countries, dim=1).detach().cpu().numpy())
                 all_labels.append(labels_country.detach().cpu().numpy())
 
                 loss_country = criterion_countries(pred_countries, labels_country)
-                loss_gps =  criterion_gps(pred_gps, labels_gps)
+                loss_gps     = criterion_gps(pred_gps, labels_gps)
 
-                if epoch < NUM_EPOCH_PHASE1:
-                    loss = loss_country + 0.00001 * loss_gps
-                else:
-                    warmup = min((epoch - NUM_EPOCH_PHASE1) / 5.0, 1.0)
-                    loss = loss_country + (LAMBDA_REG * warmup) * loss_gps
-                    
+                loss = lambda_cls * loss_country + LAMBDA_REG * loss_gps
+
                 if phase == 'train':
                     if torch.isnan(loss) or torch.isinf(loss):
                         optimizer.zero_grad()
@@ -584,25 +584,26 @@ def train_model(model, optimizer, num_epochs=NUM_EPOCH_PHASE1 + NUM_EPOCH_PHASE2
                     optimizer.step()
 
                 running_loss_country += loss_country.detach() * inputs.size(0)
-                running_loss_gps += loss_gps.detach() * inputs.size(0)
-                running_loss_total += loss.detach() * inputs.size(0)
-                
-            all_preds = np.concatenate(all_preds)
+                running_loss_gps     += loss_gps.detach()     * inputs.size(0)
+                running_loss_total   += loss.detach()         * inputs.size(0)
+
+            all_preds  = np.concatenate(all_preds)
             all_labels = np.concatenate(all_labels)
 
             f1 = f1_score(all_labels, all_preds, average='macro')
-            
+
             epoch_loss_country = running_loss_country / len(dataloader[phase].dataset)
-            epoch_loss_total = running_loss_total / len(dataloader[phase].dataset)
-            epoch_gps_dist = running_loss_gps / len(dataloader[phase].dataset)
-            
+            epoch_loss_total   = running_loss_total   / len(dataloader[phase].dataset)
+            epoch_gps_dist     = running_loss_gps     / len(dataloader[phase].dataset)
+
             print('{} | loss_total: {:.4f} | loss_country: {:.4f} | loss_gps: {:.1f}km | f1: {:.4f}'.format(
-                    phase,
-                    epoch_loss_total,
-                    epoch_loss_country,
-                    epoch_gps_dist,
-                    f1
-                ))
+                phase,
+                epoch_loss_total,
+                epoch_loss_country,
+                epoch_gps_dist,
+                f1
+            ))
+
     return model
 
 if __name__ == '__main__':

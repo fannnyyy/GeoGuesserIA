@@ -1,0 +1,8 @@
+Disabling PyTorch because PyTorch >= 2.1 is required but found 1.13.1+cu116
+/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+None of PyTorch, TensorFlow >= 2.0, or Flax have been found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Traceback (most recent call last):
+  File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/KNN_variés/dinov2_knn.py", line 17, in <module>
+    from transformers import AutoImageProcessor, AutoModel
+ImportError: cannot import name 'AutoImageProcessor' from 'transformers' (/usr/users/geoguessr_ia/badoul_fan/.local/lib/python3.9/site-packages/transformers/__init__.py)

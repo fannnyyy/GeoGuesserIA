@@ -18,7 +18,7 @@ Traceback (most recent call last):
     embedding =  compute_tsne_cached(features, countries, model_name, perplexity)
   [Previous line repeated 973 more times]
   File "/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/page_analyse_streamlit.py", line 455, in compute_tsne_cached
-    st.info("⏳ Premier calcul — sera mis en cache pour les prochaines fois")
+    st.info("⏳ Premier calcul, sera mis en cache pour les prochaines fois")
   File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/runtime/metrics_util.py", line 443, in wrapped_func
     result = non_optional_func(*args, **kwargs)
   File "/usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh/lib/python3.9/site-packages/streamlit/elements/alert.py", line 248, in info

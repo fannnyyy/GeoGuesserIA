@@ -14,8 +14,8 @@ mkdir -p /usr/users/geoguessr_ia/badoul_fan/logs
 mkdir -p /usr/users/geoguessr_ia/badoul_fan/.cache/huggingface
 cd /usr/users/geoguessr_ia/badoul_fan
 
-export HF_HOME=/usr/users/geoguessr_ia/verbec_dia/.cache/huggingface
-export TRANSFORMERS_CACHE=/usr/users/geoguessr_ia/verbec_dia/.cache/huggingface
+export HF_HOME=/usr/users/geoguessr_ia/badoul_fan/.cache/huggingface
+export TRANSFORMERS_CACHE=/usr/users/geoguessr_ia/badoul_fan/.cache/huggingface
 
 echo "HOSTNAME=$(hostname)"
 echo "PWD=$(pwd)"

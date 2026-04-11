@@ -24,8 +24,8 @@ from sklearn.cluster import MiniBatchKMeans
 # ─────────────────────────────────────────────
 
 N_CELLS  = 1000
-CSV_FILE = os.path.expanduser("~/datasets/OSV5M/test_filtered.csv")
-OUT_PATH = os.path.expanduser("~/datasets/OSV5M/cells_kmeans.pkl")
+CSV_FILE = os.path.expanduser("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/dataset_OSV5M/datasets/osv5m/metadata_filtered/train_filtered_v2.csv")
+OUT_PATH = os.path.expanduser("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/model/cnn/resnet/resnet_full_classif/cells_kmeans.pkl")
 SEED     = 42
 
 # ─────────────────────────────────────────────
@@ -43,7 +43,7 @@ coords = data[["latitude", "longitude"]].values.astype(np.float32)
 # K-means
 # ─────────────────────────────────────────────
 
-print(f"\nCalcul k-means — {N_CELLS} cellules sur {len(coords)} points...")
+print(f"\nCalcul k-means, {N_CELLS} cellules sur {len(coords)} points...")
 kmeans = MiniBatchKMeans(
     n_clusters   = N_CELLS,
     random_state = SEED,
@@ -66,12 +66,12 @@ print(f"Inertie finale : {kmeans.inertia_:.2f}")
 
 data["cell_idx"] = labels
 counts = np.bincount(labels, minlength=N_CELLS)
-print(f"\nImages par cellule — min: {counts.min()}  max: {counts.max()}  "
+print(f"\nImages par cellule, min: {counts.min()}  max: {counts.max()}  "
       f"moyenne: {counts.mean():.1f}  médiane: {np.median(counts):.1f}")
 
 empty = (counts == 0).sum()
 if empty > 0:
-    print(f"  [WARN] {empty} cellules vides — augmente le dataset ou réduis N_CELLS")
+    print(f"  [WARN] {empty} cellules vides, augmente le dataset ou réduis N_CELLS")
 
 # ─────────────────────────────────────────────
 # Moyenne GPS réelle par cellule

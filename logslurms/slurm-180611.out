@@ -1,0 +1,79 @@
+Epoch 1/55
+train | loss_total: 3.7367 | loss_country: 3.6770 | loss_gps: 5968.3km | f1: 0.0181
+validation | loss_total: 3.2476 | loss_country: 3.1936 | loss_gps: 5401.6km | f1: 0.0322
+Epoch 2/55
+train | loss_total: 2.7592 | loss_country: 2.7150 | loss_gps: 4418.9km | f1: 0.0238
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 3/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 4/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 5/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 6/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 7/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 8/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 9/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 10/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 11/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 12/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 13/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 14/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 15/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 16/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 17/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 18/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 19/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 20/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 21/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 22/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 23/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 24/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 25/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 26/55
+train | loss_total: 0.0000 | loss_country: 0.0000 | loss_gps: 0.0km | f1: 0.0000
+validation | loss_total: nan | loss_country: nan | loss_gps: nankm | f1: 0.0000
+Epoch 27/55

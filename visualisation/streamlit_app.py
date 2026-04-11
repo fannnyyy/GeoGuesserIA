@@ -225,7 +225,7 @@ elif page == "models":
     ]
  
     for m in models_info:
-        with st.expander(f"**{m['name']}** — `{m['tag']}`"):
+        with st.expander(f"**{m['name']}**, `{m['tag']}`"):
             col1, col2 = st.columns([2, 1])
             with col1:
                 st.markdown(m["desc"])
@@ -267,7 +267,7 @@ elif page == "predict":
         selected_label = st.selectbox("**Modèle**", list(MODEL_FAMILIES[family].keys()))
 
     selected_model = MODEL_FAMILIES[family][selected_label]
-    st.markdown(f'<div class="model-badge">{family} — {selected_label}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="model-badge">{family}, {selected_label}</div>', unsafe_allow_html=True)
     # Upload image
     uploaded = st.file_uploader("**Uploader une image Street View**", type=["jpg", "jpeg", "png"])
  
@@ -370,7 +370,7 @@ elif page == "predict":
                         st.info("GradCAM non disponible pour ViT")
 
                     elif selected_model == "dino_knn":
-                        st.info("GradCAM non disponible pour DINOv2 KNN — modèle non-CNN")
+                        st.info("GradCAM non disponible pour DINOv2 KNN, modèle non-CNN")
 
                     if gradcam_img is not None:
                         st.image(gradcam_img, use_container_width=True)
@@ -420,7 +420,7 @@ elif page == "predict":
                             st.pyplot(fig)
                             plt.close(fig)
                         else:
-                            st.markdown(f"`Shape : {list(act.shape)}` — pas de carte spatiale à afficher")
+                            st.markdown(f"`Shape : {list(act.shape)}`, pas de carte spatiale à afficher")
                 
                         
 elif page == "analyse":

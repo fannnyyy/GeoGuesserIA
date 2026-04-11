@@ -43,7 +43,7 @@ and spatial attention.
 
 Channel Attention Module: Focuses on “what” is meaningful given an input 
 image by emphasizing important channels.
-Channel Attention — "Quels canaux regarder ?"
+Channel Attention, "Quels canaux regarder ?"
 Chaque canal d'une feature map détecte un type de pattern (bords, textures, couleurs...). 
 L'idée : certains canaux sont plus utiles que d'autres selon l'image en entrée
 

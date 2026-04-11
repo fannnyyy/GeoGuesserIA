@@ -3,7 +3,7 @@ Chargement des CSV…
   Colonnes : ['id', 'latitude', 'longitude', 'thumb_original_url', 'country', 'sequence', 'captured_at', 'lon_bin', 'lat_bin', 'cell', 'land_cover', 'road_index', 'drive_side', 'climate', 'soil', 'dist_sea', 'region', 'sub-region', 'city', 'unique_city', 'unique_sub-region', 'unique_region', 'unique_country', 'quadtree_10_1000', 'creator_username', 'creator_id', 'split']
 
 ============================================================
-EDA OSV5M — RAPPORT
+EDA OSV5M, RAPPORT
 ============================================================
 
 Train : 3,394,684   Test : 210,122   Total : 210,122
@@ -24,7 +24,7 @@ Colonnes (27) : id, latitude, longitude, thumb_original_url, country, sequence, 
   latitude: min=-54.8709  max=78.3295  mean=19.8001  std=30.1894
   longitude: min=-176.7907  max=178.6184  mean=12.6433  std=80.2542
 
-[WARN] folium non installé — pip install folium  →  carte ignorée
+[WARN] folium non installé, pip install folium  →  carte ignorée
 Histogrammes lat/lon…
 KDE 2D…
 Distribution pays (colonne : country)…

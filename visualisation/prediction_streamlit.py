@@ -265,7 +265,7 @@ def load_vit():
     model = ViTGeo()
     ckpt = torch.load(cfg["pt"], map_location="cpu", weights_only=False)
     
-    # C'est directement un state_dict — pas de dict wrapper
+    # C'est directement un state_dict, pas de dict wrapper
     if isinstance(ckpt, dict) and "model" in ckpt:
         state = ckpt["model"]
     elif isinstance(ckpt, dict) and "net.class_token" in ckpt:
@@ -355,7 +355,7 @@ def get_activations(model, tensor):
     return activations
 
 def get_activations_resnet(model, tensor):
-    """Version spécifique pour GeoResNet — hook sur backbone.children()"""
+    """Version spécifique pour GeoResNet, hook sur backbone.children()"""
     activations, hooks = [], []
     def make_hook():
         def fn(m, inp, out): activations.append(out.detach().cpu())
