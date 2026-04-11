@@ -145,16 +145,19 @@ Les images préprocessées à 224×224 causaient une erreur Input height (224) d
  Deux solutions : adapter le transform à 518×518, ou forcer img_size=224 au chargement du modèle 
  via timm.create_model(..., img_size=224), la seconde option est plus cohérente avec les 
  features du bank qui ont été extraites à 224×224 pendant l'entraînement.
+
 Subtilité, extraction des features
 Contrairement à AutoModel de HuggingFace qui retourne un objet avec pooler_output et 
 last_hidden_state, timm expose forward_features() qui retourne directement le tenseur de 
 features de shape [B, seq_len, dim]. Le token CLS (indice 0) est extrait avec features[:, 0] 
 pour obtenir la représentation globale de l'image de dimension 1024.
+
 Subtilité, normalisation des features
 Les features DINOv2 doivent être normalisées sur la sphère unité avant la recherche KNN, 
 la similarité cosinus utilisée par le KNN n'est correcte que si les vecteurs sont normalisés. 
 Le bank de features a été sauvegardé en half() (float16) pour économiser la mémoire, il faut 
 le convertir en float() avant les calculs.
+
 Subtilité, reconstruction du KNN
 Le fichier .pt DINO contient le bank de features pré-calculées mais pas l'objet GeoKNNRegressor 
 lui-même. La logique de prédiction (pondération par température, contrainte pays, moyenne pondérée 

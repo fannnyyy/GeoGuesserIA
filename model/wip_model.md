@@ -421,6 +421,7 @@ train modèle attention rest undersampling US :
 
 modele Dinov2 KNN undersampling us dataset rest :
 177979 SCANCEL
+182067
 
 train maëlys classif classif undersampling :
 179594 ERROR BETE
@@ -428,10 +429,12 @@ train maëlys classif classif undersampling :
 
 train resnet sans cbam (comparaison) samples dataset :
 179650 NAN values + SCANCEL
-180621
+180621 NAN values + SCANCEL
+181991
 
 train resnet cbam samples :
 179689 NAN values + SCANCEL
-180611
+180611 NAN values + SCANCEL
+181983
 
 
