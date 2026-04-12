@@ -10,6 +10,6 @@ module load anaconda3/2022.10/gcc-13.1.0
 eval "$(conda shell.bash hook)"
 conda activate geoguesseriassh
 
-cd ~/GeoGuesserIA/dataset_OSV5M/
+cd ~/GeoGuesserIA/dataset_OSV5M/Analyze_dataset/
 
-python3 analyze.py
+python3 EdA_complete.py

@@ -36,3 +36,10 @@ Epoch 23/30 | Train loss: 4.852  acc: 7.6% | Test loss: 5.049  acc: 7.5%  Havers
 Epoch 24/30 | Train loss: 4.825  acc: 7.9% | Test loss: 5.040  acc: 7.6%  Haversine: 1522.0 km
 Epoch 25/30 | Train loss: 4.800  acc: 8.2% | Test loss: 5.042  acc: 7.9%  Haversine: 1493.9 km
 Epoch 26/30 | Train loss: 4.779  acc: 8.4% | Test loss: 5.038  acc: 7.9%  Haversine: 1455.9 km
+Epoch 27/30 | Train loss: 4.762  acc: 8.5% | Test loss: 5.044  acc: 8.2%  Haversine: 1461.3 km
+Epoch 28/30 | Train loss: 4.748  acc: 8.7% | Test loss: 5.041  acc: 8.3%  Haversine: 1422.2 km
+Epoch 29/30 | Train loss: 4.740  acc: 8.8% | Test loss: 5.042  acc: 8.4%  Haversine: 1433.9 km
+Epoch 30/30 | Train loss: 4.735  acc: 8.9% | Test loss: 5.033  acc: 8.2%  Haversine: 1435.8 km
+
+Meilleur test — 1422.2 km | acc cellule 8.3%
+Modèle sauvegardé : resnet50_classification_full_dataset_undersampling.pt
