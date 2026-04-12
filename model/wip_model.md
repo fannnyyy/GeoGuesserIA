@@ -430,11 +430,11 @@ train maëlys classif classif undersampling :
 train resnet sans cbam (comparaison) samples dataset :
 179650 NAN values + SCANCEL
 180621 NAN values + SCANCEL
-181991
+181991 TIMEOUT
 
 train resnet cbam samples :
 179689 NAN values + SCANCEL
 180611 NAN values + SCANCEL
-181983
+181983 TIMEOUT
 
 
