@@ -190,7 +190,7 @@ def preprocess(pil_img):
 
 
 @st.cache_resource
-def load_cbam(version="v1"):
+def load_cbam(version="v2"):
     key = f"cbam_{version}"
     cfg = PATHS[key]
     

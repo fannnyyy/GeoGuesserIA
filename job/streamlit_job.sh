@@ -2,7 +2,7 @@
 #SBATCH --job-name=streamlit_geo
 #SBATCH --output=logs/streamlit_%j.log
 #SBATCH --error=logs/streamlit_%j.err
-#SBATCH --partition=gpu_tp
+#SBATCH --partition=gpu_prod_long
 #SBATCH --time=02:00:00
 #SBATCH --mem=28G
 #SBATCH --cpus-per-task=4

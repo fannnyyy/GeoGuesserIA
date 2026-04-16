@@ -98,8 +98,8 @@ PATHS = {
 
 
 with st.sidebar:
+    st.image("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/CSw.png")
     st.markdown("## GeoGuessrIA")
-    st.markdown('<div class="info-tag">CentraleSupélec 2025/2026</div>', unsafe_allow_html=True)
     st.markdown("---")
  
     MENU = {
@@ -112,59 +112,22 @@ with st.sidebar:
     page = MENU[choice]
  
     st.markdown("---")
-    st.markdown('<div class="info-tag">Maëlys Hanoire, \tDiane Verberq, \tFanny Badoules</div>', unsafe_allow_html=True)
+    st.markdown('<div class="info-tag">Maëlys HANOIRE, \tDiane VERBECQ, \tFanny BADOULES</div>', unsafe_allow_html=True)
 
 
 
 if page == "home":
-    st.markdown("# GeoGuessrIA")
-    st.markdown("### Localisation géographique d'images par apprentissage profond")
-    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
- 
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("""
-        <div class="metric-card">
-            <div class="label">Dataset</div>
-            <div class="value">OSV5M</div>
-            <div class="sub">images géoréférencées</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col2:
-        st.markdown("""
-        <div class="metric-card">
-            <div class="label">Couverture</div>
-            <div class="value">225</div>
-            <div class="sub">pays et territoires</div>
-        </div>
-        """, unsafe_allow_html=True)
-    with col3:
-        st.markdown("""
-        <div class="metric-card">
-            <div class="label">Modèles</div>
-            <div class="value">7+</div>
-            <div class="sub">architectures testées</div>
-        </div>
-        """, unsafe_allow_html=True)
- 
-    st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+    st.image("/usr/users/geoguessr_ia/badoul_fan/GeoGuesserIA/visualisation/G1.png")
+    st.markdown("### Localisation géographique d'images par apprentissage profond") 
  
     st.markdown("#### Objectif")
     st.markdown("""
-    À partir d'une image Street View, estimer automatiquement :
+    À partir d'une image type Street View, estimer :
     - **Le pays** où la photo a été prise (classification)
     - **Les coordonnées GPS** précises (régression)
  
     Ce projet explore plusieurs architectures CNN et Transformers, avec et sans modules d'attention (CBAM),
     entraînées sur le dataset OSV5M publié à CVPR 2024.
-    """)
- 
-    st.markdown("#### Pipeline")
-    st.markdown("""
-    ```
-    Image Street View → Backbone CNN/ViT → Tête Classification (pays)
-                                         → Tête Régression (lat/lon sin/cos)
-    ```
     """)
 
  
@@ -174,25 +137,11 @@ elif page == "models":
  
     models_info = [
         {
-            "name": "ResNet50 + CBAM",
-            "tag": "cbam_v1 / cbam_v2",
-            "desc": "ResNet50 pretrained ImageNet avec modules CBAM (Channel + Spatial Attention) dans chaque bloc Bottleneck. Architecture multitâche : classification pays + régression GPS sin/cos conditionnée par les probabilités pays.",
-            "output": "Pays + GPS",
-            "innovation": "GPS conditionné par pays, curriculum lambda, embed_detach",
-        },
-        {
-            "name": "ResNet50 Classif+Reg",
-            "tag": "classif_reg",
-            "desc": "ResNet50 sans CBAM avec deux têtes : classification pays et régression GPS. Curriculum lambda pour équilibrer les deux losses.",
-            "output": "Pays + GPS",
-            "innovation": "Baseline de comparaison avec CBAM",
-        },
-        {
-            "name": "ResNet50 Classif Cellules",
-            "tag": "classif_cells",
-            "desc": "ResNet50 classifiant l'image en cellules géographiques k-means. La prédiction GPS est le centroïde de la cellule prédite. Loss CrossEntropy géographique avec soft labels.",
-            "output": "GPS via cellules",
-            "innovation": "Soft labels géographiques, WeightedRandomSampler",
+            "name": "ResNet18 Geo (régression pure)",
+            "tag": "resnet18_geo",
+            "desc": "Version légère avec ResNet18 backbone. Plus rapide, moins précis.",
+            "output": "GPS seulement",
+            "innovation": "Architecture légère",
         },
         {
             "name": "ResNet50 Geo (régression pure)",
@@ -202,11 +151,25 @@ elif page == "models":
             "innovation": "Optuna hyperparameter search",
         },
         {
-            "name": "ResNet18 Geo",
-            "tag": "resnet18_geo",
-            "desc": "Version légère avec ResNet18 backbone. Plus rapide, moins précis.",
-            "output": "GPS seulement",
-            "innovation": "Architecture légère",
+            "name": "ResNet50 Classif+Reg",
+            "tag": "classif_reg",
+            "desc": "ResNet50 avec deux têtes : classification pays et régression GPS. Curriculum lambda pour équilibrer les deux losses.",
+            "output": "Pays + GPS",
+            "innovation": "Baseline",
+        },
+        {
+            "name": "ResNet50 Classif Cellules (classification pure)",
+            "tag": "classif_cells",
+            "desc": "ResNet50 classifiant l'image en cellules géographiques k-means. La prédiction GPS est le centroïde de la cellule prédite. Loss CrossEntropy géographique avec soft labels.",
+            "output": "GPS via cellules",
+            "innovation": "Cellule k-means pour la claccification",
+        },
+        {
+            "name": "ResNet50 + CBAM",
+            "tag": "cbam_v2",
+            "desc": "ResNet50 pré-entrainé sur ImageNet avec modules CBAM (Channel + Spatial Attention) dans chaque bloc Bottleneck. Architecture multitâche : classification pays + régression GPS.",
+            "output": "Pays + GPS",
+            "innovation": "Module d'attention, GPS conditionné par pays, curriculum lambda",
         },
         {
             "name": "ViT-B/16 Geo",
@@ -386,7 +349,7 @@ elif page == "predict":
             if selected_model not in ("dino_knn", "vit"):
                 st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
                 with st.expander("Visualiser les couches internes du modèle"):
-                    if selected_model in ("resnet50_geo", "resnet18_geo"):
+                    if selected_model in ("resnet50_geo", "resnet18_geo", "classif_cells", "classif_reg"):
                         activations = get_activations_resnet(model_obj, tensor)
                     else:
                         activations = get_activations(model_obj, tensor)

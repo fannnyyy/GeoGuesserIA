@@ -96,8 +96,10 @@ def make_gradcam_classif_reg(pil_img, model, idx_to_country):
             super().__init__()
             self.model = m
         def forward(self, x):
-            _, cls_logits = self.model(x)
+            feats = self.model.backbone(x)
+            cls_logits = self.model.cls_head(feats)
             return cls_logits
+
     transform_img = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),

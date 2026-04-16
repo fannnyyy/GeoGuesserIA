@@ -114,10 +114,6 @@ def build_image_index():
 
 def render_land_cover(df):
     st.markdown("### Distribution des types de terrain (Land Cover)")
-    st.markdown("""
-    La colonne `land_cover` du dataset OSV5M utilise la classification **MODIS** où
-    chaque image est associée au type de terrain dominant dans sa zone géographique.
-    """)
 
     split_choice = st.radio(
         "Différentes portions du dataset OSV5M utilisé pour les entraînements à analyser",
@@ -158,13 +154,6 @@ def render_land_cover(df):
     st.plotly_chart(fig, use_container_width=True)
 
     top_class = counts.loc[counts["count"].idxmax()]
-    st.info(
-        f"**Observation** : La classe dominante est **{top_class['name']}** "
-        f"({top_class['pct']}% des images). Les forêts (classes 1-5) représentent "
-        f"{counts[counts['land_cover'].isin([1,2,3,4,5])]['pct'].sum():.1f}% du dataset qui sont "
-        f"des zones avec peu d'indices géographiques discriminants (pas de panneaux, peu d'infrastructures)."
-    )
-
 
     st.markdown("#### Land cover par pays (Top 10 pays)")
     top_countries = df_plot["country"].value_counts().head(10).index.tolist()
@@ -192,10 +181,6 @@ def render_land_cover(df):
 
 def render_road_index(df):
     st.markdown("### Road Index, densité routière")
-    st.markdown("""
-    Le `road_index` mesure la densité du réseau routier autour du point GPS de l'image.
-    Un index élevé indique une zone urbaine bien connectée, un index faible indique une zone isolée.
-    """)
 
     col1, col2 = st.columns(2)
 
@@ -241,14 +226,6 @@ def render_road_index(df):
             showlegend=False,
         )
         st.plotly_chart(fig2, use_container_width=True)
-
-    
-    st.info(
-        "**Lien avec les performances**, Les zones avec road_index faible correspondent aux "
-        "terrains forestiers et ruraux qui dominent le dataset. Ces zones produisent des images "
-        "similaires visuellement entre pays différents, ce qui explique les faibles performances "
-        "de géolocalisation."
-    )
 
 
 
@@ -418,7 +395,7 @@ def extract_resnet_classif_embeddings_for_tsne(n_samples=5000, _df=None):
 
 TSNE_CACHE_DIR = os.path.join(BASE_DIR, "../model/saved/tsne_cache")
 
-def compute_tsne(features, perplexity=30, n_iter=1000):
+def compute_tsne(features, n_iter=1000):
     """Calcule le t-SNE sur les features."""
     features = StandardScaler().fit_transform(features)
 
@@ -429,21 +406,21 @@ def compute_tsne(features, perplexity=30, n_iter=1000):
     # t-SNE
     tsne = TSNE(
         n_components=2,
-        perplexity=perplexity,
+        perplexity=30,
         n_iter=n_iter,
         random_state=42,
     )
     return tsne.fit_transform(features_pca)
 
-def compute_tsne_cached(features, countries, model_name, perplexity=30):
+def compute_tsne_cached(features, countries, model_name):
     os.makedirs(TSNE_CACHE_DIR, exist_ok=True)
-    cache_file = os.path.join(TSNE_CACHE_DIR, f"tsne_{model_name}_p{perplexity}.npz")
+    cache_file = os.path.join(TSNE_CACHE_DIR, f"tsne_{model_name}_p30.npz")
 
     if os.path.exists(cache_file):
         data = np.load(cache_file, allow_pickle=True)
         return data["embedding"], list(data["countries"])
 
-    embedding = compute_tsne(features, perplexity)
+    embedding = compute_tsne(features)
 
     np.savez(cache_file, embedding=embedding, countries=np.array(countries))
 
@@ -451,31 +428,16 @@ def compute_tsne_cached(features, countries, model_name, perplexity=30):
 
 def render_tsne(df):
     st.markdown("### t-SNE des embeddings")
-    st.markdown("""
-    Le t-SNE projette les embeddings haute dimension (features extraites par les modèles) 
-    en 2D pour visualiser la structure des représentations apprises. Si les clusters 
-    correspondent aux pays alors le modèle discrimine bien géographiquement. Sinon les 
-    features sont trop génériques.
-    """)
 
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        model_choice = st.selectbox(
-            "Modèle",
-            [
-                "DINOv2 KNN",
-                "ResNet50 + CBAM",
-                "ResNet50 Classif Cellules (classification pure)",
-                "ResNet50 Reg (régression pure)",
-            ],
-        )
-    with col2:
-        color_by = st.selectbox(
-            "Colorier par",
-            ["Pays (Top 15)", "Land Cover"],
-        )
-    with col3:
-        perplexity = st.slider("Perplexité t-SNE", 5, 50, 30)
+    model_choice = st.selectbox(
+        "Modèle",
+        [
+            "DINOv2 KNN",
+            "ResNet50 + CBAM",
+            "ResNet50 Classif Cellules (classification pure)",
+            "ResNet50 Reg (régression pure)",
+        ],
+    )
 
     col_launch, col_reset = st.columns([3, 1])
     with col_launch:
@@ -492,7 +454,7 @@ def render_tsne(df):
     }
 
     model_name = MODEL_NAME_MAP.get(model_choice, model_choice.split(" ")[0].lower())
-    cache_file = os.path.join(TSNE_CACHE_DIR, f"tsne_{model_name}_p{perplexity}.npz")
+    cache_file = os.path.join(TSNE_CACHE_DIR, f"tsne_{model_name}_p30.npz")
 
     if force_recompute and os.path.exists(cache_file):
         os.remove(cache_file)
@@ -513,11 +475,8 @@ def render_tsne(df):
             elif "Classif" in model_choice:
                 features, countries = extract_resnet_classif_embeddings_for_tsne(N_TSNE_SAMPLES, _df=df)
 
-            if color_by == "Land Cover" and df is not None:
-                id_to_lc = dict(zip(df["id"].astype(str), df["land_cover"]))
-
-            with st.spinner("Calcul t-SNE en cours (peut prendre 1-3 minutes)..."):
-                embedding, countries = compute_tsne_cached(features, countries, model_name, perplexity)
+            with st.spinner("Calcul t-SNE en cours..."):
+                embedding, countries = compute_tsne_cached(features, countries, model_name)
 
             tsne_df = pd.DataFrame({
                 "x": embedding[:, 0],
@@ -525,34 +484,19 @@ def render_tsne(df):
                 "country": countries[:len(embedding)],
             })
 
-            if color_by == "Pays (Top 15)":
-                top15 = tsne_df["country"].value_counts().head(15).index.tolist()
-                tsne_df["label"] = tsne_df["country"].apply(
-                    lambda c: c if c in top15 else "Autres"
-                )
-                fig = px.scatter(
-                    tsne_df,
-                    x="x", y="y",
-                    color="label",
-                    title=f"t-SNE, {model_choice}, colorié par pays (Top 15)",
-                    opacity=0.6,
-                    size_max=4,
-                    labels={"x": "t-SNE 1", "y": "t-SNE 2", "label": "Pays"},
-                )
-
-            else:  # Land Cover
-                tsne_df["land_cover_name"] = tsne_df["country"].map(
-                    lambda c: "Unknown"
-                )
-                # Si on a les land covers du bank DINO
-                fig = px.scatter(
-                    tsne_df,
-                    x="x", y="y",
-                    color="country",
-                    title=f"t-SNE, {model_choice}",
-                    opacity=0.6,
-                    labels={"x": "t-SNE 1", "y": "t-SNE 2"},
-                )
+            top15 = tsne_df["country"].value_counts().head(15).index.tolist()
+            tsne_df["label"] = tsne_df["country"].apply(
+                lambda c: c if c in top15 else "Autres"
+            )
+            fig = px.scatter(
+                tsne_df,
+                x="x", y="y",
+                color="label",
+                title=f"t-SNE, {model_choice}, colorié par pays (Top 15)",
+                opacity=0.6,
+                size_max=4,
+                labels={"x": "t-SNE 1", "y": "t-SNE 2", "label": "Pays"},
+            )
 
             fig.update_traces(marker=dict(size=3))
             fig.update_layout(
@@ -563,23 +507,13 @@ def render_tsne(df):
             )
             st.plotly_chart(fig, use_container_width=True)
 
-            # Interprétation
-            st.markdown("#### Interprétation")
-            st.markdown("""
-            - **Clusters bien séparés par pays** : le modèle discrimine géographiquement
-            - **Clusters mélangés** : les features sont trop génériques, certains pays 
-              se ressemblent visuellement (difficulté de géolocalisation)
-            - **Regroupements inattendus** : révèle des biais dans le dataset (ex: 
-              images US trop nombreuses formant un méga-cluster)
-            """)
 
 
 
 def render_analyse_page():
     st.markdown("# Analyse du dataset OSV5M")
     st.markdown("""
-    Cette page explore les caractéristiques du dataset pour comprendre pourquoi 
-    les modèles de géolocalisation ont des performances limitées.
+    Cette page explore les caractéristiques du dataset.
     """)
     st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
