@@ -1,0 +1,9 @@
+name: geoguesseriassh
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - streamlit
+  - numpy[version='<2']
+  - transformers
+prefix: /usr/users/geoguessr_ia/badoul_fan/.conda/envs/geoguesseriassh
