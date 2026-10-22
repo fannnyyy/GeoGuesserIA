@@ -1,2 +1,2 @@
-*.py linguist-language=Python
 *.html linguist-generated
+*.ipynb linguist-vendored
